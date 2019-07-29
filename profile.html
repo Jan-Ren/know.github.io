@@ -50,24 +50,51 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-8 col-md-2 bg-warning p-2">
-                        <div class="sticky-top">
-                            <div class="title container d-flex justify-content-center font-weight-bold">Feed</div>
-                            <br>
-                            <a href="#" class="list-group-item list-group-item-action">1st topic </a>
-                            <a href="#" class="list-group-item list-group-item-action">2nd topic <span class="badge badge-primary badge-pill">3</span> </a>
-                            <a href="#" class="list-group-item list-group-item-action">3rd topic <span class="badge badge-primary badge-pill">1</span> </a>
-                            <a href="#" class="list-group-item list-group-item-action">4th topic <span class="badge badge-primary badge-pill">16</span> </a>
-                            <a href="#" class="list-group-item list-group-item-action disabled">5th topic <span class="badge badge-primary badge-pill">2</span> </a>
+                    <div class="col-8 col-md-9 bg-warning p-2 inline-block">
+                      <div class="row container inline-block" id="profile">
+
+                        <div class="col-4 bg-warning d-flex justify-content-center">
+                          <img class="rounded-circle" style="width:120px" src="assets/avatar.jpg">
                         </div>
+
+                        <div class="col-8 bg-warning p-2">
+                            {{Profile_name}}
+                            <br>
+                            <input class="btn btn-primary" type="button" value="follow">
+                        </div>
+
+                      </div>
+                      <hr></hr>
+                      <div class="w-100 d-none d-md-block"></div>
+
+                      <div class="row container inline-block" id="profile">
+
+                      <div class="col-4 col-md-3 bg-danger">
+                            <div class="title container d-flex justify-content-start font-weight-bold">Feed</div>
+                            <br>
+                            <a href="#" class="list-group-item list-group-item-action">Recent </a>
+                            <a href="#" class="list-group-item list-group-item-action">Answers </a>
+                            <a href="#" class="list-group-item list-group-item-action">Questions </a>
+                            <a href="#" class="list-group-item list-group-item-action">Followers  </a>
+                            <a href="#" class="list-group-item list-group-item-action disabled">Following </a>
+                      </div>
+                      
+                      <div class="col-8 col-md-9 bg-warning">
+                        Content
+                      </div>
                     </div>
-                    <div class="col-4 col-md-10 bg-danger">
-                        <div class="title container d-flex justify-content-center display-4 font-weight-bold">Bookmarks</div>
+                    </div>
+
+                    <div class="col-4 col-md-3 bg-danger">
+                        <div classs="font-weight-bold">Credential & Highlights</div>
                         <hr></hr>
-                        <br>
-
-
+                        <ul>
+                            <li> Credential #1</li>
+                            <li> Credential #2</li>
+                            <li> Credential #3</li>
+                        </ul>
                     </div>
+
                 </div>
             </div>
         </div>
