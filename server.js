@@ -42,7 +42,7 @@ app.use(cookieparser())
 app.get("/", function(req,res){
 
     if(!req.session.username){
-        res.sendFile(__dirname + '/public/login.html')
+        res.sendFile(__dirname + '/public/signin.html')
     }
     else{
         res.render("home.hbs",{
@@ -50,6 +50,38 @@ app.get("/", function(req,res){
         })
     }
 })
-app.listen(3001, function(){
-    console.log("Now listening in port 3001")
+app.get("/signup", function(req,res){
+    res.sendFile(__dirname + '/public/signup.html')
+})
+
+app.post("/signup", urlencoder, function(req, res){
+    //add user to database
+    var username = req.body.un
+    var password = req.body.pw
+    var email = req.body.email
+    let user = new User({
+        username : username,
+        password : password,
+        email : email
+    })
+    
+    user.save().then((doc)=>{
+        //all goes well
+        console.log(doc)
+        res.render("home.hbs",{
+            username : doc.username
+        })
+    },(err)=>{
+        //fial
+        res.send(err)
+    })
+})
+
+app.use("*", function(request,response){
+    response.send("This is not the site you're looking for.")
+    
+})
+
+app.listen(3002, function(){
+    console.log("Now listening in port 3002")
 })
