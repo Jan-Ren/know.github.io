@@ -54,6 +54,29 @@ app.get("/signup", function(req,res){
     res.sendFile(__dirname + '/public/signup.html')
 })
 
+app.post("/signin", urlencoder, function(req, res){
+    // check user name + password in database
+    // select * from users where un == un && pw == 
+    console.log(req.body.un)
+   let username = req.body.un
+   let password = req.body.pw
+   
+   User.findOne({
+       username : username,
+       password : password
+   },(err,doc)=>{
+        if(err){
+            res.send(err)
+        } else if(doc){
+            console.log(doc)
+            req.session.username = doc.username
+            res.redirect("/")
+        }else{
+            res.send("user not found")
+        }
+   })
+})
+
 app.post("/signup", urlencoder, function(req, res){
     //add user to database
     var username = req.body.un
