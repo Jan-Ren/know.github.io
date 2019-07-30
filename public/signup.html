@@ -15,6 +15,14 @@
             #signinput {
                 width:500px;
             }
+            .topic-header{
+            text-align: center;
+            text-transform: uppercase;
+            color: #7A43B6;
+            border: 5px solid #7A43B6;
+            margin: 50px 0;
+            padding: 10px;
+        }
         </style>
     </head>
     <body>
@@ -34,7 +42,32 @@
             <input id = "signinput" type="password" class="form-control" id="exampleInputEmail1" name="pw" placeholder="Enter password">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+            </form>
+            <div class = "topic-header">Choose your interested topics</div>
+            <form action = "home.html">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="check1">
+                <label class="form-check-label" for="exampleCheck1">Mathematics</label>
+            </div>     
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="check2">
+                <label class="form-check-label" for="exampleCheck1">Science</label>
+            </div>     
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="check3">
+                <label class="form-check-label" for="exampleCheck1">Politics</label>
+            </div>     
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="check1">
+                <label class="form-check-label" for="exampleCheck1">Computer Tech</label>
+            </div>     
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="check1">
+                <label class="form-check-label" for="exampleCheck1">Music</label>
+            </div>                               
+            <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                
             </div>
     </body>
 </html>
