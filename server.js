@@ -54,6 +54,18 @@ app.get("/signup", function(req,res){
     res.sendFile(__dirname + '/public/signup.html')
 })
 
+//transition from profile>bookmark
+app.post("/bookmark", urlencoder, (req,res)=>{
+    let username = req.body.bookmarkUN
+ 
+    res.render("bookmarks.hbs",{
+        username : username
+    })
+
+        
+})
+
+
 app.post("/signin", urlencoder, function(req, res){
     // check user name + password in database
     // select * from users where un == un && pw == 
