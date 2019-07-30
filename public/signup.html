@@ -1,0 +1,40 @@
+<html>
+    <head>
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <style>
+            .signup-header{
+            text-align: center;
+            text-transform: uppercase;
+            color: #7A43B6;
+            border: 5px solid #7A43B6;
+            margin: 50px 0;
+            padding: 10px;
+        }
+            #signinput {
+                width:500px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class = "container pb-5">
+        <form action = "signup" method="post">
+            <div class="form-group">
+            <div class = "signup-header">Sign up</div>
+            <label for = "Emailsignin">Email</label>
+            <input id = "signinput" type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+            <label for = "Usernamesignin">Username</label>
+            <input id = "signinput" type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+            <label for = "Passsignin">Password</label>
+            <input id = "signinput" type="password" class="form-control" id="exampleInputEmail1" placeholder="Enter password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+            </div>
+    </body>
+</html>
