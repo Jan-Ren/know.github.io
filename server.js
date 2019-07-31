@@ -53,7 +53,21 @@ app.get("/", function(req,res){
 app.get("/signup", function(req,res){
     res.sendFile(__dirname + '/public/signup.html')
 })
-
+app.get("/profile", function(req, res) {
+    res.render("profile.hbs", {
+                username: req.session.username
+               })
+})
+app.get("/messages", function(req, res) {
+    res.render("messages.hbs", {
+                username: req.session.username
+               })
+})
+app.get("/rooms", function(req, res) {
+    res.render("room.hbs", {
+                username: req.session.username
+               })
+})
 //transition from profile>bookmark
 app.post("/bookmark", urlencoder, (req,res)=>{
     let username = req.body.bookmarkUN
