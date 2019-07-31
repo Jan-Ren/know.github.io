@@ -4,7 +4,7 @@ const session = require("express-session")
 const cookieparser = require("cookie-parser")
 const mongoose = require("mongoose")
 
-const {User} = require("./user.js")//gives a user object
+const {User} = require("./model/user.js")//gives a user object
 
 const app = express()
 
@@ -70,15 +70,37 @@ app.get("/rooms", function(req, res) {
 })
 //transition from profile>bookmark
 app.post("/bookmark", urlencoder, (req,res)=>{
-    let username = req.body.bookmarkUN
- 
-    res.render("bookmarks.hbs",{
-        username : username
+    User.findOne({
+        _id: req.body.bookmarkUN
+
+    },(err, doc)=>{
+        if(err){
+            res.send(err)
+        }else{
+            res.render("bookmarks.hbs",{
+                user : doc
+            })
+        }
     })
 
         
 })
+// transition to adding a question
+app.post("/addQuestion", urlencoder, (req,res)=>{
+    User.findOne({
+        _id: req.body.addQuestionUN
 
+    },(err, doc)=>{
+        if(err){
+            res.send(err)
+        }else{
+            res.render("addQuestion.hbs",{
+                user : doc
+            })
+        }
+    })
+
+})
 
 app.post("/signin", urlencoder, function(req, res){
     // check user name + password in database
@@ -96,7 +118,9 @@ app.post("/signin", urlencoder, function(req, res){
         } else if(doc){
             console.log(doc)
             req.session.username = doc.username
-            res.redirect("/")
+            res.render("home.hbs",{
+                user : doc
+            })
         }else{
             res.send("user not found")
         }

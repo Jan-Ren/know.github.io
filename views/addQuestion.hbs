@@ -46,7 +46,7 @@
                             </li>
                             <li class="nav-item active dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile" role="button" data-toggle="dropdown">
-                                    {{user.username}}
+                                   {{user.username}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">{{user.username}}</a> {{!--data-id_username contains the user id of the user --}}
@@ -82,83 +82,28 @@
                         </div>
                     </div>
                     <div class="col-4 col-md-10 bg-danger">
-                        Content
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-
-                        <br>
-                        HASDDSAAS
-
-                        <br>
-                        HASDDSAAS
-
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-                        <br>
-                        HASDDSAAS
-
+                        <form action = "add_question" method="post">
+                            <div class = "add-header">Add a Question</div>
+                            <div class="form-group">
+                            <label for = "question_header">Question</label>
+                            <input id = "question_title_input" type="text" class="form-control" id="exampleInputEmail1" name="question_title" placeholder="Start with what, where, when, who">
+                            </div>
+                            <div class="form-group">
+                                <label for = "topic_header">Choose Topic</label>
+                                <select class="form-control" name="ts" id="topic_select">
+                                <option>Mathematics</option>
+                                <option>Science</option>
+                                <option>Politics</option>
+                                <option>Technology</option>
+                                <option>Music</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                            <label for = "tag_header">Tags</label>
+                            <input id = "question_tag_input" type="text" class="form-control" id="exampleInputEmail1" name="question_tag" placeholder="use hashtags ex.(#Calculus)">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>
