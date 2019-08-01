@@ -11,11 +11,19 @@
                     $("#bookmarkform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
-                //bookmark click
+                //addQuestion click
                 $("button#addQuestion").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
                     $("#addQuestion_username").val($("a.profile").attr("data-id_username"))
                     $("#addQuestionForm").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //add_question form submit
+                $("button#add_Question").click(function(){
+                    console.log("ewan")
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#add_Question_username").val($("a.profile").attr("data-id_username"))
+                    $("#add_QuestionForm").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
             })
@@ -34,9 +42,6 @@
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
                                 <a class="nav-link" href="#">Home</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Answer <span class="badge badge-secondary badge-pill">2</span></a>
                             </li>
                             <li class="nav-item active">
                                 <a class="nav-link" href="http://localhost:3002/rooms">Rooms</a>
@@ -82,11 +87,12 @@
                         </div>
                     </div>
                     <div class="col-4 col-md-10 bg-danger">
-                        <form action = "add_question" method="post">
+                        <form action = "add_question" id="add_QuestionForm" method="post">
+                            <input type="hidden" name="add_QuestionUN" id="add_Question_username">
                             <div class = "add-header">Add a Question</div>
                             <div class="form-group">
                             <label for = "question_header">Question</label>
-                            <input id = "question_title_input" type="text" class="form-control" id="exampleInputEmail1" name="question_title" placeholder="Start with what, where, when, who">
+                            <input id = "question_title_input" type="text" class="form-control" name="question_title" placeholder="Start with what, where, when, who">
                             </div>
                             <div class="form-group">
                                 <label for = "topic_header">Choose Topic</label>
@@ -100,9 +106,9 @@
                             </div>
                             <div class="form-group">
                             <label for = "tag_header">Tags</label>
-                            <input id = "question_tag_input" type="text" class="form-control" id="exampleInputEmail1" name="question_tag" placeholder="use hashtags ex.(#Calculus)">
+                            <input id = "question_tag_input" type="text" class="form-control" name="question_tag" placeholder="use hashtags ex.(#Calculus)">
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-primary" id="add_Question">Submit</button>
                         </form>
                     </div>
                 </div>

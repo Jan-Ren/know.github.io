@@ -5,6 +5,7 @@ const cookieparser = require("cookie-parser")
 const mongoose = require("mongoose")
 
 const {User} = require("./model/user.js")//gives a user object
+const {Question} = require("./model/question.js")//gives a question object
 
 const app = express()
 
@@ -68,6 +69,22 @@ app.get("/rooms", function(req, res) {
                 username: req.session.username
                })
 })
+//used to refresh the add_Question.hbs after saving a question
+app.get("/add_question", urlencoder, (req,res)=>{
+    User.findOne({
+        _id: req.body.add_QuestionUN
+
+    },(err, doc)=>{
+        if(err){
+            res.send(err)
+        }else{
+            res.render("addQuestion.hbs",{
+                user : doc
+            })
+        }
+    })
+
+})
 //transition from profile>bookmark
 app.post("/bookmark", urlencoder, (req,res)=>{
     User.findOne({
@@ -84,6 +101,32 @@ app.post("/bookmark", urlencoder, (req,res)=>{
     })
 
         
+})
+// saves a question
+app.post("/add_Question", urlencoder, (req,res)=>{
+    
+    let title = req.body.question_title
+    let tag = req.body.question_tag
+    let topic = req.body.ts
+    let user = req.body.add_QuestionUN // user id
+    console.log(req.body.add_QuestionUN + "server ito")
+
+    let question = new Question({
+        title : title,
+        tag : tag,
+        topic : topic,
+        user :  user
+    })
+    
+    question.save().then((doc)=>{
+        //all goes well
+        console.log(doc)
+        res.redirect("/add_question")
+    },(err)=>{
+        //fial
+        res.send(err)
+    })
+
 })
 // transition to adding a question
 app.post("/addQuestion", urlencoder, (req,res)=>{
