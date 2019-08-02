@@ -6,6 +6,7 @@ const mongoose = require("mongoose")
 
 const {User} = require("./model/user.js")//gives a user object
 const {Question} = require("./model/question.js")//gives a question object
+const {Answer} = require("./model/answer.js") // gives an answer object
 
 const app = express()
 
@@ -71,6 +72,13 @@ app.get("/rooms", function(req, res) {
 })
 //used to refresh the home.hbs for home buttons
 app.post("/refresh_home", urlencoder, (req,res)=>{
+    //example of multiple populate
+    // var populateQuery = [{path:'books', select:'title pages'}, {path:'movie', select:'director'}];
+
+    // Person.find({})
+    // .populate(populateQuery)
+    // .execPopulate()
+
     User.findOne({
         _id : req.body.refresh_homeUN
     },(err,doc)=>{
@@ -112,6 +120,103 @@ app.post("/bookmark", urlencoder, (req,res)=>{
 
         
 })
+// save an answer
+app.post("/add_answer_submit", urlencoder, (req,res)=>{
+    
+    let answer = req.body.answer_textarea
+    let question = req.body.add_AnswerQ_submit // question id
+    let user = req.body.add_AnswerUN_submit // user id
+
+    let ans = new Answer({
+        answer : answer,
+        questionID : question,
+        userID :  user
+    })
+
+    ans.save().then((doc)=>{
+        //all goes well
+        //updating the answers of the 
+        let answer_id = doc._id
+        User.findOneAndUpdate(
+            { _id: req.body.add_AnswerUN_submit }, 
+            { $push: { 
+                answerID : answer_id
+              }  },
+           function (error, success) {
+                 if (error) {
+                     console.log(error);
+                 } else {
+                     console.log(success);
+                 }
+             });
+        
+        console.log("NANDITOOOOOOOOOOOOOO AKO!" + Question.findOne({_id: req.body.add_AnswerUN_submit}))
+
+        Question.findOneAndUpdate(
+           { _id: req.body.add_AnswerQ_submit}, 
+           { $push: { 
+                    answerID : answer_id
+             }  },
+          function (error, success) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log(success);
+                }
+            });
+
+        User.findOne({
+            _id: req.body.add_AnswerUN_submit 
+        },(err,doc)=>{
+            if(err){
+                res.send(err)
+            } else if(doc){
+                console.log(doc)
+                req.session.username = doc.username,
+                Question.find().populate('userID','username question answer').exec((err,docs)=>{
+                   if(err){
+                       res.send(err)
+                   }else{
+                       res.render("home.hbs",{
+                           user : doc,
+                           question : docs
+                       })
+                       }
+                   })
+            }else{
+                res.send("user not found")
+            }
+        })
+        // User.update({
+        //     _id : req.body.add_AnswerUN_submit
+        // },{
+        //     answerID : id_of_answer
+        // },(err, doc)=>{
+        //     if(err){
+        //         res.send(err)
+        //     }else{
+        //         //updating the answers for the question
+        //         Question.update({
+        //             _id : req.body.AnswerQ_submit
+        //         },{
+        //             answerID : id_of_answer
+        //         },(err, doc)=>{
+        //             console.log(doc._id)
+        //             if(err){
+        //                 res.send(err)
+        //             }else{
+        //                 //proceed to refresh the home.hbs
+                        
+        //             }
+        //         })
+        //     }
+        // })
+    },(err)=>{
+        //fial
+        res.send(err)
+    })
+
+})
 // saves a question
 app.post("/add_question_submit", urlencoder, (req,res)=>{
     
@@ -127,10 +232,35 @@ app.post("/add_question_submit", urlencoder, (req,res)=>{
         topic : topic,
         userID :  user
     })
-    
+
     question.save().then((doc)=>{
         //all goes well
-        console.log(doc)
+
+        let question_id = doc._id
+
+        User.findOneAndUpdate(
+            { _id: req.body.add_QuestionUN_submit }, 
+            { $push: { 
+                questionID : question_id
+              }  },
+           function (error, success) {
+                 if (error) {
+                     console.log(error);
+                 } else {
+                     console.log(success);
+                 }
+             });
+         
+        // User.findOneAndUpdate({
+        //     _id: req.body.add_QuestionUN_submit
+        // },{
+        //     $push: { 
+        //         questionID : {
+        //           question_id
+        //           }  
+        //       } 
+        // })
+
         User.findOne({
             _id: req.body.add_QuestionUN_submit
     
@@ -143,6 +273,18 @@ app.post("/add_question_submit", urlencoder, (req,res)=>{
                 })
             }
         })
+
+        // User.update({
+        //     _id : req.body.add_QuestionUN_submit
+        // },{
+        //     questionID : doc._id
+        // },(err, doc)=>{
+        //     if(err){
+        //         res.send(err)
+        //     }else{
+                
+        //     }
+        // })
     },(err)=>{
         //fial
         res.send(err)

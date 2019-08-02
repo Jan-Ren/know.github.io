@@ -32,6 +32,15 @@
                     $("#refresh_homeForm").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
+                //add_answer form submit
+                $("button#add_Answer_id").click(function(){
+                    console.log("answer ehhe")
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#add_Answer_username_submit").val($("a.profile").attr("data-id_username")) //user id
+                    $("#add_Answer_question_submit").val($("div.question").attr("data-id_question")) //question id
+                    $("#add_AnswerForm_submit").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
             })
         </script>
     </head>
@@ -95,13 +104,27 @@
                     <div class="col-4 col-md-10 bg-danger d-flex justify-content-center">
                         <div class="row w-100">
                             {{#each question}}
-                            <div class="container-fluid mb-4 mt-4 bg-warning w-100 " data-id_question="{{_id}}">
+                            <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_question="{{_id}}">
                                 <div class="text-center">{{title}}</div>
                                 <div>{{topic}}</div>
                                 <div>{{tag}}</div>
-                                <div>Posted by: {{userID.username}}</div>
+                                <div>Posted by: {{userID.username}} </div>
                                 <div class="d-flex">
-                                   <button class="rounded btn-primary"> answer </button>
+                                    <p>
+                                      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
+                                        Answer
+                                      </button>
+                                    </p>
+                                    <div class="collapse" id="collapseExample{{_id}}">
+                                      <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
+                                        <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
+                                        <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
+                                        <div class="form-group green-border-focus">
+                                          <textarea class="form-control col-xs-12" id="textarea_answer_id" rows="3" cols="80" name="answer_textarea"></textarea>
+                                        </div>
+                                        <button type="button" class="btn btn-primary" id="add_Answer_id">Submit</button>
+                                      </form>
+                                    </div>
                                     <div class=" ml-auto"><a class="btn btn-secondary" role="button"> See answers </a></div>
                                 </div>
                             </div>
