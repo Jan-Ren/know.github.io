@@ -69,19 +69,29 @@ app.get("/rooms", function(req, res) {
                 username: req.session.username
                })
 })
-//used to refresh the add_Question.hbs after saving a question
-app.get("/add_question", urlencoder, (req,res)=>{
+//used to refresh the home.hbs for home buttons
+app.post("/refresh_home", urlencoder, (req,res)=>{
     User.findOne({
-        _id: req.body.add_QuestionUN
-
-    },(err, doc)=>{
-        if(err){
-            res.send(err)
-        }else{
-            res.render("addQuestion.hbs",{
-                user : doc
-            })
-        }
+        _id : req.body.refresh_homeUN
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+             console.log(doc)
+             req.session.username = doc.username,
+             Question.find().populate('userID','username question answer').exec((err,docs)=>{
+                if(err){
+                    res.send(err)
+                }else{
+                    res.render("home.hbs",{
+                        user : doc,
+                        question : docs
+                    })
+                    }
+                })
+         }else{
+             res.send("user not found")
+         }
     })
 
 })
@@ -103,25 +113,36 @@ app.post("/bookmark", urlencoder, (req,res)=>{
         
 })
 // saves a question
-app.post("/add_Question", urlencoder, (req,res)=>{
+app.post("/add_question_submit", urlencoder, (req,res)=>{
     
     let title = req.body.question_title
     let tag = req.body.question_tag
     let topic = req.body.ts
-    let user = req.body.add_QuestionUN // user id
-    console.log(req.body.add_QuestionUN + "server ito")
+    let user = req.body.add_QuestionUN_submit // user id
+    console.log(req.body.add_QuestionUN_submit + "server ito")
 
     let question = new Question({
         title : title,
         tag : tag,
         topic : topic,
-        user :  user
+        userID :  user
     })
     
     question.save().then((doc)=>{
         //all goes well
         console.log(doc)
-        res.redirect("/add_question")
+        User.findOne({
+            _id: req.body.add_QuestionUN_submit
+    
+        },(err, doc)=>{
+            if(err){
+                res.send(err)
+            }else{
+                res.render("addQuestion.hbs",{
+                    user : doc
+                })
+            }
+        })
     },(err)=>{
         //fial
         res.send(err)
@@ -151,6 +172,7 @@ app.post("/signin", urlencoder, function(req, res){
     console.log(req.body.un)
    let username = req.body.un
    let password = req.body.pw
+   let user, question;
    
    User.findOne({
        username : username,
@@ -160,10 +182,18 @@ app.post("/signin", urlencoder, function(req, res){
             res.send(err)
         } else if(doc){
             console.log(doc)
-            req.session.username = doc.username
-            res.render("home.hbs",{
-                user : doc
-            })
+            req.session.username = doc.username,
+            user = doc
+            Question.find().populate('userID','username question answer').exec((err,docs)=>{
+                if(err){
+                    res.send(err)
+                }else{
+                    res.render("home.hbs",{
+                        user : doc,
+                        question : docs
+                    })
+                    }
+                })
         }else{
             res.send("user not found")
         }

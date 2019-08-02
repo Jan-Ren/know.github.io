@@ -19,11 +19,25 @@
                     console.log($("a.profile").attr("data-id_username"))
                 })
                 //add_question form submit
-                $("button#add_Question").click(function(){
+                $("button#add_Question_id").click(function(){
                     console.log("ewan")
                     console.log($("a.profile").attr("data-id_username"))
-                    $("#add_Question_username").val($("a.profile").attr("data-id_username"))
-                    $("#add_QuestionForm").submit()
+                    $("#add_Question_username_submit").val($("a.profile").attr("data-id_username"))
+                    $("#add_QuestionForm_submit").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //home and Q&A click
+                $("a#homeNav").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#refresh_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#refresh_homeForm").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //home and Q&A click
+                $("a#QAnav").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#refresh_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#refresh_homeForm").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
             })
@@ -33,7 +47,7 @@
         <div class="container h-100">
             <div class="container d-flex justify-content-center ml-5 sticky-top">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a class="navbar-brand" href="#">Q&A</a>
+                    <a class="navbar-brand" id="QAnav" href="#">Q&A</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -41,7 +55,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link"  id="homeNav" href="#">Home</a>
                             </li>
                             <li class="nav-item active">
                                 <a class="nav-link" href="http://localhost:3002/rooms">Rooms</a>
@@ -87,8 +101,8 @@
                         </div>
                     </div>
                     <div class="col-4 col-md-10 bg-danger">
-                        <form action = "add_question" id="add_QuestionForm" method="post">
-                            <input type="hidden" name="add_QuestionUN" id="add_Question_username">
+                        <form action = "add_question_submit" id="add_QuestionForm_submit" method="post">
+                            <input type="hidden" name="add_QuestionUN_submit" id="add_Question_username_submit">
                             <div class = "add-header">Add a Question</div>
                             <div class="form-group">
                             <label for = "question_header">Question</label>
@@ -108,7 +122,7 @@
                             <label for = "tag_header">Tags</label>
                             <input id = "question_tag_input" type="text" class="form-control" name="question_tag" placeholder="use hashtags ex.(#Calculus)">
                             </div>
-                            <button type="button" class="btn btn-primary" id="add_Question">Submit</button>
+                            <button type="button" class="btn btn-primary" id="add_Question_id">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -121,6 +135,10 @@
         {{!-- form equivalent of add_a_question <a></a> --}}
         <form action="addQuestion" id="addQuestionForm" method="post">
             <input type="hidden" name="addQuestionUN" id="addQuestion_username">
+        </form>
+        {{!-- form equivalent of home and Q&A navigation link <a></a> --}}
+        <form action="refresh_home" id="refresh_homeForm" method="post">
+            <input type="hidden" name="refresh_homeUN" id="refresh_home_username">
         </form>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
