@@ -71,6 +71,47 @@ app.get("/rooms", function(req, res) {
                })
 })
 //used to refresh the home.hbs for home buttons
+app.post("/seeAnswer", urlencoder, (req,res)=>{
+    //example of multiple populate
+    // var populateQuery = [{path:'books', select:'title pages'}, {path:'movie', select:'director'}];
+
+    // Person.find({})
+    // .populate(populateQuery)
+    // .execPopulate()
+
+    var populateQuery = [{path: 'answerID',populate: { path: 'userID' }}, {path:'userID', select:'username questionID answerID'}];
+
+    User.findOne({
+        _id : req.body.seeAnswerUN
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+             console.log("seeANSWER TOH MGA TOL")
+             console.log(doc)
+             req.session.username = doc.username,
+             Question.findOne({
+                _id : req.body.seeAnswerQ
+             }).populate(populateQuery).exec((err,docs)=>{
+                if(err){
+                    res.send(err)
+                }else{
+                    console.log("seeANSWER TOH PREEEEEEEEE")
+                    console.log(doc)
+                    console.log(docs)
+                    res.render("seeAnswers.hbs",{
+                        user : doc,
+                        question : docs
+                    })
+                    }
+                })
+         }else{
+             res.send("user not found")
+         }
+    })
+
+})
+//used to refresh the home.hbs for home buttons
 app.post("/refresh_home", urlencoder, (req,res)=>{
     //example of multiple populate
     // var populateQuery = [{path:'books', select:'title pages'}, {path:'movie', select:'director'}];

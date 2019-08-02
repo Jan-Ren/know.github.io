@@ -3,7 +3,6 @@ var Schema = mongoose.Schema;
 
 var Answer = mongoose.model("Answer",{
     answer : {type : String, required: true},
-    bookmarked : {type : Boolean},
     questionID : {type : Schema.Types.ObjectId, ref : 'Question'},
     userID : {type : Schema.Types.ObjectId, ref : 'User'}
 })

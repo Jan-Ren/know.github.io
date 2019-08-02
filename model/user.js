@@ -5,6 +5,7 @@ var User = mongoose.model("User",{
     username : {type : String, required: true},
     password : {type : String, required: true},
     email : {type : String, required : true},
+    bookmarked :  [{type : Schema.Types.ObjectId, ref : 'Answer'}],
     questionID : [{type : Schema.Types.ObjectId, ref : 'Question'}],
     answerID : [{type : Schema.Types.ObjectId, ref : 'Answer'}]
 })

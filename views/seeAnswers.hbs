@@ -41,15 +41,6 @@
                     $("#add_AnswerForm_submit").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
-                //see_answer form submit
-                $("div.see_answers_button").click(function(){
-                    console.log("ers")
-                    console.log($("a.profile").attr("data-id_username"))
-                    $("#seeAnswer_username").val($("a.profile").attr("data-id_username")) //user id
-                    $("#seeAnswer_question").val($("div.question").attr("data-id_question")) //question id
-                    $("#seeAnswerForm").submit()
-                    console.log($("a.profile").attr("data-id_username"))
-                })
             })
         </script>
     </head>
@@ -111,32 +102,40 @@
                         </div>
                     </div>
                     <div class="col-4 col-md-10 bg-danger d-flex justify-content-center">
-                        <div class="row w-100">
-                            {{#each question}}
-                            <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_question="{{_id}}">
-                                <div class="text-center">{{title}}</div>
-                                <div>{{topic}}</div>
-                                <div>{{tag}}</div>
-                                <div>Posted by: {{userID.username}} </div>
-                                <div class="d-flex">
-                                    <p>
-                                      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
-                                        Answer
-                                      </button>
-                                    </p>
-                                    <div class="collapse" id="collapseExample{{_id}}">
-                                      <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
-                                        <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
-                                        <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
-                                        <div class="form-group green-border-focus">
-                                          <textarea class="form-control col-xs-12" id="textarea_answer_id" rows="3" cols="80" name="answer_textarea"></textarea>
-                                        </div>
-                                        <button type="button" class="btn btn-primary" id="add_Answer_id">Submit</button>
-                                      </form>
+                        <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_question="{{_id}}">
+                            <div class="text-center">{{title}}</div>
+                            <div>{{topic}}</div>
+                            <div>{{tag}}</div>
+                            <div>Posted by: {{question.userID.username}} </div>
+                            <div class="d-flex">
+                                <p>
+                                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
+                                    Answer
+                                  </button>
+                                </p>
+                                <div class="collapse" id="collapseExample{{_id}}">
+                                  <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
+                                    <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
+                                    <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
+                                    <div class="form-group green-border-focus">
+                                      <textarea class="form-control col-xs-12" id="textarea_answer_id" rows="3" cols="80" name="answer_textarea"></textarea>
                                     </div>
-                                    <div class="see_answers_button  ml-auto"><a class="btn btn-secondary" role="button"> See answers </a></div>
+                                    <button type="button" class="btn btn-primary" id="add_Answer_id">Submit</button>
+                                  </form>
                                 </div>
+                                <div class=" ml-auto" type="hidden"><a class="btn btn-secondary" role="button"> See answers </a></div>
                             </div>
+                            <hr></hr>
+                            {{#each question.answerID}}
+                                <div class="container-fluid mb-4 mt-4 bg-warning w-100 bg-danger">
+                                        <div class="d-flex">
+                                           <div>By:   {{userID.username}}</div> 
+                                            <div class="ml-auto">boomkark_photo</div>
+                                        </div>
+                                    <hr></hr>
+                                    Answered:
+                                    <div>{{answer}}</div>
+                                </div>
                             {{/each}}
                         </div>
                     </div>
@@ -154,11 +153,6 @@
         {{!-- form equivalent of home and Q&A navigation link <a></a> --}}
         <form action="refresh_home" id="refresh_homeForm" method="post">
             <input type="hidden" name="refresh_homeUN" id="refresh_home_username">
-        </form>
-        {{!-- form equivalent of "see answer" button <a></a> --}}
-        <form action="seeAnswer" id="seeAnswerForm" method="post">
-            <input type="hidden" name="seeAnswerUN" id="seeAnswer_username">
-            <input type="hidden" name="seeAnswerQ" id="seeAnswer_question">
         </form>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
