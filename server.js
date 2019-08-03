@@ -70,7 +70,7 @@ app.get("/rooms", function(req, res) {
                 username: req.session.username
                })
 })
-//used to refresh the home.hbs for home buttons
+//used to go the seeAnswers.hbs for home buttons
 app.post("/seeAnswer", urlencoder, (req,res)=>{
     //example of multiple populate
     // var populateQuery = [{path:'books', select:'title pages'}, {path:'movie', select:'director'}];
@@ -80,15 +80,14 @@ app.post("/seeAnswer", urlencoder, (req,res)=>{
     // .execPopulate()
 
     var populateQuery = [{path: 'answerID',populate: { path: 'userID' }}, {path:'userID', select:'username questionID answerID'}];
-
+    console.log('DITOOOO YUNG BAGO')
+    console.log(req.body.seeAnswerQ)
     User.findOne({
         _id : req.body.seeAnswerUN
     },(err,doc)=>{
          if(err){
              res.send(err)
          } else if(doc){
-             console.log("seeANSWER TOH MGA TOL")
-             console.log(doc)
              req.session.username = doc.username,
              Question.findOne({
                 _id : req.body.seeAnswerQ
@@ -96,9 +95,6 @@ app.post("/seeAnswer", urlencoder, (req,res)=>{
                 if(err){
                     res.send(err)
                 }else{
-                    console.log("seeANSWER TOH PREEEEEEEEE")
-                    console.log(doc)
-                    console.log(docs)
                     res.render("seeAnswers.hbs",{
                         user : doc,
                         question : docs
@@ -112,7 +108,7 @@ app.post("/seeAnswer", urlencoder, (req,res)=>{
 
 })
 //used to refresh the home.hbs for home buttons
-app.post("/refresh_home", urlencoder, (req,res)=>{
+app.post("/home", urlencoder, (req,res)=>{
     //example of multiple populate
     // var populateQuery = [{path:'books', select:'title pages'}, {path:'movie', select:'director'}];
 
@@ -126,7 +122,6 @@ app.post("/refresh_home", urlencoder, (req,res)=>{
          if(err){
              res.send(err)
          } else if(doc){
-             console.log(doc)
              req.session.username = doc.username,
              Question.find().populate('userID','username question answer').exec((err,docs)=>{
                 if(err){
@@ -164,7 +159,7 @@ app.post("/bookmark", urlencoder, (req,res)=>{
 // save an answer
 app.post("/add_answer_submit", urlencoder, (req,res)=>{
     
-    let answer = req.body.answer_textarea
+    let answer = req.body.add_ans_submit
     let question = req.body.add_AnswerQ_submit // question id
     let user = req.body.add_AnswerUN_submit // user id
 
@@ -190,8 +185,6 @@ app.post("/add_answer_submit", urlencoder, (req,res)=>{
                      console.log(success);
                  }
              });
-        
-        console.log("NANDITOOOOOOOOOOOOOO AKO!" + Question.findOne({_id: req.body.add_AnswerUN_submit}))
 
         Question.findOneAndUpdate(
            { _id: req.body.add_AnswerQ_submit}, 
@@ -212,7 +205,6 @@ app.post("/add_answer_submit", urlencoder, (req,res)=>{
             if(err){
                 res.send(err)
             } else if(doc){
-                console.log(doc)
                 req.session.username = doc.username,
                 Question.find().populate('userID','username question answer').exec((err,docs)=>{
                    if(err){
@@ -228,30 +220,6 @@ app.post("/add_answer_submit", urlencoder, (req,res)=>{
                 res.send("user not found")
             }
         })
-        // User.update({
-        //     _id : req.body.add_AnswerUN_submit
-        // },{
-        //     answerID : id_of_answer
-        // },(err, doc)=>{
-        //     if(err){
-        //         res.send(err)
-        //     }else{
-        //         //updating the answers for the question
-        //         Question.update({
-        //             _id : req.body.AnswerQ_submit
-        //         },{
-        //             answerID : id_of_answer
-        //         },(err, doc)=>{
-        //             console.log(doc._id)
-        //             if(err){
-        //                 res.send(err)
-        //             }else{
-        //                 //proceed to refresh the home.hbs
-                        
-        //             }
-        //         })
-        //     }
-        // })
     },(err)=>{
         //fial
         res.send(err)
@@ -352,7 +320,6 @@ app.post("/addQuestion", urlencoder, (req,res)=>{
 app.post("/signin", urlencoder, function(req, res){
     // check user name + password in database
     // select * from users where un == un && pw == 
-    console.log(req.body.un)
    let username = req.body.un
    let password = req.body.pw
    let user, question;
@@ -364,7 +331,6 @@ app.post("/signin", urlencoder, function(req, res){
         if(err){
             res.send(err)
         } else if(doc){
-            console.log(doc)
             req.session.username = doc.username,
             user = doc
             Question.find().populate('userID','username question answer').exec((err,docs)=>{
@@ -396,7 +362,6 @@ app.post("/signup", urlencoder, function(req, res){
     
     user.save().then((doc)=>{
         //all goes well
-        console.log(doc)
         res.render("home.hbs",{
             username : doc.username
         })

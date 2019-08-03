@@ -58,12 +58,6 @@
                             <li class="nav-item active">
                                 <a class="nav-link" id="homeNav" href="#">Home</a>
                             </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="http://localhost:3002/rooms">Rooms</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Notifications<span class="badge badge-info badge-pill">5</span></a>
-                            </li>
                             <li class="nav-item active dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile" role="button" data-toggle="dropdown">
                                     {{user.username}}
@@ -71,7 +65,6 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">{{user.username}}</a> {{!--data-id_username contains the user id of the user --}}
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="http://localhost:3002/messages">Messages</a>
                                     <a class="dropdown-item bookmark" href="#">Bookmarks</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Settings</a>
@@ -102,18 +95,18 @@
                         </div>
                     </div>
                     <div class="col-4 col-md-10 bg-danger d-flex justify-content-center">
-                        <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_question="{{_id}}">
-                            <div class="text-center">{{title}}</div>
-                            <div>{{topic}}</div>
-                            <div>{{tag}}</div>
-                            <div>Posted by: {{question.userID.username}} </div>
+                        <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_question="{{question._id}}">
+                            <div class="text-center">{{question.title}}</div>
+                            <div>{{question.topic}}</div>
+                            <div>{{question.tag}}</div>
+                            <div>Posted by: {{question.userID.username}} id: {{question._id}}</div>
                             <div class="d-flex">
                                 <p>
-                                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
+                                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{question._id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
                                     Answer
                                   </button>
                                 </p>
-                                <div class="collapse" id="collapseExample{{_id}}">
+                                <div class="collapse" id="collapseExample{{question._id}}">
                                   <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
                                     <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
                                     <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
@@ -123,7 +116,7 @@
                                     <button type="button" class="btn btn-primary" id="add_Answer_id">Submit</button>
                                   </form>
                                 </div>
-                                <div class=" ml-auto" type="hidden"><a class="btn btn-secondary" role="button"> See answers </a></div>
+                                <div class=" ml-auto" type="hidden"><a class="btn btn-secondary" role="button"> See answer </a></div>
                             </div>
                             <hr></hr>
                             {{#each question.answerID}}
@@ -151,7 +144,7 @@
             <input type="hidden" name="addQuestionUN" id="addQuestion_username">
         </form>
         {{!-- form equivalent of home and Q&A navigation link <a></a> --}}
-        <form action="refresh_home" id="refresh_homeForm" method="post">
+        <form action="home" id="refresh_homeForm" method="post">
             <input type="hidden" name="refresh_homeUN" id="refresh_home_username">
         </form>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

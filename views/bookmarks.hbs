@@ -49,12 +49,6 @@
                             <li class="nav-item active">
                                 <a class="nav-link" id="homeNav" href="#">Home</a>
                             </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="http://localhost:3002/rooms">Rooms</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Notifications<span class="badge badge-info badge-pill">5</span></a>
-                            </li>
                             <li class="nav-item active dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile" role="button" data-toggle="dropdown">
                                     {{user.username}}
@@ -62,8 +56,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">{{user.username}}</a> {{!--data-id_username contains the user id of the user --}}
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="http://localhost:3002/messages">Messages</a>
-                                    <a class="dropdown-item" href="bookmarks.html">Bookmarks</a>
+                                    <a class="dropdown-item" href="#">Bookmarks</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <a class="dropdown-item" href="#">Help</a>
@@ -109,7 +102,7 @@
             <input type="hidden" name="addQuestionUN" id="addQuestion_username">
         </form>
         {{!-- form equivalent of home and Q&A navigation link <a></a> --}}
-        <form action="refresh_home" id="refresh_homeForm" method="post">
+        <form action="home" id="refresh_homeForm" method="post">
             <input type="hidden" name="refresh_homeUN" id="refresh_home_username">
         </form>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
