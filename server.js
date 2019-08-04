@@ -144,8 +144,8 @@ app.post("/home", urlencoder, (req,res)=>{
 app.post("/profile", urlencoder, (req,res)=>{
 
     var populateQuery = [
-        {path: 'questionID',populate: { path: 'userID', selec:'username' }, select:'title tag topic'},
-        {path: 'answerID', select:'answer'},
+        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic'},
+        {path: 'answerID',populate: { path: 'questionID', populate: {path:  'userID', select: 'username'}, select:'title tag topic userID' }, select:'answer'},
     ];
 
     User.findOne({
@@ -154,7 +154,7 @@ app.post("/profile", urlencoder, (req,res)=>{
         if(err){
             res.send(err)
         }else{
-            //console.log(doc)
+            //console.log(doc.answerID)
             res.render("profile.hbs",{
                 user : doc
             })
@@ -259,7 +259,9 @@ app.post("/add_answer_submit", urlencoder, (req,res)=>{
 app.post("/add_question_submit", urlencoder, (req,res)=>{
     
     let title = req.body.question_title
-    let tag = req.body.question_tag
+    let hashtag = "#"
+    let tag = hashtag.concat(req.body.question_tag)
+    console.log(hashtag)
     let topic = req.body.ts
     let user = req.body.add_QuestionUN_submit // user id
     console.log(req.body.add_QuestionUN_submit + "server ito")

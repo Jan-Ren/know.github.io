@@ -11,6 +11,8 @@
             }
             div.question_item_title{
                 text-align: center;
+                font-weight: bold;
+                background-color: lightcyan;
             }
         </style>
         
@@ -46,7 +48,7 @@
                     $("#refresh_homeForm").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
-                // answer button clicked
+                // question button clicked
                 $("a#question_button").click(function(){
                         $('#content_container').empty();
                         question_content()
@@ -78,10 +80,10 @@
                                 divContentTitle.className = "question_item_title"
                                 // item topic
                                 divContentTopic = document.createElement("div")
-                                $(divContentTopic).text(topic)
+                                $(divContentTopic).text("Topic: " + topic)
                                 // item tag
                                 divContentTag = document.createElement("div")
-                                $(divContentTag).text(tag)
+                                $(divContentTag).text("Tags: " + tag)
                                 //Content Item
                                 divContentItem = document.createElement("div")
                                 divContentItem.append(divContentTitle)
@@ -98,6 +100,68 @@
                         })
                     })
                 }
+                // answer button clicked
+                $("a#answer_button").click(function(){
+                        $('#content_container').empty();
+                        answer_content()
+                        
+                })
+                function answer_content(){
+                    var length = $("a#answer_button").attr("data-size_answer")
+                    //traverse the divs with class="answer_div" containing the answer datas
+                    $('.answer_div').each(function(){
+
+                        let id_value = $(this).attr("data-id_answer");
+                        let thisDiv = this; // gets the current div being traversed
+
+                        //traverse the a with class="answer_id" containing the answer id
+                        $('.answer_id').each(function(){
+                            let divContenetItem, divContentCtnr, divContentTag, divContentTopic, divContentTitle, divContentAnswer,divContentQuestionUN;
+                            if( $(this).attr("data-id_answer") == $(thisDiv).attr("data-id_div_answer") ){
+                                let answer = $(thisDiv).children("a#answer_answer").attr("data-id_answer")
+                                let answer_id = $("a#answer_id").attr("data-id_answer")
+                                let title = $(thisDiv).children("a#answer_question_title").attr("data-id_answer_question_title")
+                                let tag = $(thisDiv).children("a#answer_question_tag").attr("data-id_answer_question_tag")
+                                let topic = $(thisDiv).children("a#answer_question_topic").attr("data-id_answer_question_topic")
+                                let question_username = $(thisDiv).children("a#answer_question_username").attr("data-id_answer_question_username")
+                                console.log(question_username)
+
+                                //item answer
+                                divContentAnswer = document.createElement("div")
+                                $(divContentAnswer).text("Answer: " + answer)
+                                //item question
+                                divContentTitle = document.createElement("div")
+                                $(divContentTitle).text("Question: " + title)
+                                divContentTitle.className = "question_item_title"
+                                // item topic
+                                divContentTopic = document.createElement("div")
+                                $(divContentTopic).text("Topic: " + topic)
+                                // item tag
+                                divContentTag = document.createElement("div")
+                                $(divContentTag).text("Tags: " + tag)
+                                // item question_username
+                                divContentQuestionUN = document.createElement("div")
+                                $(divContentQuestionUN).text("Queston by: " + question_username)
+                                //Content Item
+                                divContentItem = document.createElement("div")
+                                divContentItem.append(divContentAnswer)
+                                divContentItem.append(divContentTitle)
+                                divContentItem.append(divContentTopic)
+                                divContentItem.append(divContentTag)
+                                divContentItem.append(divContentQuestionUN)
+                                divContentItem.className = "content_item"
+                                //content item container
+                                divContentCtnr = document.createElement("div")
+                                divContentCtnr.append(divContentItem)
+                                divContentCtnr.className = "content_item_container"
+                                // content container
+                                $("#content_container").append(divContentCtnr)
+                            }
+                            
+                        })
+                    })
+                }
+                
                 
             })
         </script>
@@ -163,13 +227,23 @@
                       <div class="col-4 col-md-3 bg-danger">
                             <div class="title container d-flex justify-content-start font-weight-bold">Feed</div>
                             <br>
-                            <a href="#" class="list-group-item list-group-item-action">Recent </a>
                             <a id="answer_button" href="#" class="list-group-item list-group-item-action" data-size_answer="{{user.answerID.length}}">Answers </a>
                             <a id="question_button"href="#" class="list-group-item list-group-item-action" data-size_question="{{user.questionID.length}}">Questions </a>
                             <a href="#" class="list-group-item list-group-item-action">Followers  </a>
                             <a href="#" class="list-group-item list-group-item-action disabled">Following </a>
                       </div>
-
+                    
+                      {{#each user.answerID}}
+                      <a class="answer_id" data-id_answer="{{_id}}"></a>
+                      <div class="answer_div" data-id_div_answer="{{_id}}">
+                            <a id="answer_index" data-id_index="{{@index}}: {{this}}"></a>
+                            <a id="answer_answer" data-id_answer="{{answer}}"></a>
+                            <a id="answer_question_title" data-id_answer_question_title="{{questionID.title}}"></a>
+                            <a id="answer_question_topic" data-id_answer_question_topic="{{questionID.topic}}"></a>
+                            <a id="answer_question_tag" data-id_answer_question_tag="{{questionID.tag}}"></a>
+                            <a id="answer_question_username" data-id_answer_question_username="{{questionID.userID.username}}"></a>
+                      </div>
+                      {{/each}}
                       {{#each user.questionID}}
                       <a class="question_id" data-id_question="{{_id}}"></a>
                       <div class="question_div" data-id_div_question="{{_id}}">
@@ -183,10 +257,11 @@
                       <div class="col-8 col-md-9 bg-warning" id="content_container">
                             <div class="content_item_container">
 			                    <div class="content_item container-fluid mb-4 mt-4 bg-warning w-100 question">
-                                    <div class="question_item_title text-center">TITLE</div>
-                                    <div>TOPIC</div>
-                                    <div>TAG</div>
-                                    <div>Posted by: {{userID.username}} </div>
+                                    <div>Answer: {{answer}}</div>
+                                    <div>Question:{{questionID.title}}</div>
+                                    <div>topic</div>
+                                    <div> tag </div>
+                                    <div>Question by:{{questionID.userID.username}}</div>
                                 </div>
 			                </div>
                       </div>
