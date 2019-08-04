@@ -43,8 +43,9 @@
                                 </div>
                             </li>
                         </ul>
-                        <form action = "search" class="form-inline my-2 my-lg-0" method = "post" >
-                            <input class="form-control mr-sm-2" type="search" placeholder="question/topic/answer">
+                        <form class="form-inline my-2 my-lg-0" action = "search" method = "post">
+                            <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
+                            <input class="form-control mr-sm-2" type="search" placeholder="question/topic/answer" name = "searchq">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
                     </div>
@@ -72,6 +73,7 @@
                     </div>
                     <div class="col-4 col-md-10 bg-danger">
                         <div class="row w-100">
+                            <div>Question</div>
                             {{#each question}}
                             <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_question="{{_id}}">
                                 <div class="text-center">{{title}}</div>
