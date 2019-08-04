@@ -1,9 +1,17 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src = "jquery.js"></script>
+        <script>
+            
+            function homedirect() {
+                $("#homeform").submit()
+            }
+        </script>
     </head>
     <body>
         <div class="container h-100">
+             
             <div class="container d-flex justify-content-center ml-5 sticky-top">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <a class="navbar-brand" href="#">Q&A</a>
@@ -14,17 +22,11 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Home</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="http://localhost:3002/rooms">Rooms</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Notifications<span class="badge badge-info badge-pill">5</span></a>
+                                <a class="nav-link" id = "homedir" href="#" onclick = "homedirect()">Home</a>
                             </li>
                             <li class="nav-item active dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile" role="button" data-toggle="dropdown">
-                                    {{username}}
+                                    {{user.username}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="profile.html">{{username}}</a>
@@ -47,32 +49,71 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-8 col-md-2 bg-warning p-2">
+                    <div class="col-8 col-md-2 bg-secondary p-2">
                         <div class="sticky-top">
                             <div clas="title"> Filter </div>
                             <hr></hr>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="btn" href="#" value="all">All</a>
+                                    <a class="list-group-item list-group-item-action" href="#" value="all">All</a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="btn" href="#" value="questions">Questions</a>
+                                  <a class="list-group-item list-group-item-action" href="#" value="questions">Questions</a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="btn " href="#" value="profile">Profile</a>
+                                  <a class="list-group-item list-group-item-action" href="#" value="profile">Answers</a>
                                 </li>
-                                <li class="nav-item">
-                                  <a class="btn " href="#" value="rooms">Rooms</a>
-                                </li>
+                                
                             </ul>
                         </div>
                     </div>
                     <div class="col-4 col-md-10 bg-danger">
-                        Content
+                        <div class="row w-100">
+                            {{#each question}}
+                            <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_question="{{_id}}">
+                                <div class="text-center">{{title}}</div>
+                                <div>{{topic}}</div>
+                                <div>{{tag}}</div>
+                                <div>Posted by: {{userID.username}} </div>
+                                <div class="d-flex">
+                                    <p>
+                                      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
+                                        Answer {{_id}}
+                                      </button>
+                                    </p>
+                                    <div class="collapse" id="collapseExample{{_id}}">
+                                      <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
+                                        <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
+                                        <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
+                                        <input type="hidden" name="add_ans_submit" id="add_Answer_answer_submit"> {{!--anssswer--}}
+                                        <div class="form-group green-border-focus">
+                                          <textarea class="myTextArea form-control col-xs-12" data-id_question="{{_id}}" id="textarea_answer_id" rows="3" cols="80" name="answer_textarea"></textarea>
+                                        </div>
+                                        <button type="button" class="btn btn-primary"  data-id_question="{{_id}}" id="add_Answer_id">Submit</button>
+                                      </form>
+                                    </div>
+                                    <div class=" ml-auto">
+                                        <button type="button" class="btn btn-secondary" data-id_question="{{_id}}" id="see_answers_button">See Answer</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                            <div>Answers</div>
+                                {{#each answer}}
+                                    <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_answer="{{_id}}">
+                                        <div>Answered by: {{userID.username}}</div>
+                                        <div>Answer: {{answer}}</div>
+                                        <div>Question:{{questionID.title}}</div>
+                                        <div>Question by:{{questionID.userID.username}}</div>
+                            </div>
+                                {{/each}}
+                                
+                            
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <form action = "home" method = "post" id = "homeform"><input type = "hidden" name = "refresh_homeUN" value = "{{user._id}}"></form>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
