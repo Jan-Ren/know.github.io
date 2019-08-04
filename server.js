@@ -90,7 +90,8 @@ app.post("/seeAnswer", urlencoder, (req,res)=>{
          } else if(doc){
              req.session.username = doc.username,
              Question.findOne({
-                _id : req.body.seeAnswerQ
+                _id : req.body.seeAnswerQ,
+                 
              }).populate(populateQuery).exec((err,docs)=>{
                 if(err){
                     res.send(err)
@@ -154,6 +155,11 @@ app.post("/bookmark", urlencoder, (req,res)=>{
         }
     })
 
+        
+})
+//register
+app.post("/reg", urlencoder, (req,res)=>{
+    res.redirect("/signup")
         
 })
 // save an answer
@@ -370,7 +376,47 @@ app.post("/signup", urlencoder, function(req, res){
         res.send(err)
     })
 })
-
+app.post("/search", urlencoder, function(req, res) {
+    var searchcont = req.body.searchq
+    var idsearch = req.body.usersearchid
+    console.log(idsearch)
+    var populateQuery = [{path: 'questionID',populate: { path: 'userID' }}, {path:'userID', select:'username questionID answerID'}];
+    User.findOne({
+        _id : idsearch
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+             req.session.username = doc.username,
+             Question.find({ title: { $regex: searchcont, $options: "i" } }).populate('userID','username question answer').exec((err,docs)=>{
+                if(err){
+                    res.send(err)
+                }else{
+                    Answer.find(
+                        {answer:"16"
+                        }
+                    ).populate(populateQuery).exec((err2, docs2)=> {
+                        if (err) {
+                            res.send(err2)
+                        }
+                        else {
+                        res.render("search.hbs",{
+                        user : doc,
+                        question : docs,
+                        answer:docs2
+                        }
+                    )
+                    }
+                                   })
+                    /*res.render("search.hbs",{
+                        user : doc,
+                        question : docs
+                    })*/
+                    }
+                })
+         }
+    })
+})
 app.use("*", function(request,response){
     response.send("This is not the site you're looking for.")
     
