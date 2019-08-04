@@ -1,12 +1,112 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <style>
+            div.content_item{
+                margin-top: 24px;
+                margin-bottom: 24px;
+                background-color: cyan;
+                width: 100%;
+            }
+            div.question_item_title{
+                text-align: center;
+            }
+        </style>
+        
+        <script src="jquery.js"> </script>
+        <script>
+            $(document).ready(function(){
+                //bookmark click
+                $("a.bookmark").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#bookmark_username").val($("a.profile").attr("data-id_username"))
+                    $("#bookmarkform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //profile click
+                $("a.profile").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#profile_username").val($("a.profile").attr("data-id_username"))
+                    $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                
+                //home and Q&A click
+                $("a#homeNav").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#refresh_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#refresh_homeForm").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //home and Q&A click
+                $("a#QAnav").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#refresh_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#refresh_homeForm").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                // answer button clicked
+                $("a#question_button").click(function(){
+                        $('#content_container').empty();
+                        question_content()
+                        
+                })
+                function question_content(){
+                    var length = $("a#question_button").attr("data-size_question")
+                    //traverse the divs with class="question_div" containing the question datas
+                    $('.question_div').each(function(){
+
+                        let id_value = $(this).attr("data-id_question");
+                        let thisDiv = this; // gets the current div being traversed
+
+                        //traverse the a with class="question_id" containing the question id
+                        $('.question_id').each(function(){
+                            let divContenetItem, divContentCtnr, divContentTag, divContentTopic, divContentTitle;
+                            if( $(this).attr("data-id_question") == $(thisDiv).attr("data-id_div_question") ){
+                                let title = $(thisDiv).children("a#question_title").attr("data-id_title")
+                                let index = $("a#question_index").attr("data-id_index")
+                                let question_id = $("a#question_id").attr("data-id_question")
+                                let tag = $(thisDiv).children("a#question_tag").attr("data-id_tag")
+                                let topic = $(thisDiv).children("a#question_topic").attr("data-id_topic")
+                                let username = $("a.profile").attr("data-username")
+                                console.log(username)
+
+                                //item question
+                                divContentTitle = document.createElement("div")
+                                $(divContentTitle).text(title)
+                                divContentTitle.className = "question_item_title"
+                                // item topic
+                                divContentTopic = document.createElement("div")
+                                $(divContentTopic).text(topic)
+                                // item tag
+                                divContentTag = document.createElement("div")
+                                $(divContentTag).text(tag)
+                                //Content Item
+                                divContentItem = document.createElement("div")
+                                divContentItem.append(divContentTitle)
+                                divContentItem.append(divContentTopic)
+                                divContentItem.append(divContentTag)
+                                divContentItem.className = "content_item"
+                                //content item container
+                                divContentCtnr = document.createElement("div")
+                                divContentCtnr.append(divContentItem)
+                                divContentCtnr.className = "content_item_container"
+                                // content container
+                                $("#content_container").append(divContentCtnr)
+                            }
+                        })
+                    })
+                }
+                
+            })
+        </script>
     </head>
     <body>
         <div class="container h-100">
             <div class="container d-flex justify-content-center ml-5 sticky-top">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a class="navbar-brand" href="home.html">Q&A</a>
+                    <a class="navbar-brand" id="QAnav" href="#">Q&A</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -14,16 +114,16 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" id="homeNav" href="#">Home</a>
                             </li>
                             <li class="nav-item active dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile" role="button" data-toggle="dropdown">
-                                    {{username}}
+                                    {{user.username}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="profile.html">{{username}}</a>
+                                    <a class="dropdown-item profile" data-id_username="{{user._id}}" data-username="{{user.username}}" href="#">{{user.username}}</a> {{!--data-id_username contains the user id of the user --}}
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="bookmarks.html">Bookmarks</a>
+                                    <a class="dropdown-item bookmark" href="#">Bookmarks</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <a class="dropdown-item" href="#">Help</a>
@@ -48,7 +148,7 @@
                         </div>
 
                         <div class="col-8 bg-warning p-2">
-                            {{username}}
+                            {{user.username}}
                             <br>
                             <input class="btn btn-primary" type="button" value="follow">
                         </div>
@@ -63,14 +163,31 @@
                             <div class="title container d-flex justify-content-start font-weight-bold">Feed</div>
                             <br>
                             <a href="#" class="list-group-item list-group-item-action">Recent </a>
-                            <a href="#" class="list-group-item list-group-item-action">Answers </a>
-                            <a href="#" class="list-group-item list-group-item-action">Questions </a>
+                            <a id="answer_button" href="#" class="list-group-item list-group-item-action" data-size_answer="{{user.answerID.length}}">Answers </a>
+                            <a id="question_button"href="#" class="list-group-item list-group-item-action" data-size_question="{{user.questionID.length}}">Questions </a>
                             <a href="#" class="list-group-item list-group-item-action">Followers  </a>
                             <a href="#" class="list-group-item list-group-item-action disabled">Following </a>
                       </div>
+
+                      {{#each user.questionID}}
+                      <a class="question_id" data-id_question="{{_id}}"></a>
+                      <div class="question_div" data-id_div_question="{{_id}}">
+                            <a id="question_index" data-id_index="{{@index}}: {{this}}"></a>
+                            <a id="question_title" data-id_title="{{title}}"></a>
+                            <a id="question_tag" data-id_tag="{{tag}}"></a>
+                            <a id="question_topic" data-id_topic="{{topic}}"></a>
+                      </div>
+                      {{/each}}
                       
-                      <div class="col-8 col-md-9 bg-warning">
-                        Content
+                      <div class="col-8 col-md-9 bg-warning" id="content_container">
+                            <div class="content_item_container">
+			                    <div class="content_item container-fluid mb-4 mt-4 bg-warning w-100 question">
+                                    <div class="question_item_title text-center">TITLE</div>
+                                    <div>TOPIC</div>
+                                    <div>TAG</div>
+                                    <div>Posted by: {{userID.username}} </div>
+                                </div>
+			                </div>
                       </div>
                     </div>
                     </div>
@@ -88,6 +205,19 @@
                 </div>
             </div>
         </div>
+        {{!-- form equivalent of bookmark <a></a> --}}
+        <form action="bookmark" id="bookmarkform" method="post">
+            <input type="hidden" name="bookmarkUN" id="bookmark_username">
+        </form>
+        {{!-- form equivalent of profile <a></a> --}}
+        <form action="profile" id="profileform" method="post">
+            <input type="hidden" name="profileUN" id="profile_username">
+        </form>
+        {{!-- form equivalent of home and Q&A navigation link <a></a> --}}
+        <form action="home" id="refresh_homeForm" method="post">
+            <input type="hidden" name="refresh_homeUN" id="refresh_home_username">
+        </form>
+        
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

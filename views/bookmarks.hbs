@@ -11,6 +11,13 @@
                     $("#bookmarkform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
+                //profile click
+                $("a.profile").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#profile_username").val($("a.profile").attr("data-id_username"))
+                    $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
                 //addQuestion click
                 $("button#addQuestion").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -96,6 +103,10 @@
         {{!-- form equivalent of bookmark <a></a> --}}
         <form action="bookmark" id="bookmarkform" method="post">
             <input type="hidden" name="bookmarkUN" id="bookmark_username">
+        </form>
+        {{!-- form equivalent of profile <a></a> --}}
+        <form action="profile" id="profileform" method="post">
+            <input type="hidden" name="profileUN" id="profile_username">
         </form>
         {{!-- form equivalent of add_a_question <a></a> --}}
         <form action="addQuestion" id="addQuestionForm" method="post">

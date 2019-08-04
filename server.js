@@ -139,6 +139,29 @@ app.post("/home", urlencoder, (req,res)=>{
     })
 
 })
+//transition > profile
+app.post("/profile", urlencoder, (req,res)=>{
+
+    var populateQuery = [
+        {path: 'questionID',populate: { path: 'userID', selec:'username' }, select:'title tag topic'},
+        {path: 'answerID', select:'answer'},
+    ];
+
+    User.findOne({
+        _id: req.body.profileUN
+    }).populate(populateQuery).exec((err, doc)=>{
+        if(err){
+            res.send(err)
+        }else{
+            //console.log(doc)
+            res.render("profile.hbs",{
+                user : doc
+            })
+        }
+    })
+
+        
+})
 //transition from profile>bookmark
 app.post("/bookmark", urlencoder, (req,res)=>{
     User.findOne({
