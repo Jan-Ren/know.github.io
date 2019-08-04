@@ -3,6 +3,15 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src = "jquery.js"></script>
         <script>
+            function searchdir() {
+                $("#allform").submit()
+            }
+            function searchquestfil() {
+                $("#questform").submit()
+            }
+            function searchanswfil() {
+                $("#answerform").submit()
+            }
             $(document).ready(function(){
                 //bookmark click
                 $("a.bookmark").click(function(){
@@ -99,7 +108,7 @@
                         </ul>
                         <form class="form-inline my-2 my-lg-0" action = "search" method = "post">
                             <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="question/topic/answer" name = "searchq">
+                            <input class="form-control mr-sm-2" type="search" placeholder="question/topic/answer" name = "searchq" value = "{{searchquery}}">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
                     </div>
@@ -113,13 +122,13 @@
                             <hr></hr>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="list-group-item list-group-item-action" href="#" value="all">All</a>
+                                    <a class="list-group-item list-group-item-action" href="#" value="all" onclick = "searchdir()">All</a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="list-group-item list-group-item-action" href="#" value="questions">Questions</a>
+                                  <a class="list-group-item list-group-item-action" href="#" value="questions" onclick = "searchquestfil()">Questions</a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="list-group-item list-group-item-action" href="#" value="profile">Answers</a>
+                                  <a class="list-group-item list-group-item-action" href="#" value="profile" onclick = "searchanswfil()">Answers</a>
                                 </li>
                                 
                             </ul>
@@ -172,6 +181,15 @@
                     </div>
                 </div>
             </div>
+        <form action = "search" method = "post" id = "allform">
+            <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
+            <input type = "hidden" name = "searchq" value = "{{searchquery}}"></form>
+        <form action = "searchquestfilt" method = "post" id = "questform">
+            <input type = "hidden" name = "searchq2" value = "{{searchquery}}">
+            <input type = "hidden" name = "usersearchid2" value = "{{user._id}}"></form>
+        <form action = "searchansfilt" method = "post" id = "answerform">
+            <input type = "hidden" name = "searchq3" value = "{{searchquery}}">
+            <input type = "hidden" name = "usersearchid3" value = "{{user._id}}"></form>
         {{!-- form equivalent of bookmark <a></a> --}}
         <form action="bookmark" id="bookmarkform" method="post">
             <input type="hidden" name="bookmarkUN" id="bookmark_username">
