@@ -416,7 +416,7 @@ app.post("/search", urlencoder, function(req, res) {
                     res.send(err)
                 }else{
                     Answer.find(
-                        {answer:"16"
+                        {answer:{ $regex: searchcont, $options: "i" } 
                         }
                     ).populate(populateQuery).exec((err2, docs2)=> {
                         if (err) {
