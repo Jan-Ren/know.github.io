@@ -3,21 +3,76 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src = "jquery.js"></script>
         <script>
-            
-            function homedirect() {
-                $("#homeform").submit()
-            }
-            function questionfilt() {
-                
-            }
+            $(document).ready(function(){
+                //bookmark click
+                $("a.bookmark").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#bookmark_username").val($("a.profile").attr("data-id_username"))
+                    $("#bookmarkform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //profile click
+                $("a.profile").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#profile_username").val($("a.profile").attr("data-id_username"))
+                    $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //addQuestion click
+                $("button#addQuestion").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#addQuestion_username").val($("a.profile").attr("data-id_username"))
+                    $("#addQuestionForm").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //home and Q&A click
+                $("a#homeNav").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#refresh_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#refresh_homeForm").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //home and Q&A click
+                $("a#QAnav").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#refresh_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#refresh_homeForm").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //add_answer form submit
+                $("button#add_Answer_id").click(function(){
+                    console.log($(temp).attr("data-id_question"))
+                    
+                    
+                    $("#add_Answer_username_submit").val($("a.profile").attr("data-id_username")) //user id
+                    $("#add_Answer_question_submit").val($(this).attr("data-id_question")) //question id
+                    var temp = this;
+                    
+                    //gets every text area to check if that is the right text area for the question
+                        $("textarea.myTextArea").each(function() {
+                            if($(temp).attr("data-id_question") == $(this).attr("data-id_question")){
+                                $("#add_Answer_answer_submit").val($(this).val()) //answer
+                            } 
+                        })
+                   
+                    $("#add_AnswerForm_submit").submit()
+                })
+                //see_answer form submit
+                $("button#see_answers_button").click(function(){
+                    console.log("ers")
+                    $("#seeAnswer_username").val($("a.profile").attr("data-id_username")) //user id
+                    $("#seeAnswer_question").val($(this).attr("data-id_question")) //question id
+                    $("#seeAnswerForm").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+            })
         </script>
     </head>
     <body>
         <div class="container h-100">
-             
             <div class="container d-flex justify-content-center ml-5 sticky-top">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a class="navbar-brand" href="#">Q&A</a>
+                    <a class="navbar-brand" id="QAnav" href="#">Q&A</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -25,17 +80,16 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" id = "homedir" href="#" onclick = "homedirect()">Home</a>
+                                <a class="nav-link" id="homeNav" href="#">Home</a>
                             </li>
                             <li class="nav-item active dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile" role="button" data-toggle="dropdown">
                                     {{user.username}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="profile.html">{{username}}</a>
+                                    <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">{{user.username}}</a> {{!--data-id_username contains the user id of the user --}}
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="http://localhost:3002/messages">Messages</a>
-                                    <a class="dropdown-item" href="bookmarks.html">Bookmarks</a>
+                                    <a class="dropdown-item bookmark" href="#">Bookmarks</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <a class="dropdown-item" href="#">Help</a>
@@ -118,6 +172,27 @@
                     </div>
                 </div>
             </div>
+        {{!-- form equivalent of bookmark <a></a> --}}
+        <form action="bookmark" id="bookmarkform" method="post">
+            <input type="hidden" name="bookmarkUN" id="bookmark_username">
+        </form>
+        {{!-- form equivalent of profile <a></a> --}}
+        <form action="profile" id="profileform" method="post">
+            <input type="hidden" name="profileUN" id="profile_username">
+        </form>
+        {{!-- form equivalent of add_a_question <a></a> --}}
+        <form action="addQuestion" id="addQuestionForm" method="post">
+            <input type="hidden" name="addQuestionUN" id="addQuestion_username">
+        </form>
+        {{!-- form equivalent of home and Q&A navigation link <a></a> --}}
+        <form action="home" id="refresh_homeForm" method="post">
+            <input type="hidden" name="refresh_homeUN" id="refresh_home_username">
+        </form>
+        {{!-- form equivalent of "see answer" button <a></a> --}}
+        <form action="seeAnswer" id="seeAnswerForm" method="post">
+            <input type="hidden" name="seeAnswerUN" id="seeAnswer_username">
+            <input type="hidden" name="seeAnswerQ" id="seeAnswer_question">
+        </form>
         <form action = "searchquestion" method = "post"><input type = "hidden" name = "searchquest" class = "searhquestid"></form>
         <form action = "home" method = "post" id = "homeform"><input type = "hidden" name = "refresh_homeUN" value = "{{user._id}}"></form>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
