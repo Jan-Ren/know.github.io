@@ -66,6 +66,42 @@
                     $("#addQuestionForm").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
+                //Math clickedclick
+                $("a#Mathematics").click(function(){
+                    console.log("MATTH")
+                    $("#feedFilter_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#feedFilter_username").val("Mathematics")
+                    $("#feedFilterform").submit()
+                })
+                //Science clickedclick
+                $("a#Science").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#feedFilter_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#feedFilter_username").val("Science")
+                    $("#feedFilterform").submit()
+                })
+                //Politics clickedclick
+                $("a#Politics").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#feedFilter_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#feedFilter_username").val("Politics")
+                    $("#feedFilterform").submit()
+                })
+                //Technology clickedclick
+                $("a#Technology").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#feedFilter_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#feedFilter_username").val("Technology")
+                    $("#feedFilterform").submit()
+                })
+                //Music clickedclick
+                $("a#Music").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#feedFilter_home_username").val($("a.profile").attr("data-id_username"))
+                    $("#feedFilter_username").val("Music")
+                    $("#feedFilterform").submit()
+                })
+
                 //home and Q&A click
                 $("a#homeNav").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -152,11 +188,11 @@
                         <div class="sticky-top">
                             <div class="title container d-flex justify-content-center font-weight-bold">Feed</div>
                             <br>
-                            <a href="#" class="list-group-item list-group-item-action">Mathematics</a>
-                            <a href="#" class="list-group-item list-group-item-action">Science</a>
-                            <a href="#" class="list-group-item list-group-item-action">Politics</a>
-                            <a href="#" class="list-group-item list-group-item-action">Technology</a>
-                            <a href="#" class="list-group-item list-group-item-action disabled">Music</a>
+                            <a href="#" class="list-group-item list-group-item-action" id="Mathematics">Mathematics</a>
+                            <a href="#" class="list-group-item list-group-item-action" id="Science">Science</a>
+                            <a href="#" class="list-group-item list-group-item-action" id="Politics">Politics</a>
+                            <a href="#" class="list-group-item list-group-item-action" id="Technology">Technology</a>
+                            <a href="#" class="list-group-item list-group-item-action" id="Music">Music</a>
                             <button type="button" class="btn btn-primary " id="addQuestion"> Add a question! </button>
                         </div>
                     </div>
@@ -204,6 +240,11 @@
         {{!-- form equivalent of profile <a></a> --}}
         <form action="profile" id="profileform" method="post">
             <input type="hidden" name="profileUN" id="profile_username">
+        </form>
+        {{!-- form equivalent of feed filters <a></a> --}}
+        <form action="feedFilter" id="feedFilterform" method="post">
+            <input type="hidden" name="feedFilterUN" id="feedFilter_username">
+            <input type="hidden" name="feedFilter_homeUN" id="feedFilter_home_username">
         </form>
         {{!-- form equivalent of logout <a></a> --}}
         <form action="logout" id="logoutform" method="post">

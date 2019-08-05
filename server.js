@@ -113,8 +113,8 @@ app.post("/seeAnswer", urlencoder, (req,res)=>{
     // .execPopulate()
 
     var populateQuery = [{path: 'answerID',populate: { path: 'userID' }}, {path:'userID', select:'_id username questionID answerID'}];
-    console.log('DITOOOO YUNG BAGO')
-    console.log(req.body.seeAnswerQ)
+    //console.log('DITOOOO YUNG BAGO')
+   // console.log(req.body.seeAnswerQ)
     User.findOne({
         _id : req.body.seeAnswerUN
     },(err,doc)=>{
@@ -130,6 +130,42 @@ app.post("/seeAnswer", urlencoder, (req,res)=>{
                     res.send(err)
                 }else{
                     res.render("seeAnswers.hbs",{
+                        user : doc,
+                        question : docs
+                    })
+                    }
+                })
+         }else{
+             res.send("user not found")
+         }
+    })
+
+})
+//used to refresh the home.hbs for feedFilter buttons
+app.post("/feedFilter", urlencoder, (req,res)=>{
+    //example of multiple populate
+    // var populateQuery = [{path:'books', select:'title pages'}, {path:'movie', select:'director'}];
+
+    // Person.find({})
+    // .populate(populateQuery)
+    // .execPopulate()
+    User.findOne({
+        _id : req.body.feedFilter_homeUN
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+            //console.log(doc)
+             req.session.username = doc.username,
+             Question.find({
+                 topic : req.body.feedFilterUN
+             }).populate('userID','username question answer').exec((err,docs)=>{
+                if(err){
+                    res.send(err)
+                }else{
+                   // console.log(doc)
+                   // console.log(docs)
+                    res.render("home.hbs",{
                         user : doc,
                         question : docs
                     })
@@ -310,7 +346,7 @@ app.post("/add_question_submit", urlencoder, (req,res)=>{
     let tag = req.body.question_tag
     let topic = req.body.ts
     let user = req.body.add_QuestionUN_submit // user id
-    console.log(req.body.add_QuestionUN_submit + "server ito")
+    //console.log(req.body.add_QuestionUN_submit + "server ito")
 
     let question = new Question({
         title : title,
@@ -471,7 +507,7 @@ app.post("/signup", urlencoder, function(req, res){
 app.post("/search", urlencoder, function(req, res) {
     var searchcont = req.body.searchq
     var idsearch = req.body.usersearchid
-    console.log(idsearch)
+    //console.log(idsearch)
     var populateQuery = [{path: 'questionID',populate: { path: 'userID' }}, {path:'userID', select:'username questionID answerID'}];
     User.findOne({
         _id : idsearch
@@ -513,7 +549,7 @@ app.post("/search", urlencoder, function(req, res) {
 app.post("/searchquestfilt", urlencoder, function(req, res) {
     var searchcont = req.body.searchq2
     var idsearch = req.body.usersearchid2
-    console.log(idsearch)
+    //console.log(idsearch)
     var populateQuery = [{path: 'questionID',populate: { path: 'userID' }}, {path:'userID', select:'username questionID answerID'}];
     User.findOne({
         _id : idsearch
@@ -555,7 +591,7 @@ app.post("/searchquestfilt", urlencoder, function(req, res) {
 app.post("/searchansfilt", urlencoder, function(req, res) {
     var searchcont = req.body.searchq3
     var idsearch = req.body.usersearchid3
-    console.log(idsearch)
+    //console.log(idsearch)
     var populateQuery = [{path: 'questionID',populate: { path: 'userID' }}, {path:'userID', select:'username questionID answerID'}];
     User.findOne({
         _id : idsearch
