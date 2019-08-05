@@ -248,6 +248,44 @@ app.post("/profile", urlencoder, (req,res)=>{
 
         
 })
+app.post("/settings", urlencoder, (req,res)=>{
+
+    var populateQuery = [
+        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic'},
+        {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic' }, select:'answer'}
+    ];
+
+    //gets the current user to establish the current users data when vieweing a profile
+    var curr_user;
+    //finding the cururent user
+    User.findOne({
+        _id : req.session.usernameID
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+             curr_user = doc;
+         }else{
+             res.send("user not found")
+         }
+    })
+    //finding the profile that was clicked
+    User.findOne({
+        _id: req.body.profileUN
+    }).populate(populateQuery).exec((err, doc)=>{
+        if(err){
+            res.send(err)
+        }else{
+            //console.log(doc)
+            res.render("settings.hbs",{
+                user : doc,
+                curr_user : curr_user
+            })
+        }
+    })
+
+        
+})
 //transition from profile>bookmark
 app.post("/bookmark", urlencoder, (req,res)=>{
     User.findOne({
@@ -629,6 +667,60 @@ app.post("/searchansfilt", urlencoder, function(req, res) {
                 })
          }
     })
+})
+app.post("/update", urlencoder, function(req, res){
+    var checkid = req.body.id 
+    console.log(checkid)
+    User.update({
+        
+        _id: req.body.id
+    }, {
+        
+        username: req.body.un,
+        password: req.body.pw
+    }, function(err, doc) {
+        if(err) {
+            res.send(err)
+        }
+        else {
+            var populateQuery = [
+                {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic'},
+                {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic' }, select:'answer'}
+                ];
+
+            //gets the current user to establish the current users data when vieweing a profile
+            var curr_user;
+            //finding the cururent user
+            User.findOne({
+            _id : req.session.usernameID
+            },(err,doc)=>{
+                if(err){
+                    res.send(err)
+                } else if(doc){
+                    curr_user = doc;
+                }else{
+                    res.send("user not found")
+                }
+            })
+            //finding the profile that was clicked
+            User.findOne({
+                _id: req.body.profileUN
+            }).populate(populateQuery).exec((err, doc)=>{
+                if(err){
+                    res.send(err)
+                }
+                else{
+                    //console.log(doc)
+                    res.render("settings.hbs",{
+                    user : doc,
+                    curr_user : curr_user
+                    })
+                }
+            })
+
+        }
+        
+    })  //1st argument where, 2nd argument update
 })
 app.use("*", function(request,response){
     response.send("This is not the site you're looking for.")
