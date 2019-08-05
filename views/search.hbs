@@ -1,6 +1,35 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <Style>
+            div.content_item{
+                margin-top: 24px;
+                margin-bottom: 24px;
+                background-color: cyan;
+                width: 100%;
+            }
+            div.question_item_title{
+                text-align: center;
+                font-weight: bold;
+                background-color: lightcyan;
+            }
+            div.right_container{
+                background-color: teal;
+            }
+            div.left_container{
+                background-color: lightseagreen;
+            }
+            button.answer_btn_collap{
+                border-size: 1px;
+                border-radius: 42px;
+            }
+            div.postBy{
+                height: 35px;
+                border-radius: 42px;
+                background-color: rgb(66, 138, 219);
+                
+            }
+        </Style>
         <script src = "jquery.js"></script>
         <script>
             function searchdir() {
@@ -120,7 +149,7 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-8 col-md-2 bg-secondary p-2">
+                    <div class="left_container col-8 col-md-2 p-2">
                         <div class="sticky-top">
                             <div clas="title"> Filter </div>
                             <hr></hr>
@@ -138,48 +167,50 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-4 col-md-10 bg-danger">
+                    <div class="right_container col-4 col-md-10">
                         <div class="row w-100">
-                            <div>Question</div>
-                            {{#each question}}
-                            <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_question="{{_id}}">
-                                <div class="text-center">{{title}}</div>
-                                <div>{{topic}}</div>
-                                <div>{{tag}}</div>
-                                <div>Posted by: {{userID.username}} </div>
-                                <div class="d-flex">
-                                    <p>
-                                      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
-                                        Answer {{_id}}
-                                      </button>
-                                    </p>
-                                    <div class="collapse" id="collapseExample{{_id}}">
-                                      <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
-                                        <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
-                                        <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
-                                        <input type="hidden" name="add_ans_submit" id="add_Answer_answer_submit"> {{!--anssswer--}}
-                                        <div class="form-group green-border-focus">
-                                          <textarea class="myTextArea form-control col-xs-12" data-id_question="{{_id}}" id="textarea_answer_id" rows="3" cols="80" name="answer_textarea"></textarea>
+                            
+                                <div class="container text-center font-weight-bold display-4">Questions</div>
+                                {{#each question}}
+                                <div class="content_item container-fluid mb-4 mt-4 w-100 question" data-id_question="{{_id}}">
+                                    <div class="question_item_title text-uppercase text-center font-weight-bold ">{{title}}</div>
+                                    <div>Topic: {{topic}}</div>
+                                    <div>Tag: {{tag}}</div>
+                                    <div class="postBy btn text-weight-normal"data-id_profile="{{userID._id}}">Posted by: {{userID.username}} </div>
+                                    <hr></hr>
+                                    <div class="d-flex">
+                                        <p>
+                                          <button class="answer_btn_collap btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
+                                            Answer
+                                          </button>
+                                        </p>
+                                        <div class="collapse" id="collapseExample{{_id}}">
+                                          <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
+                                            <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
+                                            <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
+                                            <input type="hidden" name="add_ans_submit" id="add_Answer_answer_submit"> {{!--anssswer--}}
+                                            <div class="form-group green-border-focus">
+                                              <textarea class="myTextArea form-control col-xs-12" data-id_question="{{_id}}" id="textarea_answer_id" rows="3" cols="80" name="answer_textarea"></textarea>
+                                            </div>
+                                            <button type="button" class="btn btn-primary"  data-id_question="{{_id}}" id="add_Answer_id">Submit</button>
+                                          </form>
                                         </div>
-                                        <button type="button" class="btn btn-primary"  data-id_question="{{_id}}" id="add_Answer_id">Submit</button>
-                                      </form>
-                                    </div>
-                                    <div class=" ml-auto">
-                                        <button type="button" class="btn btn-secondary" data-id_question="{{_id}}" id="see_answers_button">See Answer</button>
+                                        <div class=" ml-auto">
+                                            <button type="button" class="btn btn-secondary" data-id_question="{{_id}}" id="see_answers_button">See Answer</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            {{/each}}
-                            <div>Answers</div>
-                                {{#each answer}}
-                                    <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_answer="{{_id}}">
-                                        <div>Answered by: {{userID.username}}</div>
-                                        <div>Answer: {{answer}}</div>
-                                        <div>Question:{{questionID.title}}</div>
-                                        <div>Question by:{{questionID.userID.username}}</div>
-                            </div>
                                 {{/each}}
-                                
+                            
+                                <div class="container text-center font-weight-bold display-4">Answers</div>
+                                {{#each answer}}
+                                        <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_answer="{{_id}}">
+                                            <div>Answered by: {{userID.username}}</div>
+                                            <div>Answer: {{answer}}</div>
+                                            <div>Question:{{questionID.title}}</div>
+                                            <div>Question by:{{questionID.userID.username}}</div>
+                                        </div>
+                                {{/each}}
                             
                         </div>
                     </div>

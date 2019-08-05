@@ -1,6 +1,28 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+            div.content_item{
+                margin-top: 24px;
+                margin-bottom: 24px;
+                background-color: cyan;
+                width: 100%;
+            }
+            div.question_item_title{
+                text-align: center;
+                font-weight: bold;
+                background-color: lightcyan;
+            }
+            div.answer_item_title{
+                font-weight: bold;
+            }
+            div.right_container{
+                background-color: teal;
+            }
+            div.left_container{
+                background-color: lightseagreen;
+            }
+        </style>
         <script src = "jquery.js"></script>
         <script>
             function searchdir() {
@@ -116,7 +138,7 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-8 col-md-2 bg-secondary p-2">
+                    <div class="col-8 col-md-2 left_container p-2">
                         <div class="sticky-top">
                             <div clas="title"> Filter </div>
                             <hr></hr>
@@ -134,17 +156,18 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-4 col-md-10 bg-danger">
+                    <div class="col-4 col-md-10 right_container">
                         <div class="row w-100">
-                            
-                            <div>Answers</div>
+                            <div class="container text-center font-weight-bold display-4">Answers</div>
                                 {{#each answer}}
-                                    <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_answer="{{_id}}">
-                                        <div>Answered by: {{userID.username}}</div>
-                                        <div>Answer: {{answer}}</div>
-                                        <div>Question:{{questionID.title}}</div>
-                                        <div>Question by:{{questionID.userID.username}}</div>
-                            </div>
+                                    <div class="container-fluid mb-4 mt-4 content_item w-100 question" data-id_answer="{{_id}}">
+                                        <div class="answer_item_title">Answered by: {{userID.username}}</div>
+                                        <div class="answer_item_title">Answer: {{answer}}</div>
+                                        <div class="question_item_title">Question: {{questionID.title}}</div>
+                                        <div>Topic: {{questionID.topic}}</div>
+                                        <div>Tag: {{questionID.tag}}</div>
+                                        <div>Question by: {{questionID.userID.username}}</div>
+                                    </div>
                                 {{/each}}
                                 
                             
