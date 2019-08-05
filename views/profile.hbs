@@ -14,6 +14,28 @@
                 font-weight: bold;
                 background-color: lightcyan;
             }
+            div.answer_item_title{
+                font-weight: bold;
+            }
+            div.right_container{
+                background-color: lightseagreen;
+            }
+            div.left_container{
+                background-color: rgb(13, 95, 124);
+            }
+            div#content_container{
+                 background-color: teal;
+            }
+            div.feed_profile{
+                background-color: rgb(100, 186, 216);
+            }
+            div.profile_area{
+                margin-left: auto;
+                background-color: rgb(72, 97, 193);
+            }
+            div.profile_username{
+                font-size: 30px;
+            }
         </style>
         
         <script src="jquery.js"> </script>
@@ -132,6 +154,7 @@
                                 //item answer
                                 divContentAnswer = document.createElement("div")
                                 $(divContentAnswer).text("Answer: " + answer)
+                                divContentAnswer.className = "answer_item_title"
                                 //item question
                                 divContentTitle = document.createElement("div")
                                 $(divContentTitle).text("Question: " + title)
@@ -208,14 +231,14 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-8 col-md-9 bg-warning p-2 inline-block">
-                      <div class="row container inline-block" id="profile">
+                    <div class="col-8 col-md-9 left_container p-2 inline-block">
+                      <div class="profile_area row container inline-block" id="profile">
 
-                        <div class="col-4 bg-warning d-flex justify-content-center">
+                        <div class="col-4 d-flex justify-content-center">
                           <img class="rounded-circle" style="width:120px" src="assets/avatar.jpg">
                         </div>
 
-                        <div class="col-8 bg-warning p-2">
+                        <div class="profile_username font-weight-bold col-8 p-2">
                             {{user.username}}
                             <br>
                             <input class="btn btn-primary" type="button" value="follow">
@@ -227,7 +250,7 @@
 
                       <div class="row container inline-block" id="profile">
 
-                      <div class="col-4 col-md-3 bg-danger">
+                      <div class="col-4 col-md-3 feed_profile">
                             <div class="title container d-flex justify-content-start font-weight-bold">Feed</div>
                             <br>
                             <a id="answer_button" href="#" class="list-group-item list-group-item-action" data-size_answer="{{user.answerID.length}}">Answers </a>
@@ -256,22 +279,25 @@
                             <a id="question_topic" data-id_topic="{{topic}}"></a>
                       </div>
                       {{/each}}
-                      
-                      <div class="col-8 col-md-9 bg-warning" id="content_container">
+
+                      <div class="col-8 col-md-9" id="content_container">
                             <div class="content_item_container">
-			                    <div class="content_item container-fluid mb-4 mt-4 bg-warning w-100 question">
+			                    <div class="content_item container-fluid mb-4 mt-4 w-100 question">
+                                    {{!-- datas or the items
                                     <div>Answer: {{answer}}</div>
                                     <div>Question:{{questionID.title}}</div>
                                     <div>topic</div>
                                     <div> tag </div>
-                                    <div>Question by:{{questionID.userID.username}}</div>
+                                    <div>Question by:{{questionID.userID.username}}</div> --}}
+                                    <div class="welcome_page display-4 text-center"> WELCOME TO MY PAGE!</div>
                                 </div>
 			                </div>
                       </div>
-                    </div>
-                    </div>
 
-                    <div class="col-4 col-md-3 bg-danger">
+                    </div>
+                    </div>
+                    {{!-- RIIIIIIIIIIGGGGGGGHHHHHTTTT CONTAINER --}}
+                    <div class="col-4 col-md-3 right_container">
                         <div classs="font-weight-bold">Credential & Highlights</div>
                         <hr></hr>
                         <ul>

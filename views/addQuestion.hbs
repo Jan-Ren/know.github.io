@@ -1,6 +1,18 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+            div.right_container{
+                background-color: teal;
+            }
+            div.left_container{
+                background-color: lightseagreen;
+            }
+            div.title_addQuestion{
+                font-size: 30px;
+                font-weight: bold;
+            }
+        </style>
         <script src="jquery.js"> </script>
         <script>
             $(document).ready(function(){
@@ -93,7 +105,7 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-8 col-md-2 bg-warning p-2">
+                    <div class="col-8 col-md-2 left_container p-2">
                         <div class="sticky-top">
                             <div class="title container d-flex justify-content-center font-weight-bold">Feed</div>
                             <br>
@@ -105,10 +117,11 @@
                             <button type="button" class="btn btn-primary " id="addQuestion"> Add a question! </button>
                         </div>
                     </div>
-                    <div class="col-4 col-md-10 bg-danger">
+                    <div class="col-4 col-md-10 right_container">
                         <form action = "add_question_submit" id="add_QuestionForm_submit" method="post">
                             <input type="hidden" name="add_QuestionUN_submit" id="add_Question_username_submit">
-                            <div class = "add-header">Add a Question</div>
+                            <div class = "title_addQuestion add-header">Add a Question</div>
+                            <hr></hr>
                             <div class="form-group">
                             <label for = "question_header">Question</label>
                             <input id = "question_title_input" type="text" class="form-control" name="question_title" placeholder="Start with what, where, when, who">
@@ -124,7 +137,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                            <label for = "tag_header">Tags</label>
+                            <label for = "tag_header">Tag</label>
                             <input id = "question_tag_input" type="text" class="form-control" name="question_tag" placeholder="use hashtags ex.(#Calculus)">
                             </div>
                             <button type="button" class="btn btn-primary" id="add_Question_id">Submit</button>

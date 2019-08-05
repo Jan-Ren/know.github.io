@@ -1,6 +1,33 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+            div.content_item{
+                margin-top: 24px;
+                margin-bottom: 24px;
+                background-color: cyan;
+                width: 100%;
+            }
+            div.question_item_title{
+                text-align: center;
+                font-weight: bold;
+                background-color: lightcyan;
+            }
+            div.right_container{
+                background-color: teal;
+            }
+            div.left_container{
+                background-color: lightseagreen;
+            }
+            div.question_answer_container{
+                background-color: rgb(68, 132, 203);
+            }
+            div.postBy{
+                height: 35px;
+                border-radius: 30px;
+                background-color: rgb(158, 203, 206);
+            }
+        </style>
         <script src="jquery.js"> </script>
         <script>
             $(document).ready(function(){
@@ -100,7 +127,7 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-8 col-md-2 bg-warning p-2">
+                    <div class="col-8 col-md-2 left_container p-2">
                         <div class="sticky-top">
                             <div class="title container d-flex justify-content-center font-weight-bold">Feed</div>
                             <br>
@@ -112,12 +139,12 @@
                             <button type="button" class="btn btn-primary " id="addQuestion"> Add a question! </button>
                         </div>
                     </div>
-                    <div class="col-4 col-md-10 bg-danger d-flex justify-content-center">
-                        <div class="container-fluid mb-4 mt-4 bg-warning w-100 question" data-id_question="{{question._id}}">
-                            <div class="text-center">{{question.title}}</div>
-                            <div>{{question.topic}}</div>
-                            <div>{{question.tag}}</div>
-                            <div>Posted by: {{question.userID.username}} id: {{question._id}}</div>
+                    <div class="col-4 col-md-10 right_container d-flex justify-content-center">
+                        <div class="content_item container-fluid mb-4 mt-4 w-100 question" data-id_question="{{question._id}}">
+                            <div class="question_item_title text-center">{{question.title}}</div>
+                            <div>Topic: {{question.topic}}</div>
+                            <div>Tag: {{question.tag}}</div>
+                            <div>Posted by: {{question.userID.username}}</div>
                             <div class="d-flex">
                                 <p>
                                   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{question._id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
@@ -138,9 +165,9 @@
                             </div>
                             <hr></hr>
                             {{#each question.answerID}}
-                                <div class="container-fluid mb-4 mt-4 bg-warning w-100 bg-danger">
+                                <div class="question_answer_container container-fluid mb-4 mt-4  w-100 ">
                                         <div class="d-flex">
-                                           <div class="postBy btn bg-light text-secondary" data-id_profile="{{userID._id}}">By:   {{userID.username}}</div> 
+                                           <div class="postBy btn text-secondary" data-id_profile="{{userID._id}}">By:   {{userID.username}}</div> 
                                             <div class="ml-auto">boomkark_photo</div>
                                         </div>
                                     <hr></hr>
