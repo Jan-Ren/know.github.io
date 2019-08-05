@@ -11,6 +11,23 @@
                     $("#bookmarkform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
+                //profile click
+                $("a.profile").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#profile_username").val($("a.profile").attr("data-id_username"))
+                    $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //"Posted By"profile click
+                $("div.postBy").click(function(){
+                    $("#profile_username").val($(this).attr("data-id_profile"))
+                    $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //logout click
+                $("a.logout").click(function(){
+                    $("#logoutform").submit()
+                })
                 //addQuestion click
                 $("button#addQuestion").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -69,7 +86,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <a class="dropdown-item" href="#">Help</a>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <a class="logout dropdown-item" href="#">Logout</a>
                                 </div>
                             </li>
                         </ul>
@@ -123,7 +140,7 @@
                             {{#each question.answerID}}
                                 <div class="container-fluid mb-4 mt-4 bg-warning w-100 bg-danger">
                                         <div class="d-flex">
-                                           <div>By:   {{userID.username}}</div> 
+                                           <div class="postBy btn bg-light text-secondary" data-id_profile="{{userID._id}}">By:   {{userID.username}}</div> 
                                             <div class="ml-auto">boomkark_photo</div>
                                         </div>
                                     <hr></hr>
@@ -139,6 +156,13 @@
         {{!-- form equivalent of bookmark <a></a> --}}
         <form action="bookmark" id="bookmarkform" method="post">
             <input type="hidden" name="bookmarkUN" id="bookmark_username">
+        </form>
+        {{!-- form equivalent of profile <a></a> --}}
+        <form action="profile" id="profileform" method="post">
+            <input type="hidden" name="profileUN" id="profile_username">
+        </form>
+        {{!-- form equivalent of logout <a></a> --}}
+        <form action="logout" id="logoutform" method="post">
         </form>
         {{!-- form equivalent of add_a_question <a></a> --}}
         <form action="addQuestion" id="addQuestionForm" method="post">

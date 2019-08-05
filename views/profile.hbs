@@ -33,7 +33,10 @@
                     $("#profileform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
-                
+                //logout click
+                $("a.logout").click(function(){
+                    $("#logoutform").submit()
+                })
                 //home and Q&A click
                 $("a#homeNav").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -191,7 +194,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <a class="dropdown-item" href="#">Help</a>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <a class="logout dropdown-item" href="#">Logout</a>
                                 </div>
                             </li>
                         </ul>
@@ -288,6 +291,12 @@
         {{!-- form equivalent of profile <a></a> --}}
         <form action="profile" id="profileform" method="post">
             <input type="hidden" name="profileUN" id="profile_username">
+        </form>
+        {{!-- form equivalent of logout <a></a> --}}
+        <form action="logout" id="logoutform" method="post">
+        </form>
+        {{!-- form equivalent of logout <a></a> --}}
+        <form action="logout" id="logoutform" method="post">
         </form>
         {{!-- form equivalent of home and Q&A navigation link <a></a> --}}
         <form action="home" id="refresh_homeForm" method="post">

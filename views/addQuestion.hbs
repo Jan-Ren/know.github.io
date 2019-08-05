@@ -11,6 +11,17 @@
                     $("#bookmarkform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
+                //profile click
+                $("a.profile").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#profile_username").val($("a.profile").attr("data-id_username"))
+                    $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //logout click
+                $("a.logout").click(function(){
+                    $("#logoutform").submit()
+                })
                 //addQuestion click
                 $("button#addQuestion").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -68,7 +79,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <a class="dropdown-item" href="#">Help</a>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <a class="logout dropdown-item" href="#">Logout</a>
                                 </div>
                             </li>
                         </ul>
@@ -126,9 +137,16 @@
         <form action="bookmark" id="bookmarkform" method="post">
             <input type="hidden" name="bookmarkUN" id="bookmark_username">
         </form>
+        {{!-- form equivalent of profile <a></a> --}}
+        <form action="profile" id="profileform" method="post">
+            <input type="hidden" name="profileUN" id="profile_username">
+        </form>
         {{!-- form equivalent of add_a_question <a></a> --}}
         <form action="addQuestion" id="addQuestionForm" method="post">
             <input type="hidden" name="addQuestionUN" id="addQuestion_username">
+        </form>
+        {{!-- form equivalent of logout <a></a> --}}
+        <form action="logout" id="logoutform" method="post">
         </form>
         {{!-- form equivalent of home and Q&A navigation link <a></a> --}}
         <form action="home" id="refresh_homeForm" method="post">

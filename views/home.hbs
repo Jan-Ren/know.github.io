@@ -18,6 +18,16 @@
                     $("#profileform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
+                //logout click
+                $("a.logout").click(function(){
+                    $("#logoutform").submit()
+                })
+                //"Posted By"profile click
+                $("div.postBy").click(function(){
+                    $("#profile_username").val($(this).attr("data-id_profile"))
+                    $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
                 //addQuestion click
                 $("button#addQuestion").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -93,7 +103,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <a class="dropdown-item" href="#">Help</a>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <a class="logout dropdown-item" href="#">Logout</a>
                                 </div>
                             </li>
                         </ul>
@@ -126,7 +136,7 @@
                                 <div class="text-center">{{title}}</div>
                                 <div>{{topic}}</div>
                                 <div>{{tag}}</div>
-                                <div>Posted by: {{userID.username}} </div>
+                                <div class="postBy btn bg-light text-secondary"data-id_profile="{{userID._id}}">Posted by: {{userID.username}} </div>
                                 <div class="d-flex">
                                     <p>
                                       <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
@@ -162,6 +172,9 @@
         {{!-- form equivalent of profile <a></a> --}}
         <form action="profile" id="profileform" method="post">
             <input type="hidden" name="profileUN" id="profile_username">
+        </form>
+        {{!-- form equivalent of logout <a></a> --}}
+        <form action="logout" id="logoutform" method="post">
         </form>
         {{!-- form equivalent of add_a_question <a></a> --}}
         <form action="addQuestion" id="addQuestionForm" method="post">

@@ -47,8 +47,28 @@ app.get("/", function(req,res){
         res.sendFile(__dirname + '/public/signin.html')
     }
     else{
-        res.render("home.hbs",{
-            username : req.session.username
+        console.log(req.session.usernameID)
+        username : req.session.username,
+        User.findOne({
+            _id : req.session.usernameID
+        },(err,doc)=>{
+             if(err){
+                 res.send(err)
+             } else if(doc){
+                 req.session.username = doc.username,
+                 Question.find().populate('userID','username question answer').exec((err,docs)=>{
+                    if(err){
+                        res.send(err)
+                    }else{
+                        res.render("home.hbs",{
+                            user : doc,
+                            question : docs
+                        })
+                        }
+                    })
+             }else{
+                 res.send("user not found")
+             }
         })
     }
 })
@@ -70,6 +90,19 @@ app.get("/rooms", function(req, res) {
                 username: req.session.username
                })
 })
+//Go logout
+app.post("/logout", urlencoder, (req,res)=>{
+    if (req.session) {
+        // delete session object
+        req.session.destroy(function(err) {
+          if(err) {
+            return next(err);
+          } else {
+            res.sendFile(__dirname + '/public/signin.html')
+          }
+        });
+      }
+})
 //used to go the seeAnswers.hbs for home buttons
 app.post("/seeAnswer", urlencoder, (req,res)=>{
     //example of multiple populate
@@ -79,7 +112,7 @@ app.post("/seeAnswer", urlencoder, (req,res)=>{
     // .populate(populateQuery)
     // .execPopulate()
 
-    var populateQuery = [{path: 'answerID',populate: { path: 'userID' }}, {path:'userID', select:'username questionID answerID'}];
+    var populateQuery = [{path: 'answerID',populate: { path: 'userID' }}, {path:'userID', select:'_id username questionID answerID'}];
     console.log('DITOOOO YUNG BAGO')
     console.log(req.body.seeAnswerQ)
     User.findOne({
@@ -181,9 +214,8 @@ app.post("/bookmark", urlencoder, (req,res)=>{
         
 })
 //register
-app.post("/reg", urlencoder, (req,res)=>{
-    res.redirect("/signup")
-        
+app.post("/signup_in_signin", urlencoder, (req,res)=>{
+    res.sendFile(__dirname + '/public/signup.html')
 })
 // save an answer
 app.post("/add_answer_submit", urlencoder, (req,res)=>{
@@ -363,6 +395,7 @@ app.post("/signin", urlencoder, function(req, res){
             res.send(err)
         } else if(doc){
             req.session.username = doc.username,
+            req.session.usernameID = doc._id,
             user = doc
             Question.find().populate('userID','username question answer').exec((err,docs)=>{
                 if(err){
@@ -393,8 +426,28 @@ app.post("/signup", urlencoder, function(req, res){
     
     user.save().then((doc)=>{
         //all goes well
-        res.render("home.hbs",{
-            username : doc.username
+        req.session.username = doc.username,
+        req.session.usernameID = doc._id,
+        User.findOne({
+            _id : req.session.usernameID
+        },(err,doc)=>{
+             if(err){
+                 res.send(err)
+             } else if(doc){
+                 req.session.username = doc.username,
+                 Question.find().populate('userID','username question answer').exec((err,docs)=>{
+                    if(err){
+                        res.send(err)
+                    }else{
+                        res.render("home.hbs",{
+                            user : doc,
+                            question : docs
+                        })
+                        }
+                    })
+             }else{
+                 res.send("user not found")
+             }
         })
     },(err)=>{
         //fial

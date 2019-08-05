@@ -5,32 +5,46 @@
         
         <style>
             .signup-header{
-            text-align: center;
-            text-transform: uppercase;
-            color: #7A43B6;
-            border: 5px solid #7A43B6;
-            margin: 50px 0;
-            padding: 10px;
-        }
+                text-align: center;
+                text-transform: uppercase;
+                color: #7A43B6;
+                border: 5px solid #7A43B6;
+                margin: 50px 0;
+                padding: 10px;
+            }
             #signinput {
                 width:500px;
             }
         </style>
+        <script src="jquery.js"> </script>
+        <script>
+            $(document).ready(function(){
+                $("button#signup_button").click(function(){
+                    $("form#signupform").submit()
+                })
+            })
+        </script>
     </head>
     <body>
         <div class = "container pb-5">
-        <form action = "signin" method="post">
-            <div class = "signin-header">Sign in</div>
-            <div class="form-group">
-            <label for = "Usernamesignin">Username</label>
-            <input id = "signinput" type="text" class="form-control" id="exampleInputEmail1" name="un" placeholder="Enter username">
+            <form action = "signin" method="post">
+                <div class = "signin-header">Sign in</div>
+                <div class="form-group">
+                <label for = "Usernamesignin">Username</label>
+                <input id = "signinput" type="text" class="form-control" id="exampleInputEmail1" name="un" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                <label for = "Passsignin">Password</label>
+                <input id = "signinput" type="password" class="form-control" id="exampleInputEmail1" name="pw" placeholder="Enter password">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <div>
+                <button type="button" class="btn btn-secondary" id="signup_button">Signup</button>
             </div>
-            <div class="form-group">
-            <label for = "Passsignin">Password</label>
-            <input id = "signinput" type="password" class="form-control" id="exampleInputEmail1" name="pw" placeholder="Enter password">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <!-- form equivalent of logout <a></a> -->
+        <form action="signup_in_signin" id="signupform" method="post">
         </form>
-            </div>
     </body>
 </html>
