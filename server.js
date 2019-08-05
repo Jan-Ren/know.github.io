@@ -177,10 +177,25 @@ app.post("/home", urlencoder, (req,res)=>{
 app.post("/profile", urlencoder, (req,res)=>{
 
     var populateQuery = [
-        {path: 'questionID',populate: { path: 'userID', selec:'username' }, select:'title tag topic'},
-        {path: 'answerID', select:'answer'},
+        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic'},
+        {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic' }, select:'answer'}
     ];
 
+    //gets the current user to establish the current users data when vieweing a profile
+    var curr_user;
+    //finding the cururent user
+    User.findOne({
+        _id : req.session.usernameID
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+             curr_user = doc;
+         }else{
+             res.send("user not found")
+         }
+    })
+    //finding the profile that was clicked
     User.findOne({
         _id: req.body.profileUN
     }).populate(populateQuery).exec((err, doc)=>{
@@ -189,7 +204,8 @@ app.post("/profile", urlencoder, (req,res)=>{
         }else{
             //console.log(doc)
             res.render("profile.hbs",{
-                user : doc
+                user : doc,
+                curr_user : curr_user
             })
         }
     })
