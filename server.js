@@ -177,8 +177,8 @@ app.post("/home", urlencoder, (req,res)=>{
 app.post("/profile", urlencoder, (req,res)=>{
 
     var populateQuery = [
-        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic'},
-        {path: 'answerID',populate: { path: 'questionID', populate: {path:  'userID', select: 'username'}, select:'title tag topic userID' }, select:'answer'},
+        {path: 'questionID',populate: { path: 'userID', selec:'username' }, select:'title tag topic'},
+        {path: 'answerID', select:'answer'},
     ];
 
     User.findOne({
@@ -187,7 +187,7 @@ app.post("/profile", urlencoder, (req,res)=>{
         if(err){
             res.send(err)
         }else{
-            //console.log(doc.answerID)
+            //console.log(doc)
             res.render("profile.hbs",{
                 user : doc
             })
@@ -291,9 +291,7 @@ app.post("/add_answer_submit", urlencoder, (req,res)=>{
 app.post("/add_question_submit", urlencoder, (req,res)=>{
     
     let title = req.body.question_title
-    let hashtag = "#"
-    let tag = hashtag.concat(req.body.question_tag)
-    console.log(hashtag)
+    let tag = req.body.question_tag
     let topic = req.body.ts
     let user = req.body.add_QuestionUN_submit // user id
     console.log(req.body.add_QuestionUN_submit + "server ito")
@@ -479,6 +477,91 @@ app.post("/search", urlencoder, function(req, res) {
                         }
                         else {
                         res.render("search.hbs",{
+                        searchquery: searchcont,
+                        user : doc,
+                        question : docs,
+                        answer:docs2
+                        }
+                    )
+                    }
+                                   })
+                    /*res.render("search.hbs",{
+                        user : doc,
+                        question : docs
+                    })*/
+                    }
+                })
+         }
+    })
+})
+app.post("/searchquestfilt", urlencoder, function(req, res) {
+    var searchcont = req.body.searchq2
+    var idsearch = req.body.usersearchid2
+    console.log(idsearch)
+    var populateQuery = [{path: 'questionID',populate: { path: 'userID' }}, {path:'userID', select:'username questionID answerID'}];
+    User.findOne({
+        _id : idsearch
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+             req.session.username = doc.username,
+             Question.find({ title: { $regex: searchcont, $options: "i" } }).populate('userID','username question answer').exec((err,docs)=>{
+                if(err){
+                    res.send(err)
+                }else{
+                    Answer.find(
+                        {answer:{ $regex: searchcont, $options: "i" } 
+                        }
+                    ).populate(populateQuery).exec((err2, docs2)=> {
+                        if (err) {
+                            res.send(err2)
+                        }
+                        else {
+                        res.render("searchQuestions.hbs",{
+                        searchquery: searchcont,
+                        user : doc,
+                        question : docs,
+                        answer:docs2
+                        }
+                    )
+                    }
+                                   })
+                    /*res.render("search.hbs",{
+                        user : doc,
+                        question : docs
+                    })*/
+                    }
+                })
+         }
+    })
+})
+app.post("/searchansfilt", urlencoder, function(req, res) {
+    var searchcont = req.body.searchq3
+    var idsearch = req.body.usersearchid3
+    console.log(idsearch)
+    var populateQuery = [{path: 'questionID',populate: { path: 'userID' }}, {path:'userID', select:'username questionID answerID'}];
+    User.findOne({
+        _id : idsearch
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+             req.session.username = doc.username,
+             Question.find({ title: { $regex: searchcont, $options: "i" } }).populate('userID','username question answer').exec((err,docs)=>{
+                if(err){
+                    res.send(err)
+                }else{
+                    Answer.find(
+                        {answer:{ $regex: searchcont, $options: "i" } 
+                        }
+                    ).populate(populateQuery).exec((err2, docs2)=> {
+                        if (err) {
+                            res.send(err2)
+                        }
+                        else {
+                        res.render("searchAnswers.hbs",{
+                        searchquery: searchcont,
                         user : doc,
                         question : docs,
                         answer:docs2
