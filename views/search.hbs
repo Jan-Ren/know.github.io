@@ -50,6 +50,12 @@
                     console.log($("a.profile").attr("data-id_username"))
                 })
                 //profile click
+                $("a.settings").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#settings_username").val($("a.profile").attr("data-id_username"))
+                    $("#settingsform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
                 $("a.profile").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
                     $("#profile_username").val($("a.profile").attr("data-id_username"))
@@ -133,7 +139,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item bookmark" href="#">Bookmarks</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Settings</a>
+                                    <a class="dropdown-item settings" href="#">Settings</a>
                                     <a class="dropdown-item" href="#">Help</a>
                                     <a class="logout dropdown-item" href="#">Logout</a>
                                 </div>
@@ -216,6 +222,9 @@
                     </div>
                 </div>
             </div>
+    <form action="settings" id="settingsform" method="post">
+            <input type="hidden" name="settingsUN" id="settings_username">
+        </form>
         <form action = "search" method = "post" id = "allform">
             <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
             <input type = "hidden" name = "searchq" value = "{{searchquery}}"></form>
