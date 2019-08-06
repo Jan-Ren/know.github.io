@@ -697,27 +697,13 @@ app.post("/update", urlencoder, function(req, res){
                 if(err){
                     res.send(err)
                 } else if(doc){
-                    curr_user = doc;
+                    res.render("settings.hbs",{
+                    curr_user : doc
+                    })
                 }else{
                     res.send("user not found")
                 }
             })
-            //finding the profile that was clicked
-            User.findOne({
-                _id: req.body.profileUN
-            }).populate(populateQuery).exec((err, doc)=>{
-                if(err){
-                    res.send(err)
-                }
-                else{
-                    //console.log(doc)
-                    res.render("settings.hbs",{
-                    user : doc,
-                    curr_user : curr_user
-                    })
-                }
-            })
-
         }
         
     })  //1st argument where, 2nd argument update
