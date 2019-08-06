@@ -18,6 +18,13 @@
                     $("#profileform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
+               //settings click
+                $("a.settings").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#settings_username").val($("a.profile").attr("data-id_username"))
+                    $("#settingsform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
                 //logout click
                 $("a.logout").click(function(){
                     $("#logoutform").submit()
@@ -69,7 +76,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Bookmarks</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Settings</a>
+                                    <a class="dropdown-item settings" href="#">Settings</a>
                                     <a class="dropdown-item" href="#">Help</a>
                                     <a class="logout dropdown-item" href="#">Logout</a>
                                 </div>
@@ -105,6 +112,10 @@
                 </div>
             </div>
         </div>
+        {{!-- form equivalent of settings <a></a> --}}
+         <form action="settings" id="settingsform" method="post">
+            <input type="hidden" name="settingsUN" id="settings_username">
+        </form>
         {{!-- form equivalent of bookmark <a></a> --}}
         <form action="bookmark" id="bookmarkform" method="post">
             <input type="hidden" name="bookmarkUN" id="bookmark_username">

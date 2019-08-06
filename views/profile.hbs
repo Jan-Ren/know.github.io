@@ -49,16 +49,17 @@
                     console.log($("a.profile").attr("data-id_username"))
                 })
                 //profile click
-                $("a.settings").click(function(){
-                    console.log($("a.profile").attr("data-id_username"))
-                    $("#settings_username").val($("a.profile").attr("data-id_username"))
-                    $("#settingsform").submit()
-                    console.log($("a.profile").attr("data-id_username"))
-                })
                 $("a.profile").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
                     $("#profile_username").val($("a.profile").attr("data-id_username"))
                     $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //settings click
+                $("a.settings").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#settings_username").val($("a.profile").attr("data-id_username"))
+                    $("#settingsform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
                 //logout click
@@ -310,7 +311,8 @@
                 </div>
             </div>
         </div>
-<form action="settings" id="settingsform" method="post">
+        {{!-- form equivalent of settings <a></a> --}}
+         <form action="settings" id="settingsform" method="post">
             <input type="hidden" name="settingsUN" id="settings_username">
         </form>
         {{!-- form equivalent of bookmark <a></a> --}}

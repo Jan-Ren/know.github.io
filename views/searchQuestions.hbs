@@ -32,7 +32,6 @@
         </Style>
         <script src = "jquery.js"></script>
         <script>
-            
              $(document).ready(function(){
                 //bookmark click
                 $("a.bookmark").click(function(){
@@ -41,18 +40,23 @@
                     $("#bookmarkform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
-                 $("a.settings").click(function(){
-                    console.log($("a.profile").attr("data-id_username"))
-                    $("#settings_username").val($("a.profile").attr("data-id_username"))
-                    $("#settingsform").submit()
-                    console.log($("a.profile").attr("data-id_username"))
-                })
                 //profile click
                 $("a.profile").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
                     $("#profile_username").val($("a.profile").attr("data-id_username"))
                     $("#profileform").submit()
                     console.log($("a.profile").attr("data-id_username"))
+                })
+                 //settings click
+                $("a.settings").click(function(){
+                    console.log($("a.profile").attr("data-id_username"))
+                    $("#settings_username").val($("a.profile").attr("data-id_username"))
+                    $("#settingsform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                 //logout click
+                $("a.logout").click(function(){
+                    $("#logoutform").submit()
                 })
                 //addQuestion click
                 $("button#addQuestion").click(function(){
@@ -213,12 +217,6 @@
                     </div>
                 </div>
             </div>
-    <form action="settings" id="settingsform" method="post">
-            <input type="hidden" name="settingsUN" id="settings_username">
-        </form>
-    <form action="settings" id="settingsform" method="post">
-            <input type="hidden" name="settingsUN" id="settings_username">
-        </form>
          <form action = "search" method = "post" id = "allform">
             <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
             <input type = "hidden" name = "searchq" value = "{{searchquery}}"></form>
@@ -229,6 +227,13 @@
             <input type = "hidden" name = "searchq3" value = "{{searchquery}}">
             <input type = "hidden" name = "usersearchid3" value = "{{user._id}}"></form>
         <form action = "home" method = "post" id = "homeform"><input type = "hidden" name = "refresh_homeUN" value = "{{user._id}}"></form>
+        {{!-- form equivalent of logout <a></a> --}}
+        <form action="logout" id="logoutform" method="post">
+        </form>
+        {{!-- form equivalent of settings <a></a> --}}
+         <form action="settings" id="settingsform" method="post">
+            <input type="hidden" name="settingsUN" id="settings_username">
+        </form>
         {{!-- form equivalent of bookmark <a></a> --}}
         <form action="bookmark" id="bookmarkform" method="post">
             <input type="hidden" name="bookmarkUN" id="bookmark_username">

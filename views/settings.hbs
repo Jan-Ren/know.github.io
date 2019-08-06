@@ -70,12 +70,6 @@
                     console.log($("a.profile").attr("data-id_username"))
                 })
                 //profile click
-                $("a.settings").click(function(){
-                    console.log($("a.profile").attr("data-id_username"))
-                    $("#settings_username").val($("a.profile").attr("data-id_username"))
-                    $("#settingsform").submit()
-                    console.log($("a.profile").attr("data-id_username"))
-                })
                 $("a.profile").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
                     $("#profile_username").val($("a.profile").attr("data-id_username"))
@@ -236,14 +230,14 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item bookmark" href="#">Bookmarks</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item settings" href="#">Settings</a>
+                                    <a class="dropdown-item" href="#">Settings</a>
                                     <a class="dropdown-item" href="#">Help</a>
                                     <a class="logout dropdown-item" href="#">Logout</a>
                                 </div>
                             </li>
                         </ul>
                         <form class="form-inline my-2 my-lg-0" action = "search" method = "post">
-                            <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
+                            <input type = "hidden" name = "usersearchid" value = "{{curr_user._id}}">
                             <input class="form-control mr-sm-2" type="search" placeholder="question/topic/answer" name = "searchq">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
@@ -266,9 +260,7 @@
                 </div>
             </div>
         </div>
-        <form action="settings" id="settingsform" method="post">
-            <input type="hidden" name="settingsUN" id="settings_username">
-        </form>
+        
         {{!-- form equivalent of bookmark <a></a> --}}
         <form action="bookmark" id="bookmarkform" method="post">
             <input type="hidden" name="bookmarkUN" id="bookmark_username">
@@ -280,13 +272,9 @@
         {{!-- form equivalent of logout <a></a> --}}
         <form action="logout" id="logoutform" method="post">
         </form>
-        {{!-- form equivalent of logout <a></a> --}}
-        <form action="logout" id="logoutform" method="post">
-        </form>
         {{!-- form equivalent of home and Q&A navigation link <a></a> --}}
         <form action="home" id="refresh_homeForm" method="post">
             <input type="hidden" name="refresh_homeUN" id="refresh_home_username">
-            
         </form>
         <form action = "update" id = "updateform" method = "post">
             <input type = "hidden" name = "id" id = "updateid">
