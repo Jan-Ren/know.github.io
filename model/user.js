@@ -7,9 +7,7 @@ var User = mongoose.model("User",{
     email : {type : String, required : true},
     bookmarkedID :  [{type : Schema.Types.ObjectId, ref : 'Answer'}],
     questionID : [{type : Schema.Types.ObjectId, ref : 'Question'}],
-    answerID : [{type : Schema.Types.ObjectId, ref : 'Answer'}],
-    followersID : [{type : Schema.Types.ObjectId, ref : 'User'}],
-    followingID : [{type : Schema.Types.ObjectId, ref : 'User'}]
+    answerID : [{type : Schema.Types.ObjectId, ref : 'Answer'}]
 })
 
 module.exports = {

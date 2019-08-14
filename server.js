@@ -3,6 +3,8 @@ const bodyparser = require("body-parser")
 const session = require("express-session")
 const cookieparser = require("cookie-parser")
 const mongoose = require("mongoose")
+const moment = require("moment")
+
 
 const {User} = require("./model/user.js")//gives a user object
 const {Question} = require("./model/question.js")//gives a question object
@@ -313,10 +315,13 @@ app.post("/add_answer_submit", urlencoder, (req,res)=>{
     let answer = req.body.add_ans_submit
     let question = req.body.add_AnswerQ_submit // question id
     let user = req.body.add_AnswerUN_submit // user id
-
+    let date_time = moment() 
+    var populateQuery = [{path: 'answerID',populate: { path: 'userID' }}, {path:'userID', select:'_id username questionID answerID'}];
+    
     let ans = new Answer({
         answer : answer,
         questionID : question,
+        date_time : date_time,
         userID :  user
     })
 
@@ -351,25 +356,28 @@ app.post("/add_answer_submit", urlencoder, (req,res)=>{
             });
 
         User.findOne({
-            _id: req.body.add_AnswerUN_submit 
+            _id : req.body.add_AnswerUN_submit
         },(err,doc)=>{
-            if(err){
-                res.send(err)
-            } else if(doc){
-                req.session.username = doc.username,
-                Question.find().populate('userID','username question answer').exec((err,docs)=>{
-                   if(err){
-                       res.send(err)
-                   }else{
-                       res.render("home.hbs",{
-                           user : doc,
-                           question : docs
-                       })
-                       }
-                   })
-            }else{
-                res.send("user not found")
-            }
+             if(err){
+                 res.send(err)
+             } else if(doc){
+                 req.session.username = doc.username,
+                 Question.findOne({
+                    _id : req.body.add_AnswerQ_submit
+
+                 }).populate(populateQuery).exec((err,docs)=>{
+                    if(err){
+                        res.send(err)
+                    }else{
+                        res.render("seeAnswers.hbs",{
+                            user : doc,
+                            question : docs
+                        })
+                        }
+                    })
+             }else{
+                 res.send("user not found")
+             }
         })
     },(err)=>{
         //fial
@@ -384,12 +392,14 @@ app.post("/add_question_submit", urlencoder, (req,res)=>{
     let tag = req.body.question_tag
     let topic = req.body.ts
     let user = req.body.add_QuestionUN_submit // user id
+    let date_time = moment()
     //console.log(req.body.add_QuestionUN_submit + "server ito")
-
+    console.log(date_time)
     let question = new Question({
         title : title,
         tag : tag,
         topic : topic,
+        date_time : date_time,
         userID :  user
     })
 
@@ -397,7 +407,6 @@ app.post("/add_question_submit", urlencoder, (req,res)=>{
         //all goes well
 
         let question_id = doc._id
-
         User.findOneAndUpdate(
             { _id: req.body.add_QuestionUN_submit }, 
             { $push: { 
@@ -421,19 +430,43 @@ app.post("/add_question_submit", urlencoder, (req,res)=>{
         //       } 
         // })
 
-        User.findOne({
-            _id: req.body.add_QuestionUN_submit
+        // User.findOne({
+        //     _id: req.body.add_QuestionUN_submit
     
-        },(err, doc)=>{
-            if(err){
-                res.send(err)
-            }else{
-                res.render("addQuestion.hbs",{
-                    user : doc
-                })
-            }
-        })
+        // },(err, doc)=>{
+        //     if(err){
+        //         res.send(err)
+        //     }else{
+        //         res.render("addQuestion.hbs",{
+        //             user : doc
+        //         })
+        //     }
+        // })
 
+        var populateQuery = [{path: 'answerID',populate: { path: 'userID' }}, {path:'userID', select:'_id username questionID answerID'}];
+        User.findOne({
+            _id : req.body.add_QuestionUN_submit
+        },(err,doc)=>{
+             if(err){
+                 res.send(err)
+             } else if(doc){
+                 req.session.username = doc.username,
+                 Question.findOne({
+                    _id : question_id,
+                 }).populate(populateQuery).exec((err,docs)=>{
+                    if(err){
+                        res.send(err)
+                    }else{
+                        res.render("seeAnswers.hbs",{
+                            user : doc,
+                            question : docs
+                        })
+                        }
+                    })
+             }else{
+                 res.send("user not found")
+             }
+        })
         // User.update({
         //     _id : req.body.add_QuestionUN_submit
         // },{

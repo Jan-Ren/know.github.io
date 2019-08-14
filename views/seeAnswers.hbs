@@ -9,9 +9,9 @@
                 width: 100%;
             }
             div.question_item_title{
-                text-align: center;
                 font-weight: bold;
-                background-color: lightcyan;
+                font-size: 40px;
+                height: 50px;
             }
             div.right_container{
                 background-color: teal;
@@ -20,17 +20,66 @@
                 background-color: lightseagreen;
             }
             div.question_answer_container{
-                background-color: rgb(68, 132, 203);
+                min-height: 125px;
+                overflow: hidden;
+                background-color: rgb(255, 255, 255);
             }
             div.postBy{
                 height: 35px;
-                border-radius: 30px;
-                background-color: rgb(158, 203, 206);
+            }
+            p.Answer_Title{
+                font-size:20px;
+            }
+            div.answer_text{
+                font-size:30px;
+            }
+            div > span.topics{
+                font-size: 13px;
+                color: rgb(48, 88, 117);
+            }
+            div > span.tags{
+                font-size: 12px;
+            }
+            div.question_upper{
+                cursor: pointer;
             }
         </style>
         <script src="jquery.js"> </script>
+        <script src="moment.min.js"></script>
         <script>
             $(document).ready(function(){
+                getTimeQuestion()
+                getTimeAnswer()
+                function getTimeQuestion(){
+                    let question_time = $("p#question_time_slot").attr("data-id_date_time")
+                    let result_time = moment(question_time).fromNow()
+                    $("p#question_time_slot").html(result_time);
+
+                    /*$("div.content_item").each(function() {
+                        let thisDiv = this;
+                         $('.time_slot').each(function(){
+                             if( $(this).attr("data-id_question") == $(thisDiv).attr("data-id_question") ){
+                                 let question_time = $(this).attr("data-id_date_time")
+                                 let result_time = moment(question_time).fromNow()
+                                 $(this).html(result_time);
+                             }
+                         })
+                    })*/
+                }
+
+                function getTimeAnswer(){
+                    $("div.question_answer_container").each(function() {
+                        let thisDiv = this;
+                         $('.time_slot').each(function(){
+                             if( $(this).attr("data-id_answer") == $(thisDiv).attr("data-id_answer") ){
+                                 let answer_time = $(this).attr("data-id_date_time")
+                                 let result_time = moment(answer_time).fromNow()
+                                 $(this).text(result_time);
+                             }
+                         })
+                    })
+                }
+
                 //bookmark click
                 $("a.bookmark").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -142,40 +191,60 @@
                         </div>
                     </div>
                     <div class="col-4 col-md-10 right_container d-flex justify-content-center">
-                        <div class="content_item container-fluid mb-4 mt-4 w-100 question" data-id_question="{{question._id}}">
-                            <div class="question_item_title text-center">{{question.title}}</div>
-                            <div>Topic: {{question.topic}}</div>
-                            <div>Tag: {{question.tag}}</div>
-                            <div>Posted by: {{question.userID.username}}</div>
+                        <div class="content_item container-fluid h-auto mb-4 mt-4 w-100 question" data-id_question="{{question._id}}">
+                            <div class="question_upper" id="see_answers_button" data-id_question="{{_id}}">
+                                <div class=" h-auto question_item_title ">{{question.title}}</div>
+                                <div>
+                                    <span class="topics">{{question.topic}}</span>;
+                                    <span class="tags text-secondary bg-gradient-secondary">{{question.tag}}</span>
+                                </div>
+                            </div>
+                            <hr></hr>
                             <div class="d-flex">
-                                <p>
+                                {{!-- <p>
                                   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{question._id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
                                     Answer
                                   </button>
-                                </p>
-                                <div class="collapse" id="collapseExample{{question._id}}">
+                                </p> --}}
+                                {{!-- <div class="collapse" id="collapseExample{{question._id}}"> --}}
                                   <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
                                     <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
                                     <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
                                     <div class="form-group green-border-focus">
-                                      <textarea class="form-control col-xs-12" id="textarea_answer_id" rows="3" cols="80" name="add_ans_submit"></textarea>
+                                      <textarea class="form-control col-xs-12" id="textarea_answer_id" rows="2" cols="75" name="add_ans_submit"></textarea>
                                     </div>
                                     <button type="button" class="btn btn-primary" id="add_Answer_id">Submit</button>
                                   </form>
+                                {{!-- </div> --}}
+                                <div class=" ml-auto" type="hidden">
+                                    Asked by:<div class="postBy btn btn-link text-weight-normal"data-id_profile="{{question.userID._id}}">{{question.userID.username}} </div>
+                                    <p id="question_time_slot" class="text-secondary"data-id_question="{{question._id}}" data-id_date_time="{{question.date_time}}"></p>                                
                                 </div>
-                                <div class=" ml-auto" type="hidden"><a class="btn btn-secondary" role="button"> See answer </a></div>
                             </div>
-                            <hr></hr>
+                            
+                            <p class="Answer_Title font-weight-normal">Answers</p>
                             {{#each question.answerID}}
-                                <div class="question_answer_container container-fluid mb-4 mt-4  w-100 ">
-                                        <div class="d-flex">
-                                           <div class="postBy btn text-secondary" data-id_profile="{{userID._id}}">By:   {{userID.username}}</div> 
-                                            <div class="ml-auto">boomkark_photo</div>
+                                <div class="question_answer_container container-fluid h-auto mb-4 mt-4  w-100" data-id_answer="{{_id}}">
+                                    <div class="answer_text font-weight-light">{{answer}}</div>
+                                    <div class="d-flex">
+                                        <div class="postBy ml-auto h-auto btn btn-link" data-id_profile="{{userID._id}}">
+                                            <p>{{userID.username}} </p>
+                                            <p class="time_slot text-secondary"data-id_answer="{{_id}}" data-id_date_time="{{date_time}}"></p>
                                         </div>
-                                    <hr></hr>
+                                    </div>
+<!--            
+                                    <div class="d-flex">
+                                        <div class="postBy btn text-secondary" data-id_profile="{{userID._id}}">By:   {{userID.username}}</div> 
+                                        <div class="ml-auto">boomkark_photo</div>
+                                    </div>
+-->
+                                    {{!-- <hr></hr> --}}
+<!--
                                     Answered:
                                     <div>{{answer}}</div>
+-->
                                 </div>
+                                <hr></hr>
                             {{/each}}
                         </div>
                     </div>
