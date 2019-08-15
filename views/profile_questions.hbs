@@ -10,9 +10,9 @@
                 width: 100%;
             }
             div.question_item_title{
-                text-align: center;
                 font-weight: bold;
-                background-color: lightcyan;
+                font-size: 40px;
+                height: 50px;
             }
             div.answer_item_title{
                 font-weight: bold;
@@ -22,6 +22,10 @@
             }
             div.left_container{
                 background-color: rgb(13, 95, 124);
+            }
+            div.postBy{
+                height: 35px;
+                
             }
             div#content_container{
                  background-color: teal;
@@ -36,11 +40,35 @@
             div.profile_username{
                 font-size: 30px;
             }
+            div > span.topics{
+                font-size: 13px;
+                color: rgb(48, 88, 117);
+            }
+            div > span.tags{
+                font-size: 12px;
+            }
+            div.question_upper{
+                cursor: pointer;
+            }
         </style>
         
         <script src="jquery.js"> </script>
+        <script src="moment.min.js"></script>
         <script>
             $(document).ready(function(){
+                getTime()
+                function getTime(){
+                    $("div.content_item").each(function() {
+                        let thisDiv = this;
+                         $('.time_slot').each(function(){
+                             if( $(this).attr("data-id_question") == $(thisDiv).attr("data-id_question") ){
+                                 let question_time = $(this).attr("data-id_date_time")
+                                 let result_time = moment(question_time).fromNow()
+                                 $(this).html(result_time);
+                             }
+                         })
+                    })
+                }
                 //bookmark click
                 $("a.bookmark").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -80,6 +108,32 @@
                     $("#refresh_homeForm").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
+                //see_answer form submit
+                $("div#see_answers_button").click(function(){
+                    console.log("ers")
+                    $("#seeAnswer_username").val($("a.profile").attr("data-id_username")) //user id
+                    $("#seeAnswer_question").val($(this).attr("data-id_question")) //question id
+                    $("#seeAnswerForm").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
+                //add_answer form submit
+                $("button#add_Answer_id").click(function(){
+                    console.log($(temp).attr("data-id_question"))
+                    
+                    
+                    $("#add_Answer_username_submit").val($("a.profile").attr("data-id_username")) //user id
+                    $("#add_Answer_question_submit").val($(this).attr("data-id_question")) //question id
+                    var temp = this;
+                    
+                    //gets every text area to check if that is the right text area for the question
+                        $("textarea.myTextArea").each(function() {
+                            if($(temp).attr("data-id_question") == $(this).attr("data-id_question")){
+                                $("#add_Answer_answer_submit").val($(this).val()) //answer
+                            } 
+                        })
+                   
+                    $("#add_AnswerForm_submit").submit()
+                })
                 // welcome button clicked
                 $("a#welcome_button").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -89,11 +143,9 @@
                 })
                 // question button clicked
                 $("a#question_button").click(function(){
-                    console.log("wtf")
                     //console.log("ITO NA YON"+$("div#profile_id").attr("data-id__profile_username"))
                     $("#profile_questions_username").val($(this).attr("data-id__profile_username"))
                     $("#profile_questionsform").submit()
-                    console.log($("a.profile").attr("data-id_username"))
                 })
                 /*
                 function question_content(){
@@ -142,13 +194,10 @@
                 */
                 // answer button clicked
                 $("a#answer_button").click(function(){
-                    console.log($("a.profile").attr("data-id_username"))
                     $("#profile_answers_username").val($(this).attr("data-id__profile_username"))
                     $("#profile_answersform").submit()
-                    console.log($("a.profile").attr("data-id_username"))
                 })
-                /*
-                function answer_content(){
+                /* function answer_content(){
                     var length = $("a#answer_button").attr("data-size_answer")
                     //traverse the divs with class="answer_div" containing the answer datas
                     $('.answer_div').each(function(){
@@ -200,8 +249,8 @@
                             
                         })
                     })
-                }
-                */
+                } */
+                
                 
             })
         </script>
@@ -252,7 +301,7 @@
                           <img class="rounded-circle" style="width:120px" src="assets/avatar.jpg">
                         </div>
 
-                        <div class="profile_username font-weight-bold col-8 p-2" id="profile_id" data-id__profile_username="{{user._id}}">
+                        <div class="profile_username font-weight-bold col-8 p-2">
                             {{user.username}}
                             <br>
                         </div>
@@ -269,6 +318,7 @@
                             <a id="welcome_button"href="#" class="list-group-item list-group-item-action" data-size_question="{{user.questionID.length}}" data-id__profile_username="{{user._id}}">Welcome Page </a>
                             <a id="answer_button" href="#" class="list-group-item list-group-item-action" data-size_answer="{{user.answerID.length}}" data-id__profile_username="{{user._id}}">Answers </a>
                             <a id="question_button"href="#" class="list-group-item list-group-item-action" data-size_question="{{user.questionID.length}}" data-id__profile_username="{{user._id}}">Questions </a>
+                            
                       </div>
                     
                       {{!-- {{#each user.answerID}}
@@ -293,17 +343,40 @@
                       {{/each}} --}}
 
                       <div class="col-8 col-md-9" id="content_container">
-                            <div class="content_item_container">
-			                    <div class="content_item container-fluid mb-4 mt-4 w-100 question">
-                                    {{!-- datas or the items
-                                    <div>Answer: {{answer}}</div>
-                                    <div>Question:{{questionID.title}}</div>
-                                    <div>topic</div>
-                                    <div> tag </div>
-                                    <div>Question by:{{questionID.userID.username}}</div> --}}
-                                    <div class="welcome_page display-4 text-center"> WELCOME TO MY PAGE!</div>
+                        {{#each user.questionID}}
+                            <div class="content_item container-fluid mb-4 mt-4 w-100 h-auto question" data-id_question="{{_id}}">
+                                <div class="question_upper" id="see_answers_button" data-id_question="{{_id}}">
+                                    <div class="question_item_title h-auto text-capitalize font-weight-bold ">{{title}}</div>
+                                    <div>
+                                    <span class="topics">{{topic}}</span>;
+                                    <span class="tags text-secondary bg-gradient-secondary">{{tag}}</span>
+                                    </div>
                                 </div>
-			                </div>
+                                <hr></hr>
+                                <div class="d-flex">
+                                    {{!-- <p>
+                                      <button class="answer_btn_collap btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
+                                        Answer
+                                      </button>
+                                    </p> --}}
+                                    {{!-- <div class="collapse" id="collapseExample{{_id}}"> --}}
+                                      <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
+                                        <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
+                                        <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
+                                        <input type="hidden" name="add_ans_submit" id="add_Answer_answer_submit"> {{!--anssswer--}}
+                                        <div class="form-group green-border-focus">
+                                          <textarea class="myTextArea form-control col-xs-12" data-id_question="{{_id}}" id="textarea_answer_id" rows="2" cols="75" name="answer_textarea"></textarea>
+                                        </div>
+                                        <button type="button" class="btn btn-primary"  data-id_question="{{_id}}" id="add_Answer_id">Submit</button>
+                                      </form>
+                                    {{!-- </div> --}}
+                                    <div class=" ml-auto">
+                                        Asked by: <div class="postBy btn btn-link text-weight-normal"data-id_profile="{{userID._id}}">{{userID.username}} </div>
+                                        <p class="time_slot text-secondary"data-id_question="{{_id}}" data-id_date_time="{{date_time}}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
                       </div>
 
                     </div>
@@ -351,7 +424,11 @@
         <form action="home" id="refresh_homeForm" method="post">
             <input type="hidden" name="refresh_homeUN" id="refresh_home_username">
         </form>
-        
+        {{!-- form equivalent of "see answer" button <a></a> --}}
+        <form action="seeAnswer" id="seeAnswerForm" method="post">
+            <input type="hidden" name="seeAnswerUN" id="seeAnswer_username">
+            <input type="hidden" name="seeAnswerQ" id="seeAnswer_question">
+        </form>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

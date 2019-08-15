@@ -211,11 +211,93 @@ app.post("/home", urlencoder, (req,res)=>{
     })
 
 })
+//transition > profile > answers
+app.post("/profile_answers", urlencoder, (req,res)=>{
+
+    var populateAnotherQuery=[
+        { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic date_time' },
+        { path: 'userID', select:'username' }
+    ]
+
+    var populateQuery = [
+        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic date_time'},
+        {path: 'answerID', populate: populateAnotherQuery, select:'answer date_time'}
+    ];
+
+    //gets the current user to establish the current users data when vieweing a profile
+    var curr_user;
+    //finding the cururent user
+    User.findOne({
+        _id : req.session.usernameID
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+             curr_user = doc;
+         }else{
+             res.send("user not found")
+         }
+    })
+    //finding the profile that was clicked
+    User.findOne({
+        _id: req.body.profile_answersUN
+    }).populate(populateQuery).exec((err, doc)=>{
+        if(err){
+            res.send(err)
+        }else{
+            //console.log(doc)
+            res.render("profile_answers.hbs",{
+                user : doc,
+                curr_user : curr_user
+            })
+        }
+    })
+
+        
+})
+//transition > profile > questions
+app.post("/profile_questions", urlencoder, (req,res)=>{
+
+    var populateQuery = [
+        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic date_time'},
+        {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic date_time' }, select:'answer'}
+    ];
+    //gets the current user to establish the current users data when vieweing a profile
+    var curr_user;
+    //finding the cururent user
+    User.findOne({
+        _id : req.session.usernameID
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+             curr_user = doc;
+         }else{
+             res.send("user not found")
+         }
+    })
+    //finding the profile that was clicked
+    User.findOne({
+        _id: req.body.profile_questionsUN
+    }).populate(populateQuery).exec((err, doc)=>{
+        if(err){
+            res.send(err)
+        }else{
+            //console.log(doc)
+            res.render("profile_questions.hbs",{
+                user : doc,
+                curr_user : curr_user
+            })
+        }
+    })
+
+        
+})
 //transition > profile
 app.post("/profile", urlencoder, (req,res)=>{
 
     var populateQuery = [
-        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic'},
+        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic date_time'},
         {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic' }, select:'answer'}
     ];
 
@@ -394,7 +476,7 @@ app.post("/add_question_submit", urlencoder, (req,res)=>{
     let user = req.body.add_QuestionUN_submit // user id
     let date_time = moment()
     //console.log(req.body.add_QuestionUN_submit + "server ito")
-    console.log(date_time)
+    //console.log(date_time)
     let question = new Question({
         title : title,
         tag : tag,
@@ -703,7 +785,7 @@ app.post("/searchansfilt", urlencoder, function(req, res) {
 })
 app.post("/update", urlencoder, function(req, res){
     var checkid = req.body.id 
-    console.log(checkid)
+    //console.log(checkid)
     User.update({
         
         _id: req.body.id

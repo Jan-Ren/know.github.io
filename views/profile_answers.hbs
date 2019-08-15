@@ -9,11 +9,6 @@
                 background-color: cyan;
                 width: 100%;
             }
-            div.question_item_title{
-                text-align: center;
-                font-weight: bold;
-                background-color: lightcyan;
-            }
             div.answer_item_title{
                 font-weight: bold;
             }
@@ -22,6 +17,10 @@
             }
             div.left_container{
                 background-color: rgb(13, 95, 124);
+            }
+            div.postBy{
+                height: 35px;
+                
             }
             div#content_container{
                  background-color: teal;
@@ -36,24 +35,57 @@
             div.profile_username{
                 font-size: 30px;
             }
+            div.question_answer_container{
+                min-height: 125px;
+                overflow: hidden;
+                background-color: rgb(255, 255, 255);
+                cursor: pointer;
+            }
+            div.postBy{
+                height: 35px;
+            }
+            p.Answer_Title{
+                font-size:20px;
+            }
+            div.answer_text{
+                font-size:30px;
+            }
+            div > span.topics{
+                font-size: 13px;
+                color: rgb(48, 88, 117);
+            }
+            div > span.tags{
+                font-size: 12px;
+            }
+            
         </style>
         
         <script src="jquery.js"> </script>
+        <script src="moment.min.js"></script>
         <script>
             $(document).ready(function(){
+                getTimeAnswer()
+                function getTimeAnswer(){
+                    $("div.question_answer_container").each(function() {
+                        let thisDiv = this;
+                         $('.time_slot').each(function(){
+                             if( $(this).attr("data-id_answer") == $(thisDiv).attr("data-id_answer") ){
+                                 let answer_time = $(this).attr("data-id_date_time")
+                                 let result_time = moment(answer_time).fromNow()
+                                 $(this).text(result_time);
+                             }
+                         })
+                    })
+                }
                 //bookmark click
                 $("a.bookmark").click(function(){
-                    console.log($("a.profile").attr("data-id_username"))
                     $("#bookmark_username").val($("a.profile").attr("data-id_username"))
                     $("#bookmarkform").submit()
-                    console.log($("a.profile").attr("data-id_username"))
                 })
                 //profile click
                 $("a.profile").click(function(){
-                    console.log($("a.profile").attr("data-id_username"))
                     $("#profile_username").val($("a.profile").attr("data-id_username"))
                     $("#profileform").submit()
-                    console.log($("a.profile").attr("data-id_username"))
                 })
                 //settings click
                 $("a.settings").click(function(){
@@ -80,6 +112,30 @@
                     $("#refresh_homeForm").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
+                //see_answer form submit
+                $("div#see_answers_button").click(function(){
+                    $("#seeAnswer_username").val($("a.profile").attr("data-id_username")) //user id
+                    $("#seeAnswer_question").val($(this).attr("data-id_question")) //question id
+                    $("#seeAnswerForm").submit()
+                })
+                //add_answer form submit
+                $("button#add_Answer_id").click(function(){
+                    console.log($(temp).attr("data-id_question"))
+                    
+                    
+                    $("#add_Answer_username_submit").val($("a.profile").attr("data-id_username")) //user id
+                    $("#add_Answer_question_submit").val($(this).attr("data-id_question")) //question id
+                    var temp = this;
+                    
+                    //gets every text area to check if that is the right text area for the question
+                        $("textarea.myTextArea").each(function() {
+                            if($(temp).attr("data-id_question") == $(this).attr("data-id_question")){
+                                $("#add_Answer_answer_submit").val($(this).val()) //answer
+                            } 
+                        })
+                   
+                    $("#add_AnswerForm_submit").submit()
+                })
                 // welcome button clicked
                 $("a#welcome_button").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -89,11 +145,9 @@
                 })
                 // question button clicked
                 $("a#question_button").click(function(){
-                    console.log("wtf")
                     //console.log("ITO NA YON"+$("div#profile_id").attr("data-id__profile_username"))
                     $("#profile_questions_username").val($(this).attr("data-id__profile_username"))
                     $("#profile_questionsform").submit()
-                    console.log($("a.profile").attr("data-id_username"))
                 })
                 /*
                 function question_content(){
@@ -141,14 +195,11 @@
                 }
                 */
                 // answer button clicked
-                $("a#answer_button").click(function(){
-                    console.log($("a.profile").attr("data-id_username"))
+                 $("a#answer_button").click(function(){
                     $("#profile_answers_username").val($(this).attr("data-id__profile_username"))
                     $("#profile_answersform").submit()
-                    console.log($("a.profile").attr("data-id_username"))
                 })
-                /*
-                function answer_content(){
+                /* function answer_content(){
                     var length = $("a#answer_button").attr("data-size_answer")
                     //traverse the divs with class="answer_div" containing the answer datas
                     $('.answer_div').each(function(){
@@ -200,8 +251,8 @@
                             
                         })
                     })
-                }
-                */
+                } */
+                
                 
             })
         </script>
@@ -252,7 +303,7 @@
                           <img class="rounded-circle" style="width:120px" src="assets/avatar.jpg">
                         </div>
 
-                        <div class="profile_username font-weight-bold col-8 p-2" id="profile_id" data-id__profile_username="{{user._id}}">
+                        <div class="profile_username font-weight-bold col-8 p-2">
                             {{user.username}}
                             <br>
                         </div>
@@ -293,17 +344,19 @@
                       {{/each}} --}}
 
                       <div class="col-8 col-md-9" id="content_container">
-                            <div class="content_item_container">
-			                    <div class="content_item container-fluid mb-4 mt-4 w-100 question">
-                                    {{!-- datas or the items
-                                    <div>Answer: {{answer}}</div>
-                                    <div>Question:{{questionID.title}}</div>
-                                    <div>topic</div>
-                                    <div> tag </div>
-                                    <div>Question by:{{questionID.userID.username}}</div> --}}
-                                    <div class="welcome_page display-4 text-center"> WELCOME TO MY PAGE!</div>
+                        {{#each user.answerID}}
+                            <div class="question_answer_container container-fluid h-auto mb-4 mt-4  w-100" id="see_answers_button" data-id_answer="{{_id}}" data-id_question="{{questionID._id}}">
+                               <div class="title_of_answer text-secondary w-100"> {{questionID.title}} </div>
+                                <div class="answer_text font-weight-light">{{answer}}</div>
+                                <div class="d-flex">
+                                    <div class="postBy ml-auto h-auto btn btn-link" data-id_profile="{{userID._id}}">
+                                        <p>{{userID.username}} </p>
+                                        <p class="time_slot text-secondary"data-id_answer="{{_id}}" data-id_date_time="{{date_time}}"></p>
+                                    </div>
                                 </div>
-			                </div>
+                            </div>
+                                <hr></hr>
+                        {{/each}}
                       </div>
 
                     </div>
@@ -351,7 +404,11 @@
         <form action="home" id="refresh_homeForm" method="post">
             <input type="hidden" name="refresh_homeUN" id="refresh_home_username">
         </form>
-        
+        {{!-- form equivalent of "see answer" button <a></a> --}}
+        <form action="seeAnswer" id="seeAnswerForm" method="post">
+            <input type="hidden" name="seeAnswerUN" id="seeAnswer_username">
+            <input type="hidden" name="seeAnswerQ" id="seeAnswer_question">
+        </form>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
