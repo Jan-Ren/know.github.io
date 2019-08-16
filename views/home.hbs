@@ -324,6 +324,29 @@
                    
                     $("#add_AnswerForm_submit").submit()
                 })
+                //add_bookmark_submit
+                $("button#add_bookmark_id").click(function(e){
+                    console.log("wtf")
+                    let id = $(this).attr("data-id_question")
+                    $.ajax({
+                        url : "/addBookmark",
+                        method : "post",
+                        data : {
+                            question_id : $(this).attr("data-id_question")
+                        },
+                        success: function(result){
+                            if(result.ok == 1){
+                                console.log("GOOODS")
+                                $("img[data-id='"+id+"']").attr('src','assets/remove_bookmark')
+                               e.stopPropagation();
+                            }else{
+                                alert("something went wrong")
+                                e.stopPropagation();
+                            }
+                        }
+                    })
+                    e.stopPropagation();
+                })
                 //see_answer form submit
                 $("div#see_answers_button").click(function(){
                     console.log("ers")
@@ -401,9 +424,9 @@
                                     <a class="logout dropdown-item" href="#"><div id = "logoutwidther"><div class="sprite sprite-020-logout">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logout</div></div></a>
                                 </div>
                             </div>
-                    </div>
-                </nav>
-            </div>
+                        </div>
+                    </nav>
+                </div>
             </div>
             <div class="container">
                 <div class="row">

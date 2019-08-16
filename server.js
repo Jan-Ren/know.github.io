@@ -823,6 +823,25 @@ app.post("/update", urlencoder, function(req, res){
         
     })  //1st argument where, 2nd argument update
 })
+// add bookmark
+/*
+app.post("/addBookmark", urlencoder, (req,res)=>{
+    console.log("add bookmark" + req.body.id)
+    //delete user data in the db
+    User.findOneAndUpdate(
+        { _id: req.session.usernameID},
+        { $push: {
+            bookmarkID : question_id
+          }  },
+       function (error, success) {
+             if (error) {
+                 console.log(error);
+             } else {
+                 console.log(success);
+             }
+    });
+})
+*/
 app.use("*", function(request,response){
     response.send("This is not the site you're looking for.")
     
