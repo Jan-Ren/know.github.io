@@ -3,6 +3,21 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         
         <style>
+            #logoutwidhter {
+                width:80px;
+            }
+            #settingswidther {
+                width:80px;
+            }
+            #buttonwidther {
+                width:80px;
+            }
+            #searchbarwidth {
+                width:600px;
+            }
+            #sampler {
+                width:80px;
+            }
             div.content_item{
                 margin-top: 24px;
                 margin-bottom: 24px;
@@ -28,6 +43,7 @@
                 height: 35px;
                 
             }
+            
             div > span.topics{
                 font-size: 13px;
                 color: rgb(48, 88, 117);
@@ -38,6 +54,133 @@
             div.question_upper{
                 cursor: pointer;
             }
+           .sprite {
+                background-image: url("assets/spritesheetser.png");
+                background-repeat: no-repeat;
+                display: block;
+            }
+
+            .sprite-001-user {
+                width: 24px;
+                height: 24px;
+                background-position: -5px -5px;
+            }
+
+            .sprite-002-settings {
+                width: 24px;
+                height: 24px;
+                background-position: -39px -5px;
+            }
+
+            .sprite-003-like {
+                width: 24px;
+                height: 24px;
+                background-position: -73px -5px;
+            }
+
+            .sprite-004-magnifying-glass {
+                width: 24px;
+                height: 24px;
+                background-position: -107px -5px;
+            }
+
+            .sprite-005-heart {
+                width: 24px;
+                height: 24px;
+                background-position: -5px -39px;
+            }
+
+            .sprite-006-share {
+                width: 24px;
+                height: 24px;
+                background-position: -39px -39px;
+            }
+
+            .sprite-007-edit {
+                width: 24px;
+                height: 24px;
+                background-position: -73px -39px;
+            }
+
+            .sprite-008-chat {
+                width: 24px;
+                height: 24px;
+                background-position: -107px -39px;
+            }
+
+            .sprite-009-reload {
+                width: 24px;
+                height: 24px;
+                background-position: -5px -73px;
+            }
+
+            .sprite-010-house {
+                width: 24px;
+                height: 24px;
+                background-position: -39px -73px;
+            }
+
+            .sprite-011-upload {
+                width: 24px;
+                height: 24px;
+                background-position: -73px -73px;
+            }   
+
+            .sprite-012-photo-camera {
+                width: 24px;
+                height: 24px;
+                background-position: -107px -73px;
+            }
+
+            .sprite-013-hand {
+                width: 24px;
+                height: 24px;
+                background-position: -5px -107px;
+            }
+
+            .sprite-014-garbage {
+                width: 24px;
+                height: 24px;
+                background-position: -39px -107px;
+            }
+
+            .sprite-015-next {
+                width: 24px;
+                height: 24px;
+                background-position: -73px -107px;
+            }
+
+            .sprite-016-book {
+                width: 24px;
+                height: 24px;
+                background-position: -107px -107px;
+            }
+
+            .sprite-017-back {
+                width: 24px;
+                height: 24px;
+                background-position: -141px -5px;
+            }
+
+            .sprite-018-next-1 {
+                width: 24px;
+                height: 24px;
+                background-position: -141px -39px;
+            }
+
+            .sprite-019-cancel {
+                width: 24px;
+                height: 24px;
+                background-position: -141px -73px;
+            }
+
+            .sprite-020-logout {
+                width: 24px;
+                height: 24px;
+                background-position: -141px -107px;
+            }
+
+
         </style>
 
         <script src="jquery.js"> </script>
@@ -173,12 +316,37 @@
                     console.log($("a.profile").attr("data-id_username"))
                 })
             })
+            /* spritesheet list
+            <i class="sprite sprite-001-user"></i>
+            <i class="sprite sprite-002-settings"></i>
+            <i class="sprite sprite-003-like"></i>
+            <i class="sprite sprite-004-magnifying-glass"></i>
+            <i class="sprite sprite-005-heart"></i>
+            <i class="sprite sprite-006-share"></i>
+            <i class="sprite sprite-007-edit"></i>
+            <i class="sprite sprite-008-chat"></i>
+            <i class="sprite sprite-009-reload"></i>
+            <i class="sprite sprite-010-house"></i>
+            <i class="sprite sprite-011-upload"></i>
+            <i class="sprite sprite-012-photo-camera"></i>
+            <i class="sprite sprite-013-hand"></i>
+            <i class="sprite sprite-014-garbage"></i>
+            <i class="sprite sprite-015-next"></i>
+            <i class="sprite sprite-016-book"></i>
+            <i class="sprite sprite-017-back"></i>
+            <i class="sprite sprite-018-next-1"></i>
+            <i class="sprite sprite-019-cancel"></i>
+            <i class="sprite sprite-020-logout"></i>
+            */
         </script>
     </head>
     <body>
+        
+        
         <div class="container h-100">
             <div class="container d-flex justify-content-center ml-5 sticky-top">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                 
                     <a class="navbar-brand" id="QAnav" href="#">Q&A</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                         <span class="navbar-toggler-icon"></span>
@@ -187,9 +355,18 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" id="homeNav" href="#">Home</a>
+                                <a class="nav-link" id="homeNav" href="#"><div id = "sampler"><div class="sprite sprite-010-house">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</div></div></a>
                             </li>
-                            <li class="nav-item active dropdown">
+                            
+                        </ul>
+                        
+                            <form class="form-inline my-2 my-lg-0" action = "search" method = "post">
+                                <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
+                                <input class="form-control mr-sm-2" id = "searchbarwidth" type="search" placeholder="question/topic/answer" name = "searchq">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><div id = "buttonwidther"><div class="sprite sprite-004-magnifying-glass">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search</div></div></button>
+                            </form>
+                        
+                        <div class="nav-item active dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfile" role="button" data-toggle="dropdown">
                                     {{user.username}}
                                 </a>
@@ -198,17 +375,11 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item bookmark" href="#">Bookmarks</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item settings" href="#">Settings</a>
+                                    <a class="dropdown-item settings" href="#"><div id = "settingswidther"><div class="sprite sprite-002-settings">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settings</div></div></a>
                                     <a class="dropdown-item" href="#">Help</a>
-                                    <a class="logout dropdown-item" href="#">Logout</a>
+                                    <a class="logout dropdown-item" href="#"><div id = "logoutwidther">"<div class="sprite sprite-020-logout">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logout</div></div></a>
                                 </div>
-                            </li>
-                        </ul>
-                        <form class="form-inline my-2 my-lg-0" action = "search" method = "post">
-                            <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="question/topic/answer" name = "searchq">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
+                            </div>
                     </div>
                 </nav>
             </div>
@@ -256,7 +427,7 @@
                                       </form>
                                     {{!-- </div> --}}
                                     <div class=" ml-auto">
-                                        Asked by: <div class="postBy btn btn-link text-weight-normal"data-id_profile="{{userID._id}}">{{userID.username}} </div>
+                                        <div class="sprite sprite-001-user"><div class="postBy btn btn-link text-weight-normal"data-id_profile="{{userID._id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{userID.username}} </div></div>
                                         <p class="time_slot text-secondary"data-id_question="{{_id}}" data-id_date_time="{{date_time}}"></p>
                                     </div>
                                 </div>
