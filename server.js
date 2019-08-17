@@ -5,6 +5,8 @@ const cookieparser = require("cookie-parser")
 const mongoose = require("mongoose")
 const moment = require("moment")
 
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const {User} = require("./model/user.js")//gives a user object
 const {Question} = require("./model/question.js")//gives a question object
@@ -589,27 +591,39 @@ app.post("/signin", urlencoder, function(req, res){
    let username = req.body.un
    let password = req.body.pw
    let user, question;
-   
+   console.log("Check " + password)
    User.findOne({
        username : username,
-       password : password
+      
    },(err,doc)=>{
         if(err){
             res.send(err)
         } else if(doc){
-            req.session.username = doc.username,
-            req.session.usernameID = doc._id,
-            user = doc
-            Question.find().populate('userID','username question answer').exec((err,docs)=>{
-                if(err){
-                    res.send(err)
-                }else{
-                    res.render("home.hbs",{
-                        user : doc,
-                        question : docs
+            user = doc;
+            bcrypt.compare(password, user.password, function (err, result) {
+                if (result == true) {
+                    req.session.username = doc.username,
+                    req.session.usernameID = doc._id,
+                    
+                    Question.find().populate('userID','username question answer').exec((err,docs)=>{
+                        if(err){
+                            res.send(err)
+                        }else{
+                           
+                            res.render("home.hbs",{
+                                user : doc,
+                                question : docs
+                            })
+                        }
                     })
-                    }
-                })
+                } 
+                else {
+                    res.send('Incorrect password');
+                
+                }
+            });
+     
+            
         }else{
             res.send("user not found")
         }
@@ -621,12 +635,18 @@ app.post("/signup", urlencoder, function(req, res){
     var username = req.body.un
     var password = req.body.pw
     var email = req.body.email
-    let user = new User({
+    
+    bcrypt.hash(password, saltRounds, function (err,   hash) {
+            console.log("Yo")
+         console.log("hash")
+        
+        password = hash;
+        let user = new User({
         username : username,
-        password : password,
+        password : hash,
         email : email
     })
-    
+
     user.save().then((doc)=>{
         //all goes well
         req.session.username = doc.username,
@@ -656,6 +676,8 @@ app.post("/signup", urlencoder, function(req, res){
         //fial
         res.send(err)
     })
+ });
+    
 })
 app.post("/search", urlencoder, function(req, res) {
     var searchcont = req.body.searchq
