@@ -591,7 +591,7 @@ app.post("/signin", urlencoder, function(req, res){
    let username = req.body.un
    let password = req.body.pw
    let user, question;
-   console.log("Check " + password)
+  
    User.findOne({
        username : username,
       
