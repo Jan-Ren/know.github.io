@@ -49,7 +49,7 @@
                 font-weight: bold;
             }
             div.right_container{
-                background-color: lightseagreen;
+                background-color: gray;
             }
             div.left_container{
                 background-color: rgb(13, 95, 124);
@@ -67,17 +67,16 @@
             div.profile_username{
                 font-size: 30px;
             }
+            div.settings_container{
+                width: 25%;
+                background-color: white;
+            }
             button.updater{
-                height: 35px;
-                border-radius: 42px;
+                height: 35px;     
+                padding:0px 12px;
+                border-radius:4px;
                 background-color: rgb(66, 138, 219);
                 
-            }
-            div.settings_container{
-                display: flex;
-                position: relative;
-                top: 100px;
-                left: 0px;
             }
             .sprite {
                 background-image: url("assets/spritesheetser.png");
@@ -215,13 +214,21 @@
                    /*$("#deleteid").val($(this).attr("data-id"))
                     $("#deleteform").submit()
                     */
-                    var user = $("#userchange").val()
-                    var pass = $("#passwordchange").val()
-                    $("#updateun").val(user)
-                    $("#updatepw").val(pass)
-                    $("#updateid").val($(this).attr("data-id"))
-                    
-                    $("#updateform").submit()
+                    var curr_pass = $("#password_curr").val()
+                    var new_pass = $("#password_new").val()
+                    var retype_pass = $("#password_retype").val()
+
+                    if(curr_pass == $("#password_curr").attr("data-id_curr_pass")){
+                        if(new_pass == retype_pass){
+                            $("#updatepw").val(new_pass)
+                            $("#updateid").val($(this).attr("data-id"))
+                            $("#updateform").submit()
+                        }else{
+                            alert("New password and Re-type password does not match!")
+                        }
+                    }else{
+                        alert("Current password does not match!")
+                    }
                    
                 })
                 //bookmark click
@@ -295,7 +302,6 @@
                                     <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">Profile</a> {{!--data-id_username contains the user id of the user --}}
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item settings" href="#"><div id = "settingswidther"><div class="sprite sprite-002-settings">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settings</div></div></a>
-                                    <a class="dropdown-item" href="#">Help</a>
                                     <a class="logout dropdown-item" href="#"><div id = "logoutwidther"><div class="sprite sprite-020-logout">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logout</div></div></a>
                                 </div>
                             </div>
@@ -304,18 +310,23 @@
                 </div>
             </div>
             <div class="container">
-                <div class="row h-50">
-                    <div class="left_container col-8 col-md-2 p-2">
-                        
-                    </div>
+                <div class="row h-auto">
                     {{!-- RIIIIIIIIIIGGGGGGGHHHHHTTTT CONTAINER --}}
-                    <div class="right_container col-4 col-md-10 d-flex justify-content-center">
-                        <div class="d-flex settings_container ">
-                            <div>Change username</div>
-                            <input class="form-control mr-sm-2" type = "text" name = "un" value = "{{user.username}}" id = "userchange">
-                            <div>Change password</div>
-                            <div><input class="form-control mr-sm-2" type = "password" name = "un" value = "{{user.password}}" id = "passwordchange"></div>
-                            <div><button class = "updater btn text-weight-normal" data-id = "{{user._id}}">Change</button></div>
+                    <div class="right_container h-auto col-4 col-md-12 d-flex justify-content-center align-items-center">
+                        <div class="settings_container">
+                            <div>Current password</div>
+                            
+                            <div><input class=" mr-sm-2" type = "password" data-id_curr_pass= "{{user.password}}" id = "password_curr"></div>
+                            
+                            <div>New password</div>
+                            
+                            <div><input class=" mr-sm-2" type = "password" id = "password_new"></div>
+                            
+                            <div>Re-type password</div>
+                            
+                            <div><input class=" mr-sm-2" type = "password" id = "password_retype"></div>
+                            
+                            <button class = "updater btn text-weight-normal" data-id = "{{user._id}}">Change</button>
                         </div>
                     </div>
                 </div>

@@ -794,8 +794,6 @@ app.post("/update", urlencoder, function(req, res){
         
         _id: req.body.id
     }, {
-        
-        username: req.body.un,
         password: req.body.pw
     }, function(err, doc) {
         if(err) {
