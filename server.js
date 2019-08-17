@@ -348,25 +348,27 @@ app.post("/settings", urlencoder, (req,res)=>{
          if(err){
              res.send(err)
          } else if(doc){
-             curr_user = doc;
+            res.render("settings.hbs",{
+                user : doc
+            })
          }else{
              res.send("user not found")
          }
     })
     //finding the profile that was clicked
-    User.findOne({
-        _id: req.body.profileUN
-    }).populate(populateQuery).exec((err, doc)=>{
-        if(err){
-            res.send(err)
-        }else{
-            //console.log(doc)
-            res.render("settings.hbs",{
-                user : doc,
-                curr_user : curr_user
-            })
-        }
-    })
+    // User.findOne({
+    //     _id: req.body.profileUN
+    // }).populate(populateQuery).exec((err, doc)=>{
+    //     if(err){
+    //         res.send(err)
+    //     }else{
+    //         //console.log(doc)
+    //         res.render("settings.hbs",{
+    //             user : doc,
+    //             curr_user : curr_user
+    //         })
+    //     }
+    // })
 
         
 })
@@ -801,9 +803,9 @@ app.post("/update", urlencoder, function(req, res){
                 {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title topic' }, select:'answer'}
                 ];
 
-            //gets the current user to establish the current users data when vieweing a profile
-            var curr_user;
-            //finding the cururent user
+            // //gets the current user to establish the current users data when vieweing a profile
+            // var curr_user;
+            // //finding the cururent user
             User.findOne({
             _id : req.session.usernameID
             },(err,doc)=>{
@@ -811,7 +813,7 @@ app.post("/update", urlencoder, function(req, res){
                     res.send(err)
                 } else if(doc){
                     res.render("settings.hbs",{
-                    curr_user : doc
+                    user : doc
                     })
                 }else{
                     res.send("user not found")

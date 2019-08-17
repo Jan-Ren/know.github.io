@@ -73,6 +73,12 @@
                 background-color: rgb(66, 138, 219);
                 
             }
+            div.settings_container{
+                display: flex;
+                position: relative;
+                top: 100px;
+                left: 0px;
+            }
             .sprite {
                 background-image: url("assets/spritesheetser.png");
                 background-repeat: no-repeat;
@@ -249,117 +255,7 @@
                     $("#refresh_home_username").val($("a.profile").attr("data-id_username"))
                     $("#refresh_homeForm").submit()
                     console.log($("a.profile").attr("data-id_username"))
-                })
-                // question button clicked
-                $("a#question_button").click(function(){
-                        $('#content_container').empty();
-                        question_content()
-                        
-                })
-                function question_content(){
-                    var length = $("a#question_button").attr("data-size_question")
-                    //traverse the divs with class="question_div" containing the question datas
-                    $('.question_div').each(function(){
-                        let id_value = $(this).attr("data-id_question");
-                        let thisDiv = this; // gets the current div being traversed
-                        //traverse the a with class="question_id" containing the question id
-                        $('.question_id').each(function(){
-                            let divContenetItem, divContentCtnr, divContentTag, divContentTopic, divContentTitle;
-                            if( $(this).attr("data-id_question") == $(thisDiv).attr("data-id_div_question") ){
-                                let title = $(thisDiv).children("a#question_title").attr("data-id_title")
-                                let index = $("a#question_index").attr("data-id_index")
-                                let question_id = $("a#question_id").attr("data-id_question")
-                                let tag = $(thisDiv).children("a#question_tag").attr("data-id_tag")
-                                let topic = $(thisDiv).children("a#question_topic").attr("data-id_topic")
-                                let username = $("a.profile").attr("data-username")
-                                console.log(username)
-                                //item question
-                                divContentTitle = document.createElement("div")
-                                $(divContentTitle).text(title)
-                                divContentTitle.className = "question_item_title"
-                                // item topic
-                                divContentTopic = document.createElement("div")
-                                $(divContentTopic).text("Topic: " + topic)
-                                // item tag
-                                divContentTag = document.createElement("div")
-                                $(divContentTag).text("Tags: " + tag)
-                                //Content Item
-                                divContentItem = document.createElement("div")
-                                divContentItem.append(divContentTitle)
-                                divContentItem.append(divContentTopic)
-                                divContentItem.append(divContentTag)
-                                divContentItem.className = "content_item"
-                                //content item container
-                                divContentCtnr = document.createElement("div")
-                                divContentCtnr.append(divContentItem)
-                                divContentCtnr.className = "content_item_container"
-                                // content container
-                                $("#content_container").append(divContentCtnr)
-                            }
-                        })
-                    })
-                }
-                // answer button clicked
-                $("a#answer_button").click(function(){
-                        $('#content_container').empty();
-                        answer_content()
-                        
-                })
-                function answer_content(){
-                    var length = $("a#answer_button").attr("data-size_answer")
-                    //traverse the divs with class="answer_div" containing the answer datas
-                    $('.answer_div').each(function(){
-                        let id_value = $(this).attr("data-id_answer");
-                        let thisDiv = this; // gets the current div being traversed
-                        //traverse the a with class="answer_id" containing the answer id
-                        $('.answer_id').each(function(){
-                            let divContenetItem, divContentCtnr, divContentTag, divContentTopic, divContentTitle, divContentAnswer,divContentQuestionUN;
-                            if( $(this).attr("data-id_answer") == $(thisDiv).attr("data-id_div_answer") ){
-                                let answer = $(thisDiv).children("a#answer_answer").attr("data-id_answer")
-                                let answer_id = $("a#answer_id").attr("data-id_answer")
-                                let title = $(thisDiv).children("a#answer_question_title").attr("data-id_answer_question_title")
-                                let tag = $(thisDiv).children("a#answer_question_tag").attr("data-id_answer_question_tag")
-                                let topic = $(thisDiv).children("a#answer_question_topic").attr("data-id_answer_question_topic")
-                                let question_username = $(thisDiv).children("a#answer_question_username").attr("data-id_answer_question_username")
-                                console.log(question_username)
-                                //item answer
-                                divContentAnswer = document.createElement("div")
-                                $(divContentAnswer).text("Answer: " + answer)
-                                divContentAnswer.className = "answer_item_title"
-                                //item question
-                                divContentTitle = document.createElement("div")
-                                $(divContentTitle).text("Question: " + title)
-                                divContentTitle.className = "question_item_title"
-                                // item topic
-                                divContentTopic = document.createElement("div")
-                                $(divContentTopic).text("Topic: " + topic)
-                                // item tag
-                                divContentTag = document.createElement("div")
-                                $(divContentTag).text("Tags: " + tag)
-                                // item question_username
-                                divContentQuestionUN = document.createElement("div")
-                                $(divContentQuestionUN).text("Queston by: " + question_username)
-                                //Content Item
-                                divContentItem = document.createElement("div")
-                                divContentItem.append(divContentAnswer)
-                                divContentItem.append(divContentTitle)
-                                divContentItem.append(divContentTopic)
-                                divContentItem.append(divContentTag)
-                                divContentItem.append(divContentQuestionUN)
-                                divContentItem.className = "content_item"
-                                //content item container
-                                divContentCtnr = document.createElement("div")
-                                divContentCtnr.append(divContentItem)
-                                divContentCtnr.className = "content_item_container"
-                                // content container
-                                $("#content_container").append(divContentCtnr)
-                            }
-                            
-                        })
-                    })
-                }
-                
-                
+                })      
             })
         </script>
     </head>
@@ -408,18 +304,20 @@
                 </div>
             </div>
             <div class="container">
-                <div class="row">
-                    <div class="col-8 col-md-9 left_container p-2 inline-block">
-                        <div>Settings</div>
-                        <div>Change username</div>
-                        <input class="form-control mr-sm-2" type = "text" name = "un" value = "{{curr_user.username}}" id = "userchange">
-                        <div>Change password</div>
-                        <div><input class="form-control mr-sm-2" type = "password" name = "un" value = "{{curr_user.password}}" id = "passwordchange"></div>
-                        <div><button class = "updater btn text-weight-normal" data-id = "{{curr_user._id}}">Change</button></div>
+                <div class="row h-50">
+                    <div class="left_container col-8 col-md-2 p-2">
+                        
                     </div>
                     {{!-- RIIIIIIIIIIGGGGGGGHHHHHTTTT CONTAINER --}}
-                    
-
+                    <div class="right_container col-4 col-md-10 d-flex justify-content-center">
+                        <div class="d-flex settings_container ">
+                            <div>Change username</div>
+                            <input class="form-control mr-sm-2" type = "text" name = "un" value = "{{user.username}}" id = "userchange">
+                            <div>Change password</div>
+                            <div><input class="form-control mr-sm-2" type = "password" name = "un" value = "{{user.password}}" id = "passwordchange"></div>
+                            <div><button class = "updater btn text-weight-normal" data-id = "{{user._id}}">Change</button></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
