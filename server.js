@@ -781,6 +781,10 @@ app.post("/searchansfilt", urlencoder, function(req, res) {
          }
     })
 })
+app.post("/back", urlencoder, function(req, res) {
+    console.log("Back")
+    res.redirect("/")
+})
 app.post("/update", urlencoder, function(req, res){
     var checkid = req.body.id 
     //console.log(checkid)

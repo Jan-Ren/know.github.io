@@ -4,6 +4,32 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         
         <style>
+            .bg-color {
+                background-color:skyblue;
+                height:100%;
+                width:100%
+            }
+            .signupbut {
+                position:absolute;
+                left:300px;
+                top: 320px;
+                
+            }
+            #backgroundimg {
+                background-image:url("assets/bluesky.jpg");
+                width:626px;
+                height:367px;
+                position:relative;
+                left:25%;
+                top:15%;
+            }
+            .inptadjust {
+                position:absolute;
+                left:55px;
+            }
+            .signin-header {
+                font-size:40px;
+            }
             .signup-header{
                 text-align: center;
                 text-transform: uppercase;
@@ -14,6 +40,36 @@
             }
             #signinput {
                 width:500px;
+            }
+            .welcome {
+                font-size:50px;
+                height:80px;
+                position:relative;
+                left:20px;
+            }
+            .signinadj {
+                position:relative;
+                left:240px;
+            }
+            .passtextadj {
+                position:relative;
+                left:45px;
+                font-weight:bold;
+            }
+            .userinpadj {
+                position:relative;
+                left: 39px;
+            }
+            .signinbut {
+                position:absolute;
+                top:320px;
+                left:180px;
+                
+            }
+            .userlabeladj {
+                position: relative;
+                left:45px;
+                font-weight:bold;
             }
         </style>
         <script src="jquery.js"> </script>
@@ -26,23 +82,28 @@
         </script>
     </head>
     <body>
+        <div class = "bg-color">
+        <div id = "backgroundimg">
         <div class = "container pb-5">
             <form action = "signin" method="post">
-                <div class = "signin-header">Sign in</div>
+                <div class = "signin-header welcome">Welcome to Q & A page!</div>
+                <div class = "signin-header signinadj">Sign in</div>
                 <div class="form-group">
-                <label for = "Usernamesignin">Username</label>
-                <input id = "signinput" type="text" class="form-control" id="exampleInputEmail1" name="un" placeholder="Enter username">
+                <label for = "Usernamesignin" class = "userlabeladj">Username</label>
+                <input id = "signinput" type="text" class="form-control userinpadj" id="exampleInputEmail1" name="un" placeholder="Enter username">
                 </div>
                 <div class="form-group">
-                <label for = "Passsignin">Password</label>
-                <input id = "signinput" type="password" class="form-control" id="exampleInputEmail1" name="pw" placeholder="Enter password">
+                <label for = "Passsignin" class = "passtextadj">Password</label>
+                <input id = "signinput" type="password" class="form-control inptadjust" id="exampleInputEmail1" name="pw" placeholder="Enter password">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary signinbut">Submit</button>
             </form>
             <div>
-                <button type="button" class="btn btn-secondary" id="signup_button">Signup</button>
+                <button type="button" class="btn btn-secondary signupbut" id="signup_button">Signup</button>
             </div>
         </div>
+            </div>
+            </div>
         <!-- form equivalent of logout <a></a> -->
         <form action="signup_in_signin" id="signupform" method="post">
         </form>
