@@ -240,7 +240,7 @@
                 // welcome button clicked
                 $("a#welcome_button").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
-                    $("#profile_username").val($("a.profile").attr("data-id_username"))
+                    $("#profile_username").val($(this).attr("data-id__profile_username"))
                     $("#profileform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
