@@ -215,12 +215,12 @@ app.post("/home", urlencoder, (req,res)=>{
 app.post("/profile_answers", urlencoder, (req,res)=>{
 
     var populateAnotherQuery=[
-        { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic date_time' },
+        { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title topic date_time' },
         { path: 'userID', select:'username' }
     ]
 
     var populateQuery = [
-        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic date_time'},
+        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title topic date_time'},
         {path: 'answerID', populate: populateAnotherQuery, select:'answer date_time'}
     ];
 
@@ -259,8 +259,8 @@ app.post("/profile_answers", urlencoder, (req,res)=>{
 app.post("/profile_questions", urlencoder, (req,res)=>{
 
     var populateQuery = [
-        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic date_time'},
-        {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic date_time' }, select:'answer'}
+        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title topic date_time'},
+        {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title topic date_time' }, select:'answer'}
     ];
     //gets the current user to establish the current users data when vieweing a profile
     var curr_user;
@@ -297,8 +297,8 @@ app.post("/profile_questions", urlencoder, (req,res)=>{
 app.post("/profile", urlencoder, (req,res)=>{
 
     var populateQuery = [
-        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic date_time'},
-        {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic' }, select:'answer'}
+        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title topic date_time'},
+        {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title topic' }, select:'answer'}
     ];
 
     //gets the current user to establish the current users data when vieweing a profile
@@ -335,8 +335,8 @@ app.post("/profile", urlencoder, (req,res)=>{
 app.post("/settings", urlencoder, (req,res)=>{
 
     var populateQuery = [
-        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic'},
-        {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic' }, select:'answer'}
+        {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title topic'},
+        {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title topic' }, select:'answer'}
     ];
 
     //gets the current user to establish the current users data when vieweing a profile
@@ -471,7 +471,6 @@ app.post("/add_answer_submit", urlencoder, (req,res)=>{
 app.post("/add_question_submit", urlencoder, (req,res)=>{
     
     let title = req.body.question_title
-    let tag = req.body.question_tag
     let topic = req.body.ts
     let user = req.body.add_QuestionUN_submit // user id
     let date_time = moment()
@@ -479,7 +478,6 @@ app.post("/add_question_submit", urlencoder, (req,res)=>{
     //console.log(date_time)
     let question = new Question({
         title : title,
-        tag : tag,
         topic : topic,
         date_time : date_time,
         userID :  user
@@ -685,7 +683,7 @@ app.post("/search", urlencoder, function(req, res) {
                         searchquery: searchcont,
                         user : doc,
                         question : docs,
-                        answer:docs2
+                        answer: docs2
                         }
                     )
                     }
@@ -799,8 +797,8 @@ app.post("/update", urlencoder, function(req, res){
         }
         else {
             var populateQuery = [
-                {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title tag topic'},
-                {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title tag topic' }, select:'answer'}
+                {path: 'questionID',populate: { path: 'userID', select:'username' }, select:'title topic'},
+                {path: 'answerID', populate: { path: 'questionID', populate: { path: 'userID', select:'username' },select:'title topic' }, select:'answer'}
                 ];
 
             //gets the current user to establish the current users data when vieweing a profile

@@ -68,9 +68,6 @@
                 font-size: 13px;
                 color: rgb(48, 88, 117);
             }
-            div > span.tags{
-                font-size: 12px;
-            }
             div.question_upper{
                 cursor: pointer;
             }
@@ -297,6 +294,14 @@
                     $("#add_AnswerForm_submit").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
+                //see_answer form submit
+                $("div#see_answers_button").click(function(){
+                    console.log("ers")
+                    $("#seeAnswer_username").val($("a.profile").attr("data-id_username")) //user id
+                    $("#seeAnswer_question").val($(this).attr("data-id_question")) //question id
+                    $("#seeAnswerForm").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
             })
         </script>
     </head>
@@ -333,9 +338,7 @@
                                     {{user.username}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">{{user.username}}</a> {{!--data-id_username contains the user id of the user --}}
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item bookmark" href="#">Bookmarks</a>
+                                    <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">Profile</a> {{!--data-id_username contains the user id of the user --}}
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item settings" href="#"><div id = "settingswidther"><div class="sprite sprite-002-settings">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settings</div></div></a>
                                     <a class="dropdown-item" href="#">Help</a>
@@ -360,8 +363,7 @@
                             <div class="question_upper" id="see_answers_button" data-id_question="{{_id}}">
                                 <div class=" h-auto question_item_title ">{{question.title}}</div>
                                 <div>
-                                    <span class="topics">{{question.topic}}</span>;
-                                    <span class="tags text-secondary bg-gradient-secondary">{{question.tag}}</span>
+                                    <span class="topics">{{question.topic}}</span>
                                 </div>
                             </div>
                             <hr></hr>
@@ -382,7 +384,8 @@
                                   </form>
                                 {{!-- </div> --}}
                                 <div class=" ml-auto" type="hidden">
-                                    Asked by:<div class="postBy btn btn-link text-weight-normal"data-id_profile="{{question.userID._id}}">{{question.userID.username}} </div>
+                                    <div>Asked by:</div>
+                                    <div class="sprite sprite-001-user"><div class="postBy btn btn-link text-weight-normal"data-id_profile="{{question.userID._id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{question.userID.username}}</div></div>
                                     <p id="question_time_slot" class="text-secondary"data-id_question="{{question._id}}" data-id_date_time="{{question.date_time}}"></p>                                
                                 </div>
                             </div>
@@ -392,8 +395,9 @@
                                 <div class="question_answer_container container-fluid h-auto mb-4 mt-4  w-100" data-id_answer="{{_id}}">
                                     <div class="answer_text font-weight-light">{{answer}}</div>
                                     <div class="d-flex">
-                                        <div class="postBy ml-auto h-auto btn btn-link" data-id_profile="{{userID._id}}">
-                                            <p>{{userID.username}} </p>
+                                        <div class="ml-auto h-auto" data-id_profile="{{userID._id}}">
+                                            <p>Answered by:</p>
+                                            <div class="sprite sprite-001-user"><div class="postBy btn btn-link text-weight-normal"data-id_profile="{{userID._id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{userID.username}} </div></div>
                                             <p class="time_slot text-secondary"data-id_answer="{{_id}}" data-id_date_time="{{date_time}}"></p>
                                         </div>
                                     </div>

@@ -263,9 +263,7 @@
                                     {{user.username}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">{{user.username}}</a> {{!--data-id_username contains the user id of the user --}}
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item bookmark" href="#">Bookmarks</a>
+                                    <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">Profile</a> {{!--data-id_username contains the user id of the user --}}
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item settings" href="#"><div id = "settingswidther"><div class="sprite sprite-002-settings">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settings</div></div></a>
                                     <a class="dropdown-item" href="#">Help</a>
@@ -303,10 +301,6 @@
                                 <option>Technology</option>
                                 <option>Music</option>
                                 </select>
-                            </div>
-                            <div class="form-group">
-                            <label for = "tag_header">Tag</label>
-                            <input id = "question_tag_input" type="text" class="form-control" name="question_tag" placeholder="use hashtags ex.(#Calculus)">
                             </div>
                             <button type="button" class="btn btn-primary" id="add_Question_id">Submit</button>
                         </form>

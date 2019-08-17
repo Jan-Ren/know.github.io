@@ -40,9 +40,9 @@
                 width: 100%;
             }
             div.question_item_title{
-                text-align: center;
                 font-weight: bold;
-                background-color: lightcyan;
+                font-size: 40px;
+                height: 50px;
             }
             div.right_container{
                 background-color: teal;
@@ -56,9 +56,14 @@
             }
             div.postBy{
                 height: 35px;
-                border-radius: 42px;
-                background-color: rgb(66, 138, 219);
                 
+            }
+            div > span.topics{
+                font-size: 13px;
+                color: rgb(48, 88, 117);
+            }
+            div.question_upper{
+                cursor: pointer;
             }
             .sprite {
                 background-image: url("assets/spritesheetser.png");
@@ -187,8 +192,22 @@
             }
         </Style>
         <script src = "jquery.js"></script>
+        <script src="moment.min.js"></script>
         <script>
              $(document).ready(function(){
+                 getTime()
+                function getTime(){
+                    $("div.content_item").each(function() {
+                        let thisDiv = this;
+                         $('.time_slot').each(function(){
+                             if( $(this).attr("data-id_question") == $(thisDiv).attr("data-id_question") ){
+                                 let question_time = $(this).attr("data-id_date_time")
+                                 let result_time = moment(question_time).fromNow()
+                                 $(this).html(result_time);
+                             }
+                         })
+                    })
+                }
                 //bookmark click
                 $("a.bookmark").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -213,6 +232,12 @@
                  //logout click
                 $("a.logout").click(function(){
                     $("#logoutform").submit()
+                })
+                 //"Posted By"profile click
+                $("div.postBy").click(function(){
+                    $("#profile_username").val($(this).attr("data-id_profile"))
+                    $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
                 })
                 //addQuestion click
                 $("button#addQuestion").click(function(){
@@ -309,9 +334,7 @@
                                     {{user.username}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">{{user.username}}</a> {{!--data-id_username contains the user id of the user --}}
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item bookmark" href="#">Bookmarks</a>
+                                    <a class="dropdown-item profile" data-id_username="{{user._id}}" href="#">Profile</a> {{!--data-id_username contains the user id of the user --}}
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item settings" href="#"><div id = "settingswidther"><div class="sprite sprite-002-settings">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settings</div></div></a>
                                     <a class="dropdown-item" href="#">Help</a>
@@ -346,31 +369,35 @@
                         <div class="container text-center font-weight-bold display-4">Questions</div>
                         <div class="row w-100">
                             {{#each question}}
-                            <div class="content_item container-fluid mb-4 mt-4 w-100 question" data-id_question="{{_id}}">
-                                <div class="question_item_title text-uppercase text-center font-weight-bold ">{{title}}</div>
-                                <div>Topic: {{topic}}</div>
-                                <div>Tag: {{tag}}</div>
-                                <div class="postBy btn text-weight-normal"data-id_profile="{{userID._id}}">Posted by: {{userID.username}} </div>
+                            <div class="content_item container-fluid mb-4 mt-4 w-100 h-auto question" data-id_question="{{_id}}">
+                                <div class="question_upper" id="see_answers_button" data-id_question="{{_id}}">
+                                    <div class="question_item_title h-auto text-capitalize font-weight-bold ">{{title}}</div>
+                                    <div>
+                                    <span class="topics">{{topic}}</span>
+                                    </div>
+                                </div>
                                 <hr></hr>
                                 <div class="d-flex">
-                                    <p>
+                                    {{!-- <p>
                                       <button class="answer_btn_collap btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
                                         Answer
                                       </button>
-                                    </p>
-                                    <div class="collapse" id="collapseExample{{_id}}">
+                                    </p> --}}
+                                    {{!-- <div class="collapse" id="collapseExample{{_id}}"> --}}
                                       <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
                                         <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
                                         <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
                                         <input type="hidden" name="add_ans_submit" id="add_Answer_answer_submit"> {{!--anssswer--}}
                                         <div class="form-group green-border-focus">
-                                          <textarea class="myTextArea form-control col-xs-12" data-id_question="{{_id}}" id="textarea_answer_id" rows="3" cols="80" name="answer_textarea"></textarea>
+                                          <textarea class="myTextArea form-control col-xs-12" data-id_question="{{_id}}" id="textarea_answer_id" rows="2" cols="75" name="answer_textarea"></textarea>
                                         </div>
                                         <button type="button" class="btn btn-primary"  data-id_question="{{_id}}" id="add_Answer_id">Submit</button>
                                       </form>
-                                    </div>
+                                    {{!-- </div> --}}
                                     <div class=" ml-auto">
-                                        <button type="button" class="btn btn-secondary" data-id_question="{{_id}}" id="see_answers_button">See Answer</button>
+                                        <div>Asked by:</div>
+                                        <div class="sprite sprite-001-user"><div class="postBy btn btn-link text-weight-normal"data-id_profile="{{userID._id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{userID.username}} </div></div>
+                                        <p class="time_slot text-secondary"data-id_question="{{_id}}" data-id_date_time="{{date_time}}"></p>
                                     </div>
                                 </div>
                             </div>

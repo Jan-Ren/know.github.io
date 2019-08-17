@@ -254,6 +254,13 @@
                 $("a.logout").click(function(){
                     $("#logoutform").submit()
                 })
+                //"Posted By"profile click
+                $("div.postBy").click(function(){
+                    console.log("WHHHHHHHHHHHHAAAAAAAT")
+                    $("#profile_username").val($(this).attr("data-id_profile"))
+                    $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
+                })
                 //home and Q&A click
                 $("a#homeNav").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -446,9 +453,7 @@
                                     {{curr_user.username}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item profile" data-id_username="{{curr_user._id}}" href="#">{{curr_user.username}}</a> {{!--data-id_username contains the user id of the user --}}
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item bookmark" href="#">Bookmarks</a>
+                                    <a class="dropdown-item profile" data-id_username="{{curr_user._id}}" href="#">Profile</a> {{!--data-id_username contains the user id of the user --}}
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item settings" href="#"><div id = "settingswidther"><div class="sprite sprite-002-settings">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settings</div></div></a>
                                     <a class="dropdown-item" href="#">Help</a>
@@ -510,16 +515,23 @@
 
                       <div class="col-8 col-md-9" id="content_container">
                         {{#each user.answerID}}
-                            <div class="question_answer_container container-fluid h-auto mb-4 mt-4  w-100" id="see_answers_button" data-id_answer="{{_id}}" data-id_question="{{questionID._id}}">
-                               <div class="title_of_answer text-secondary w-100"> {{questionID.title}} </div>
-                                <div class="answer_text font-weight-light">{{answer}}</div>
-                                <div class="d-flex">
-                                    <div class="postBy ml-auto h-auto btn btn-link" data-id_profile="{{userID._id}}">
-                                        <p>{{userID.username}} </p>
-                                        <p class="time_slot text-secondary"data-id_answer="{{_id}}" data-id_date_time="{{date_time}}"></p>
+                            <div class="question_answer_container container-fluid h-auto mb-4 mt-4  w-100" data-id_answer="{{_id}}" data-id_question="{{questionID._id}}">
+                                   <div class="row">
+                                       <div class="col " id="see_answers_button" data-id_answer="{{_id}}" data-id_question="{{questionID._id}}">
+                                            <div class="title_of_answer text-secondary w-100"> {{questionID.title}} </div>
+                                             <div class="answer_text font-weight-light">{{answer}}</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex">
+                                                <div class="ml-auto h-auto" data-id_profile="{{userID._id}}">
+                                                    <p>Answered by:</p>
+                                                    <div class="sprite sprite-001-user"><div class="postBy btn btn-link text-weight-normal"data-id_profile="{{userID._id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{userID.username}} </div></div>
+                                                    <p class="time_slot text-secondary"data-id_answer="{{_id}}" data-id_date_time="{{date_time}}"></p>
+                                                </div>
+                                            </div>
+                                         </div>
                                     </div>
                                 </div>
-                            </div>
                                 <hr></hr>
                         {{/each}}
                       </div>
