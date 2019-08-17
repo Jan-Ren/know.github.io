@@ -351,7 +351,8 @@ app.post("/settings", urlencoder, (req,res)=>{
              res.send(err)
          } else if(doc){
             res.render("settings.hbs",{
-                user : doc
+                user : doc,
+                pass : req.session.password
             })
          }else{
              res.send("user not found")
@@ -602,6 +603,7 @@ app.post("/signin", urlencoder, function(req, res){
             user = doc;
             bcrypt.compare(password, user.password, function (err, result) {
                 if (result == true) {
+                    req.session.password = req.body.pw,
                     req.session.username = doc.username,
                     req.session.usernameID = doc._id,
                     
@@ -635,7 +637,7 @@ app.post("/signup", urlencoder, function(req, res){
     var username = req.body.un
     var password = req.body.pw
     var email = req.body.email
-    
+
     bcrypt.hash(password, saltRounds, function (err,   hash) {
             console.log("Yo")
          console.log("hash")
@@ -649,6 +651,7 @@ app.post("/signup", urlencoder, function(req, res){
 
     user.save().then((doc)=>{
         //all goes well
+        req.session.password = req.body.pw
         req.session.username = doc.username,
         req.session.usernameID = doc._id,
         User.findOne({
