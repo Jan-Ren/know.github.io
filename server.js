@@ -815,11 +815,18 @@ app.post("/back", urlencoder, function(req, res) {
 app.post("/update", urlencoder, function(req, res){
     var checkid = req.body.id 
     //console.log(checkid)
-    User.update({
+    var passw = req.body.pw
+    bcrypt.hash(passw, saltRounds, function (err,   hash) {
+            console.log("Yo2")
+         console.log("hash2")
+        
+        passw = hash;
+        console.log(passw)
+        User.update({
         
         _id: req.body.id
     }, {
-        password: req.body.pw
+        password: passw
     }, function(err, doc) {
         if(err) {
             res.send(err)
@@ -848,7 +855,9 @@ app.post("/update", urlencoder, function(req, res){
             })
         }
         
-    })  //1st argument where, 2nd argument update
+    }) 
+    })
+     //1st argument where, 2nd argument update
 })
 // add bookmark
 /*
