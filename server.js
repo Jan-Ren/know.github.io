@@ -882,7 +882,6 @@ app.use("*", function(request,response){
     response.send("This is not the site you're looking for.")
     
 })
-
-app.listen(3002, function(){
+app.listen(process.env.PORT || 3000, function(){
     console.log("Now listening in port 3002")
 })
