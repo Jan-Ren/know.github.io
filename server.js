@@ -883,5 +883,5 @@ app.use("*", function(request,response){
     
 })
 app.listen(process.env.PORT || 3000, function(){
-    console.log("Now listening in port 3002")
+    console.log("Now listening in port 3000")
 })
