@@ -15,9 +15,6 @@
   "bugs": {
     "url": "https://github.com/Jan-Ren/know.github.io/issues"
   },
-    "engines" : {
-      "node" : "10.16.0"
-},
   "homepage": "https://github.com/Jan-Ren/know.github.io#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
@@ -31,6 +28,9 @@
     "mongoose": "^5.6.7",
     "path": "^0.12.7",
     "server.js": "^1.0.0"
-  }
+  },
+    "engines" : {
+      "node" : "10.16.0"
+}
     
 }
