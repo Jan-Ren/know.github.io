@@ -14,19 +14,11 @@ const {Answer} = require("./model/answer.js") // gives an answer object
 
 const app = express()
 
-/*mongoose.Promise = global.Promise
-mongoose.connect("mongodb+srv://jake:ILoveTrucy98*@users-sqwu8.mongodb.net/test?retryWrites=true&w=majority",{
+mongoose.Promise = global.Promise
+mongoose.connect("mongodb+srv://jake:ILoveTrucy98*@users-sqwu8.mongodb.net/test?retryWrites=true&w=majority/users",{
     useNewUrlParser: true
 })
-*/
-const MongoClient = require("mongodb").MongoClient;
-const uri = "mongodb+srv://jake:<password>@users-sqwu8.mongodb.net/test?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
+
 //taga basa ng body na ipapasa server
 const urlencoder = bodyparser.urlencoded({
     extend : false
