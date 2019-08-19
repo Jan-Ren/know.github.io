@@ -16,7 +16,7 @@ const app = express()
 
 mongoose.Promise = global.Promise
 mongoose.connect("mongodb+srv://jake:ILoveTrucy98*@users-sqwu8.mongodb.net/test?retryWrites=true&w=majority/users",{
-    useNewUrlParser: true
+    /*useNewUrlParser: true*/
 })
 
 //taga basa ng body na ipapasa server
