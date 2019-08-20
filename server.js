@@ -16,7 +16,7 @@ const {Answer} = require("./model/answer.js") // gives an answer object
 const app = express()
 
 mongoose.Promise = global.Promise
-mongoose.connect("mongodb://localhost:27017/users",{
+mongoose.connect("mongodb+srv://Marso252:gun34@cluster0-1vhux.mongodb.net/test?retryWrites=true&w=majority",{
     useNewUrlParser: true
 })
 
