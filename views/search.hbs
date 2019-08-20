@@ -205,6 +205,9 @@
         <script src = "jquery.js"></script>
         <script src="moment.min.js"></script>
         <script>
+            function searchtopics() {
+                $("#topicsform").submit()
+            }
             function searchdir() {
                 $("#allform").submit()
             }
@@ -380,6 +383,9 @@
                                   <a class="list-group-item list-group-item-action" href="#" value="questions" onclick = "searchquestfil()">Questions</a>
                                 </li>
                                 <li class="nav-item">
+                                  <a class="list-group-item list-group-item-action" href="#" value="profile" onclick = "searchtopics()">Topics</a>
+                                </li>
+                                <li class="nav-item">
                                   <a class="list-group-item list-group-item-action" href="#" value="profile" onclick = "searchanswfil()">Answers</a>
                                 </li>
                                 
@@ -391,6 +397,41 @@
                             
                                 <div class="container font-italic"> Search results for questions</div>
                                 {{#each question}}
+                                 <div class="content_item container-fluid mb-4 mt-4 w-100 h-auto question" data-id_question="{{_id}}">
+                                    <div class="question_upper" id="see_answers_button" data-id_question="{{_id}}">
+                                        <div class="question_item_title h-auto text-capitalize font-weight-bold ">{{title}}</div>
+                                        <div>
+                                        <span class="topics">{{topic}}</span>
+                                        </div>
+                                    </div>
+                                    <hr></hr>
+                                    <div class="d-flex">
+                                        {{!-- <p>
+                                          <button class="answer_btn_collap btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
+                                            Answer
+                                          </button>
+                                        </p> --}}
+                                        {{!-- <div class="collapse" id="collapseExample{{_id}}"> --}}
+                                          <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
+                                            <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
+                                            <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
+                                            <input type="hidden" name="add_ans_submit" id="add_Answer_answer_submit"> {{!--anssswer--}}
+                                            <div class="form-group green-border-focus">
+                                              <textarea class="myTextArea form-control col-xs-12" data-id_question="{{_id}}" id="textarea_answer_id" rows="2" cols="75" name="answer_textarea"></textarea>
+                                            </div>
+                                            <button type="button" class="btn btn-primary"  data-id_question="{{_id}}" id="add_Answer_id">Submit</button>
+                                          </form>
+                                        {{!-- </div> --}}
+                                        <div class=" ml-auto">
+                                            <div>Asked by:</div>
+                                            <div class="sprite sprite-001-user"><div class="postBy btn btn-link text-weight-normal"data-id_profile="{{userID._id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{userID.username}} </div></div>
+                                            <p class="time_slot text-secondary"data-id_question="{{_id}}" data-id_date_time="{{date_time}}"></p>
+                                        </div>
+                                    </div>
+                                </div> 
+                                {{/each}}
+                                <div class="container font-italic"> Search results for topics</div>
+                                {{#each topicquest}}
                                  <div class="content_item container-fluid mb-4 mt-4 w-100 h-auto question" data-id_question="{{_id}}">
                                     <div class="question_upper" id="see_answers_button" data-id_question="{{_id}}">
                                         <div class="question_item_title h-auto text-capitalize font-weight-bold ">{{title}}</div>
@@ -467,6 +508,7 @@
                     </div>
                 </div>
             </div>
+        <div>Icons made by <a href = "https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a> from <a href = "https://www.flaticon.com/home">www.flaticons.com</a></div>
         <form action = "search" method = "post" id = "allform">
             <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
             <input type = "hidden" name = "searchq" value = "{{searchquery}}"></form>
@@ -476,6 +518,9 @@
         <form action = "searchansfilt" method = "post" id = "answerform">
             <input type = "hidden" name = "searchq3" value = "{{searchquery}}">
             <input type = "hidden" name = "usersearchid3" value = "{{user._id}}"></form>
+        <form action = "searchtopicsfilt" method = "post" id = "topicsform">
+            <input type = "hidden" name = "searchq4" value = "{{searchquery}}">
+            <input type = "hidden" name = "usersearchid4" value = "{{user._id}}"></form>
         {{!-- form equivalent of settings <a></a> --}}
          <form action="settings" id="settingsform" method="post">
             <input type="hidden" name="settingsUN" id="settings_username">
