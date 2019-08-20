@@ -5,8 +5,9 @@ const cookieparser = require("cookie-parser")
 const mongoose = require("mongoose")
 const moment = require("moment")
 
-var bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
 
 const {User} = require("./model/user.js")//gives a user object
 const {Question} = require("./model/question.js")//gives a question object
@@ -15,7 +16,7 @@ const {Answer} = require("./model/answer.js") // gives an answer object
 const app = express()
 
 mongoose.Promise = global.Promise
-mongoose.connect("mongodb+srv://Marso252:gunplay@cluster0-1vhux.mongodb.net/test?retryWrites=true&w=majority",{
+mongoose.connect("mongodb://localhost:27017/users",{
     useNewUrlParser: true
 })
 
@@ -887,4 +888,6 @@ app.use("*", function(request,response){
     
 })
 
-app.listen(process.env.PORT || 3000)
+app.listen(3002, function(){
+    console.log("Now listening in port 3002")
+})
