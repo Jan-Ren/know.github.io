@@ -194,6 +194,9 @@
         <script src = "jquery.js"></script>
         <script src="moment.min.js"></script>
         <script>
+            function searchtopics() {
+                $("#topicsform").submit()
+            }
              $(document).ready(function(){
                  getTime()
                 function getTime(){
@@ -357,6 +360,9 @@
                                 <li class="nav-item">
                                   <a class="list-group-item list-group-item-action" href="#" value="questions" onclick = "searchquestfil()">Questions</a>
                                 </li>
+                                 <li class="nav-item">
+                                  <a class="list-group-item list-group-item-action" href="#" value="profile" onclick = "searchtopics()">Topics</a>
+                                </li>
                                 <li class="nav-item">
                                   <a class="list-group-item list-group-item-action" href="#" value="profile" onclick = "searchanswfil()">Answers</a>
                                 </li>
@@ -409,6 +415,9 @@
                 </div>
             </div>
         <div>Icons made by <a href = "https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a> from <a href = "https://www.flaticon.com/home">www.flaticons.com</a></div>
+    <form action = "searchtopicsfilt" method = "post" id = "topicsform">
+            <input type = "hidden" name = "searchq4" value = "{{searchquery}}">
+            <input type = "hidden" name = "usersearchid4" value = "{{user._id}}"></form>
          <form action = "search" method = "post" id = "allform">
             <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
             <input type = "hidden" name = "searchq" value = "{{searchquery}}"></form>

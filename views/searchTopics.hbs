@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <style>
+        <Style>
             .positer {
                 position:relative;
                 left:-47px;
@@ -50,19 +50,13 @@
             div.left_container{
                 background-color: lightseagreen;
             }
-            div.question_answer_container{
-                min-height: 125px;
-                overflow: hidden;
-                background-color: rgb(255, 255, 255);
+            button.answer_btn_collap{
+                border-size: 1px;
+                border-radius: 42px;
             }
             div.postBy{
                 height: 35px;
-            }
-            p.Answer_Title{
-                font-size:20px;
-            }
-            div.answer_text{
-                font-size:30px;
+                
             }
             div > span.topics{
                 font-size: 13px;
@@ -196,20 +190,17 @@
                 height: 24px;
                 background-position: -141px -107px;
             }
-        </style>
-        <script src="jquery.js"> </script>
+        </Style>
+        <script src = "jquery.js"></script>
         <script src="moment.min.js"></script>
         <script>
-            
-            $(document).ready(function(){
-                getTimeQuestion()
-                getTimeAnswer()
-                function getTimeQuestion(){
-                    let question_time = $("p#question_time_slot").attr("data-id_date_time")
-                    let result_time = moment(question_time).fromNow()
-                    $("p#question_time_slot").html(result_time);
-
-                    /*$("div.content_item").each(function() {
+            function searchtopics() {
+                $("#topicsform").submit()
+            }
+             $(document).ready(function(){
+                 getTime()
+                function getTime(){
+                    $("div.content_item").each(function() {
                         let thisDiv = this;
                          $('.time_slot').each(function(){
                              if( $(this).attr("data-id_question") == $(thisDiv).attr("data-id_question") ){
@@ -218,22 +209,8 @@
                                  $(this).html(result_time);
                              }
                          })
-                    })*/
-                }
-
-                function getTimeAnswer(){
-                    $("div.question_answer_container").each(function() {
-                        let thisDiv = this;
-                         $('.time_slot').each(function(){
-                             if( $(this).attr("data-id_answer") == $(thisDiv).attr("data-id_answer") ){
-                                 let answer_time = $(this).attr("data-id_date_time")
-                                 let result_time = moment(answer_time).fromNow()
-                                 $(this).text(result_time);
-                             }
-                         })
                     })
                 }
-
                 //bookmark click
                 $("a.bookmark").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
@@ -248,22 +225,22 @@
                     $("#profileform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
-                //"Posted By"profile click
-                $("div.postBy").click(function(){
-                    $("#profile_username").val($(this).attr("data-id_profile"))
-                    $("#profileform").submit()
-                    console.log($("a.profile").attr("data-id_username"))
-                })
-                //settings click
+                 //settings click
                 $("a.settings").click(function(){
                     console.log($("a.profile").attr("data-id_username"))
                     $("#settings_username").val($("a.profile").attr("data-id_username"))
                     $("#settingsform").submit()
                     console.log($("a.profile").attr("data-id_username"))
                 })
-                //logout click
+                 //logout click
                 $("a.logout").click(function(){
                     $("#logoutform").submit()
+                })
+                 //"Posted By"profile click
+                $("div.postBy").click(function(){
+                    $("#profile_username").val($(this).attr("data-id_profile"))
+                    $("#profileform").submit()
+                    console.log($("a.profile").attr("data-id_username"))
                 })
                 //addQuestion click
                 $("button#addQuestion").click(function(){
@@ -288,15 +265,24 @@
                 })
                 //add_answer form submit
                 $("button#add_Answer_id").click(function(){
-                    console.log("answer ehhe")
-                    console.log($("a.profile").attr("data-id_username"))
+                    console.log($(temp).attr("data-id_question"))
+                    
+                    
                     $("#add_Answer_username_submit").val($("a.profile").attr("data-id_username")) //user id
-                    $("#add_Answer_question_submit").val($("div.question").attr("data-id_question")) //question id
+                    $("#add_Answer_question_submit").val($(this).attr("data-id_question")) //question id
+                    var temp = this;
+                    
+                    //gets every text area to check if that is the right text area for the question
+                        $("textarea.myTextArea").each(function() {
+                            if($(temp).attr("data-id_question") == $(this).attr("data-id_question")){
+                                $("#add_Answer_answer_submit").val($(this).val()) //answer
+                            } 
+                        })
+                   
                     $("#add_AnswerForm_submit").submit()
-                    console.log($("a.profile").attr("data-id_username"))
                 })
                 //see_answer form submit
-                $("div#see_answers_button").click(function(){
+                $("button#see_answers_button").click(function(){
                     console.log("ers")
                     $("#seeAnswer_username").val($("a.profile").attr("data-id_username")) //user id
                     $("#seeAnswer_question").val($(this).attr("data-id_question")) //question id
@@ -304,10 +290,22 @@
                     console.log($("a.profile").attr("data-id_username"))
                 })
             })
+            function searchdir() {
+                $("#allform").submit()
+            }
+            function searchquestfil() {
+                $("#questform").submit()
+            }
+            function searchanswfil() {
+                $("#answerform").submit()
+            }
+            function homedirect() {
+                $("#homeform").submit()
+            }
         </script>
     </head>
     <body>
-        <div class="container h-100">
+        <div class="container h-100"> 
             <div class = "positer">
             <div class="container d-flex justify-content-center ml-5 sticky-top">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -353,74 +351,86 @@
                 <div class="row">
                     <div class="col-8 col-md-2 left_container p-2">
                         <div class="sticky-top">
-                            <div class="title container d-flex justify-content-center font-weight-bold">Feed</div>
-                            <br>
-                            <button type="button" class="btn btn-primary " id="addQuestion"> Add a question! </button>
+                            <div clas="title"> Filter </div>
+                            <hr></hr>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="list-group-item list-group-item-action" href="#" value="all" onclick = "searchdir()">All</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="list-group-item list-group-item-action" href="#" value="questions" onclick = "searchquestfil()">Questions</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="list-group-item list-group-item-action" href="#" value="profile" onclick = "searchtopics()">Topics</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="list-group-item list-group-item-action" href="#" value="profile" onclick = "searchanswfil()">Answers</a>
+                                </li>
+                                
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-4 col-md-10 right_container d-flex justify-content-center">
-                        <div class="content_item container-fluid h-auto mb-4 mt-4 w-100 question" data-id_question="{{question._id}}">
-                            <div class="question_upper" id="see_answers_button" data-id_question="{{_id}}">
-                                <div class=" h-auto question_item_title ">{{question.title}}</div>
-                                <div>
-                                    <span class="topics">{{question.topic}}</span>
-                                </div>
-                            </div>
-                            <hr></hr>
-                            <div class="d-flex">
-                                {{!-- <p>
-                                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{question._id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
-                                    Answer
-                                  </button>
-                                </p> --}}
-                                {{!-- <div class="collapse" id="collapseExample{{question._id}}"> --}}
-                                  <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
-                                    <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
-                                    <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
-                                    <div class="form-group green-border-focus">
-                                      <textarea class="form-control col-xs-12" id="textarea_answer_id" rows="2" cols="75" name="add_ans_submit"></textarea>
+                    <div class="col-4 col-md-10 right_container">
+                        <div class="container font-italic"> Search results for topics</div>
+                        <div class="row w-100">
+                            {{#each question}}
+                            <div class="content_item container-fluid mb-4 mt-4 w-100 h-auto question" data-id_question="{{_id}}">
+                                <div class="question_upper" id="see_answers_button" data-id_question="{{_id}}">
+                                    <div class="question_item_title h-auto text-capitalize font-weight-bold ">{{title}}</div>
+                                    <div>
+                                    <span class="topics">{{topic}}</span>
                                     </div>
-                                    <button type="button" class="btn btn-primary" id="add_Answer_id">Submit</button>
-                                  </form>
-                                {{!-- </div> --}}
-                                <div class=" ml-auto" type="hidden">
-                                    <div>Asked by:</div>
-                                    <div class="sprite sprite-001-user"><div class="postBy btn btn-link text-weight-normal"data-id_profile="{{question.userID._id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{question.userID.username}}</div></div>
-                                    <p id="question_time_slot" class="text-secondary"data-id_question="{{question._id}}" data-id_date_time="{{question.date_time}}"></p>                                
-                                </div>
-                            </div>
-                            
-                            <p class="Answer_Title font-weight-normal">Answers</p>
-                            {{#each question.answerID}}
-                                <div class="question_answer_container container-fluid h-auto mb-4 mt-4  w-100" data-id_answer="{{_id}}">
-                                    <div class="answer_text font-weight-light">{{answer}}</div>
-                                    <div class="d-flex">
-                                        <div class="ml-auto h-auto" data-id_profile="{{userID._id}}">
-                                            <p>Answered by:</p>
-                                            <div class="sprite sprite-001-user"><div class="postBy btn btn-link text-weight-normal"data-id_profile="{{userID._id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{userID.username}} </div></div>
-                                            <p class="time_slot text-secondary"data-id_answer="{{_id}}" data-id_date_time="{{date_time}}"></p>
-                                        </div>
-                                    </div>
-<!--            
-                                    <div class="d-flex">
-                                        <div class="postBy btn text-secondary" data-id_profile="{{userID._id}}">By:   {{userID.username}}</div> 
-                                        <div class="ml-auto">boomkark_photo</div>
-                                    </div>
--->
-                                    {{!-- <hr></hr> --}}
-<!--
-                                    Answered:
-                                    <div>{{answer}}</div>
--->
                                 </div>
                                 <hr></hr>
+                                <div class="d-flex">
+                                    {{!-- <p>
+                                      <button class="answer_btn_collap btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample{{_id}}" aria-expanded="false" aria-controls="collapseExample{{_id}}">
+                                        Answer
+                                      </button>
+                                    </p> --}}
+                                    {{!-- <div class="collapse" id="collapseExample{{_id}}"> --}}
+                                      <form action = "add_answer_submit" id="add_AnswerForm_submit" method="post">
+                                        <input type="hidden" name="add_AnswerUN_submit" id="add_Answer_username_submit"> {{!--user id --}}
+                                        <input type="hidden" name="add_AnswerQ_submit" id="add_Answer_question_submit"> {{!--question id --}}
+                                        <input type="hidden" name="add_ans_submit" id="add_Answer_answer_submit"> {{!--anssswer--}}
+                                        <div class="form-group green-border-focus">
+                                          <textarea class="myTextArea form-control col-xs-12" data-id_question="{{_id}}" id="textarea_answer_id" rows="2" cols="75" name="answer_textarea"></textarea>
+                                        </div>
+                                        <button type="button" class="btn btn-primary"  data-id_question="{{_id}}" id="add_Answer_id">Submit</button>
+                                      </form>
+                                    {{!-- </div> --}}
+                                    <div class=" ml-auto">
+                                        <div>Asked by:</div>
+                                        <div class="sprite sprite-001-user"><div class="postBy btn btn-link text-weight-normal"data-id_profile="{{userID._id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{userID.username}} </div></div>
+                                        <p class="time_slot text-secondary"data-id_question="{{_id}}" data-id_date_time="{{date_time}}"></p>
+                                    </div>
+                                </div>
+                            </div>
                             {{/each}}
+                            
+                                
+                            
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         <div>Icons made by <a href = "https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a> from <a href = "https://www.flaticon.com/home">www.flaticons.com</a></div>
+        <form action = "searchtopicsfilt" method = "post" id = "topicsform">
+            <input type = "hidden" name = "searchq4" value = "{{searchquery}}">
+            <input type = "hidden" name = "usersearchid4" value = "{{user._id}}"></form>
+         <form action = "search" method = "post" id = "allform">
+            <input type = "hidden" name = "usersearchid" value = "{{user._id}}">
+            <input type = "hidden" name = "searchq" value = "{{searchquery}}"></form>
+        <form action = "searchquestfilt" method = "post" id = "questform">
+            <input type = "hidden" name = "searchq2" value = "{{searchquery}}">
+            <input type = "hidden" name = "usersearchid2" value = "{{user._id}}"></form>
+        <form action = "searchansfilt" method = "post" id = "answerform">
+            <input type = "hidden" name = "searchq3" value = "{{searchquery}}">
+            <input type = "hidden" name = "usersearchid3" value = "{{user._id}}"></form>
+        <form action = "home" method = "post" id = "homeform"><input type = "hidden" name = "refresh_homeUN" value = "{{user._id}}"></form>
+        {{!-- form equivalent of logout <a></a> --}}
+        <form action="logout" id="logoutform" method="post">
+        </form>
         {{!-- form equivalent of settings <a></a> --}}
          <form action="settings" id="settingsform" method="post">
             <input type="hidden" name="settingsUN" id="settings_username">
@@ -443,6 +453,11 @@
         {{!-- form equivalent of home and Q&A navigation link <a></a> --}}
         <form action="home" id="refresh_homeForm" method="post">
             <input type="hidden" name="refresh_homeUN" id="refresh_home_username">
+        </form>
+        {{!-- form equivalent of "see answer" button <a></a> --}}
+        <form action="seeAnswer" id="seeAnswerForm" method="post">
+            <input type="hidden" name="seeAnswerUN" id="seeAnswer_username">
+            <input type="hidden" name="seeAnswerQ" id="seeAnswer_question">
         </form>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

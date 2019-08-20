@@ -20,6 +20,10 @@ mongoose.connect("mongodb+srv://Marso252:gun34@cluster0-1vhux.mongodb.net/test?r
     useNewUrlParser: true
 })
 
+/*mongoose.connect("mongodb://localhost:27017/users",{
+    useNewUrlParser: true
+})
+*/
 //taga basa ng body na ipapasa server
 const urlencoder = bodyparser.urlencoded({
     extend : false
@@ -697,28 +701,47 @@ app.post("/search", urlencoder, function(req, res) {
     },(err,doc)=>{
          if(err){
              res.send(err)
-         } else if(doc){
+         } 
+        else if(doc){
              req.session.username = doc.username,
              Question.find({ title: { $regex: searchcont, $options: "i" } }).populate('userID','username question answer').exec((err,docs)=>{
                 if(err){
                     res.send(err)
-                }else{
-                    Answer.find(
-                        {answer:{ $regex: searchcont, $options: "i" } 
-                        }
-                    ).populate(populateQuery).exec((err2, docs2)=> {
+                }
+                 else{
+                    Answer.find({answer:{ $regex: searchcont, $options: "i" } }).populate(populateQuery).exec((err2, docs2)=> {
                         if (err) {
                             res.send(err2)
                         }
                         else {
-                        res.render("search.hbs",{
+                            Question.find({ topic: { $regex: searchcont, $options: "i" } }).populate('userID','username question answer').exec((err3,docs3)=>{
+                                if(err){
+                                    res.send(err3)
+                                }else{
+                                     res.render("search.hbs",{
+                                         searchquery: searchcont,
+                                         user : doc,
+                                         question : docs,
+                                         answer: docs2,
+                                         topicquest: docs3
+                                     }
+                                               )
+                                }
+                                   })
+                    /*res.render("search.hbs",{
+                        user : doc,
+                        question : docs
+                    })*/
+                        }
+                    })
+                        /*res.render("search.hbs",{
                         searchquery: searchcont,
                         user : doc,
                         question : docs,
                         answer: docs2
                         }
-                    )
-                    }
+                    )*/
+                }
                                    })
                     /*res.render("search.hbs",{
                         user : doc,
@@ -726,9 +749,8 @@ app.post("/search", urlencoder, function(req, res) {
                     })*/
                     }
                 })
-         }
-    })
 })
+ 
 app.post("/searchquestfilt", urlencoder, function(req, res) {
     var searchcont = req.body.searchq2
     var idsearch = req.body.usersearchid2
@@ -758,6 +780,47 @@ app.post("/searchquestfilt", urlencoder, function(req, res) {
                         user : doc,
                         question : docs,
                         answer:docs2
+                        }
+                    )
+                    }
+                                   })
+                    /*res.render("search.hbs",{
+                        user : doc,
+                        question : docs
+                    })*/
+                    }
+                })
+         }
+    })
+})
+app.post("/searchtopicsfilt", urlencoder, function(req, res) {
+    var searchcont = req.body.searchq4
+    var idsearch = req.body.usersearchid4
+    //console.log(idsearch)
+    var populateQuery = [{path: 'questionID',populate: { path: 'userID' }}, {path:'userID', select:'username questionID answerID'}];
+    User.findOne({
+        _id : idsearch
+    },(err,doc)=>{
+         if(err){
+             res.send(err)
+         } else if(doc){
+             req.session.username = doc.username,
+             Question.find({ topic: { $regex: searchcont, $options: "i" } }).populate('userID','username question answer').exec((err,docs)=>{
+                if(err){
+                    res.send(err)
+                }else{
+                    Answer.find(
+                        {answer:{ $regex: searchcont, $options: "i" } 
+                        }
+                    ).populate(populateQuery).exec((err2, docs2)=> {
+                        if (err) {
+                            res.send(err2)
+                        }
+                        else {
+                        res.render("searchTopics.hbs",{
+                        searchquery: searchcont,
+                        user : doc,
+                        question : docs
                         }
                     )
                     }
@@ -813,6 +876,7 @@ app.post("/searchansfilt", urlencoder, function(req, res) {
          }
     })
 })
+
 app.post("/back", urlencoder, function(req, res) {
     console.log("Back")
     res.redirect("/")
@@ -887,5 +951,7 @@ app.use("*", function(request,response){
     response.send("This is not the site you're looking for.")
     
 })
-
+/*app.listen(3002, function(){
+    console.log("Now listening in port 3002")
+})*/
 app.listen(process.env.PORT || 3000)
