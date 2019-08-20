@@ -643,28 +643,32 @@ app.post("/signup", urlencoder, function(req, res){
          console.log("hash")
         
         password = hash;
+        console.log("Ceheck")
         let user = new User({
         username : username,
         password : hash,
         email : email
     })
-
+    console.log("Hey")
     user.save().then((doc)=>{
         //all goes well
         req.session.password = req.body.pw
         req.session.username = doc.username,
         req.session.usernameID = doc._id,
+        console.log("ash")
         User.findOne({
             _id : req.session.usernameID
         },(err,doc)=>{
              if(err){
                  res.send(err)
              } else if(doc){
+                 console.log("Where")
                  req.session.username = doc.username,
                  Question.find().populate('userID','username question answer').exec((err,docs)=>{
                     if(err){
                         res.send(err)
                     }else{
+                        console.log("See")
                         res.render("home.hbs",{
                             user : doc,
                             question : docs
