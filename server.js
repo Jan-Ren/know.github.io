@@ -20,9 +20,9 @@ mongoose.connect("mongodb+srv://Marso252:gun34@cluster0-1vhux.mongodb.net/test?r
     useNewUrlParser: true
 })
 
-/*mongoose.connect("mongodb://localhost:27017/users",{
-    useNewUrlParser: true
-})*/
+// mongoose.connect("mongodb://localhost:27017/users",{
+//     useNewUrlParser: true
+// })
 
 //taga basa ng body na ipapasa server
 const urlencoder = bodyparser.urlencoded({
@@ -951,7 +951,7 @@ app.use("*", function(request,response){
     response.send("This is not the site you're looking for.")
     
 })
-/*app.listen(3002, function(){
-    console.log("Now listening in port 3002")
-})*/
+// app.listen(3002, function(){
+//     console.log("Now listening in port 3002")
+// })
 app.listen(process.env.PORT || 3000)
