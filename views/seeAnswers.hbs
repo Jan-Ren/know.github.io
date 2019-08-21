@@ -2,6 +2,14 @@
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <style>
+            .liking {
+                position:relative;
+                left:30px;
+            }
+            .likebut {
+                position:relative;
+                top:60px;
+            }
             .positer {
                 position:relative;
                 left:-47px;
@@ -200,7 +208,9 @@
         <script src="jquery.js"> </script>
         <script src="moment.min.js"></script>
         <script>
-            
+            function liker() {
+                
+            }
             $(document).ready(function(){
                 getTimeQuestion()
                 getTimeAnswer()
@@ -395,11 +405,14 @@
                                 <div class="question_answer_container container-fluid h-auto mb-4 mt-4  w-100" data-id_answer="{{_id}}">
                                     <div class="answer_text font-weight-light">{{answer}}</div>
                                     <div class="d-flex">
+                                        <div class = "mr-auto likebut" onclick = "liker()"><div class = "sprite sprite-003-like"><div class = "liking">Like</div></div> </div>
                                         <div class="ml-auto h-auto" data-id_profile="{{userID._id}}">
+                                            
                                             <p>Answered by:</p>
                                             <div class="sprite sprite-001-user"><div class="postBy btn btn-link text-weight-normal"data-id_profile="{{userID._id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{userID.username}} </div></div>
                                             <p class="time_slot text-secondary"data-id_answer="{{_id}}" data-id_date_time="{{date_time}}"></p>
                                         </div>
+                                        
                                     </div>
 <!--            
                                     <div class="d-flex">
@@ -418,8 +431,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+           
         <div>Icons made by <a href = "https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a> from <a href = "https://www.flaticon.com/home">www.flaticons.com</a></div>
         {{!-- form equivalent of settings <a></a> --}}
          <form action="settings" id="settingsform" method="post">

@@ -16,13 +16,13 @@ const {Answer} = require("./model/answer.js") // gives an answer object
 const app = express()
 
 mongoose.Promise = global.Promise
-mongoose.connect("mongodb+srv://Marso252:gun34@cluster0-1vhux.mongodb.net/test?retryWrites=true&w=majority",{
-    useNewUrlParser: true
-})
-
-/*mongoose.connect("mongodb://localhost:27017/users",{
+/*mongoose.connect("mongodb+srv://Marso252:gun34@cluster0-1vhux.mongodb.net/test?retryWrites=true&w=majority",{
     useNewUrlParser: true
 })*/
+
+mongoose.connect("mongodb://localhost:27017/users",{
+    useNewUrlParser: true
+})
 
 //taga basa ng body na ipapasa server
 const urlencoder = bodyparser.urlencoded({
@@ -951,7 +951,7 @@ app.use("*", function(request,response){
     response.send("This is not the site you're looking for.")
     
 })
-/*app.listen(3002, function(){
+app.listen(3002, function(){
     console.log("Now listening in port 3002")
-})*/
-app.listen(process.env.PORT || 3000)
+})
+/*app.listen(process.env.PORT || 3000)*/
